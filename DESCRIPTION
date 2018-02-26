@@ -1,0 +1,13 @@
+Package: censoc
+Title: Code to help match 1940 census and social security deaths data
+Version: 0.0.0.9000
+Authors@R: person("Monica", "Alexander", email = "monicaalexander@berkeley", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+Depends: R (>= 3.4.3)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports:
+  data.table,
+  tidyverse
+RoxygenNote: 6.0.1
