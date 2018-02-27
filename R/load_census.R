@@ -1,10 +1,11 @@
 #' Load a census file
 #'
-#' @param census_file string indicating location of file
+#' @param census_file string indicating location of file.
 #' @param cols_to_keep vector indicating colname names of variables to keep. Default is just what is needed for match: first name, last name, age, sex, serial number, person number.
 #' @return a census dataframe with match key and unique IPUMS identifier
+#' @import data.table
 
-load_census <- function(state_file,
+load_census <- function(census_file,
                         cols_to_keep = NULL){
 
   all_cols_to_keep <- c("SERIAL40", "PERNUM", "AGE", "SEX", "NAMELAST", "NAMEFRST")
@@ -14,6 +15,7 @@ load_census <- function(state_file,
 
   # read in census file, only keeping desired columns
   census <- fread(census_file, select = all_cols_to_keep)
+  census <- as.data.table(census)
 
   # clean variables
   census[,"fname" := str_to_upper(NAMEFRST)]
