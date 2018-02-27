@@ -2,15 +2,18 @@
 % Please edit documentation in R/load_census.R
 \name{load_census}
 \alias{load_census}
-\title{Load a census state file}
+\title{Load a census file}
 \usage{
-load_census(state_file, cols_to_keep)
+load_census(state_file, cols_to_keep = NULL)
 }
 \arguments{
-\item{state_file}{string indicating location of file}
+\item{cols_to_keep}{vector indicating colname names of variables to keep. Default is just what is needed for match: first name, last name, age, sex, serial number, person number.}
 
-\item{cols_to_keep}{vector indicating colname names of variables to keep}
+\item{census_file}{string indicating location of file}
+}
+\value{
+a census dataframe with match key and unique IPUMS identifier
 }
 \description{
-Load a census state file
+Load a census file
 }
