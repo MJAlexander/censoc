@@ -38,6 +38,9 @@ load_socsec_deaths <- function(socsec_files){
   ## birth and death month
   socsec[,"bmonth" := as.numeric(substr(dob, 1, 2))]
   socsec[,"dmonth" := as.numeric(substr(dod, 1, 2))]
+  ## birth and death dat
+  socsec[,"bday" := as.numeric(substr(dob, 3, 4))]
+  socsec[,"dday" := as.numeric(substr(dod, 3, 4))]
   ## now get census_age
   socsec[,"census_age" := ifelse(bmonth < 4,
                                  1940 - byear,
