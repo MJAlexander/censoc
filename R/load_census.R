@@ -24,8 +24,6 @@ load_census <- function(census_file,
   census[,"fname" := get_first_word(fname)]
   census[,"lname" := str_to_upper(NAMELAST)]
   census[,"census_age" := as.numeric(AGE)]
-  # create unique ID
-  census[,"ipums_id" := paste(SERIAL40, PERNUM, sep = "_")]
 
   # remove those with no name info
   # remove blanks or anything that has question marks
