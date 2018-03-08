@@ -10,7 +10,7 @@ load_census <- function(census_file,
                         cols_to_keep = NULL,
                         males_only = TRUE){
 
-  all_cols_to_keep <- c("SERIAL40", "SERIAL", "PERNUM", "STATEFIP", "NUMPREC40", "AGE", "SEX", "NAMELAST", "NAMEFRST")
+  all_cols_to_keep <- c("SERIAL40", "PERNUM", "STATEFIP", "NUMPREC40", "AGE", "SEX", "NAMELAST", "NAMEFRST")
   if(!is.null(cols_to_keep)){
     all_cols_to_keep <- c(all_cols_to_keep, cols_to_keep)
   }
