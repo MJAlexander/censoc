@@ -10,7 +10,7 @@ load_socsec_deaths <- function(socsec_files){
   for(i in 1:length(socsec_files)){
     socsec_file <- socsec_files[i]
     cat(paste0("Reading in file ", i, ".\n"))
-    tt <- readr::read_fwf(socsec_file,
+    tt <- read_fwf(socsec_file,
                           fwf_widths(c(1,9, 20, 4, 15, 15, 1, 8, 8),
                                      col_names = c("mode", "ssn", "lname",
                                                    "name_suffix", "fname", "mname",
