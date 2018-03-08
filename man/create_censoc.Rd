@@ -7,9 +7,9 @@
 create_censoc(census, socsec)
 }
 \arguments{
-\item{census}{census data file. Must have clean_key and n_clean_key columns.}
+\item{census}{census data frame Must have clean_key and n_clean_key columns.}
 
-\item{socsec}{socsec data file. Must have clean_key and n_clean_key columns.}
+\item{socsec}{socsec data frame Must have clean_key and n_clean_key columns.}
 }
 \value{
 a dataframe with matched census and socsec data

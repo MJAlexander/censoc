@@ -1,7 +1,7 @@
 #' Create a dataset of matched census and socsec data
 #'
-#' @param census census data file. Must have clean_key and n_clean_key columns.
-#' @param socsec socsec data file. Must have clean_key and n_clean_key columns.
+#' @param census census data frame Must have clean_key and n_clean_key columns.
+#' @param socsec socsec data frame Must have clean_key and n_clean_key columns.
 #' @return a dataframe with matched census and socsec data
 
 
