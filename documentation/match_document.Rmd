@@ -1,0 +1,110 @@
+---
+title: "Documentation for CenSoc Dataset"
+author: "Monica Alexander"
+date: "3/7/2018"
+output:
+  pdf_document:
+    toc: true
+    number_sections: true
+---
+
+# Introduction
+The 'CenSoc' project involves produced a dataset which contains records from the full-count 1940 US census to the social security deaths masterfile. The resulting CenSoc dataset provides researchers with a tool for studying mortality inequalities in the US and how conditions have changed over time. 
+
+This document outlines the data sources and methods used to produce the initial CenSoc dataset. The results of the matching process and relative characteristics of the matched and unmatched records are also described. 
+
+## The `censoc` R package
+The CenSoc project has an accompanying R package `censoc`, which contains supporting R code and documentation used to create and work with the CenSoc dataset. The package can be found here: \texttt{\url{https://github.com/MJAlexander/censoc}}.
+
+# Data sources
+## Census 
+
+The original 1940 census records were digitized by Ancestry.com and are made available through the Minnesota Population Center (MPC). The MPC provides a de-identified version of the complete count census as part of the IPUMS-USA website: \texttt{\url{https://usa.ipums.org/usa/complete_count.shtml}}. However, name and other identifying information is not available from the IPUMS website. 
+
+Access to the resticted 1940 census data was granted by agreement between UC Berkeley and MPC. The data are encrypted and can only be accessed through computers or servers on the Berkeley demography network. 
+
+## Social Security Deaths
+
+The Social Security Administration (SSA) has kept a record of all deaths that have been reported to the SSA since 1962 in their death master file (SSDM). The SSDM is used by financial and government agencies to match records and prevent identity fraud. 
+
+The SSDM is considered a public document under the Freedom of Information Act. Monthly and weekly updates of the file are sold by the National Technical Information Service of the U.S. Department of Commerce. 
+
+In our initial match, we obtained the SSDM files through the wesbite \texttt
+{\url{http://ssdmf.info/download.html}}. This wesbite appears to be run by an individual who has bought a copy of the SSDM and decided to distribute it freely. The 2013 version of the SSDM is available here: \texttt{\url{http://cancelthesefunerals.com/}}.
+
+
+### Data completeness
+Completeness of death reporting in the SSDM is lower pre-1970s, as a substantial proportion of the population did not pay into the social security system. Deaths are more likely to be reported at older ages, when are more likely to be receiving social security benefits. In addition, [previous studies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3816971/) have found death coverage in the SSDM is larger for men and for the white population. [Previous studies](https://www.ssa.gov/policy/docs/ssb/v64n1/v64n1p45.pdf) suggest more than 90% completeness of deaths over age 65 reported in the SSDM since 1975, compared to vital statistics sources. Our own comparison with HMD suggests XX% completeness of the SSDM data after 1975. 
+
+# Data preparation
+Prior to matching the two datasets, the relevant variables are cleaned to ensure the that matches are not affected by issues like trailing white space, punctuation, differences in case, etc. The cleaning steps for each dataset are described below. 
+
+## Census
+For the Census dataset, the following releveant variables are retained:
+
+- `SERIAL40`: 1940 census serial number
+- `PERNUM`: person number in household
+- `STATEFIP`: US state code
+- `NUMPREC40`: total size of household 
+- `AGE`: age of respondent
+- `SEX`: sex of respondent
+- `NAMELAST`: first name of respondent (and middle name, if applicable)
+- `NAMEFRST`: last name of respondent
+
+Age, sex and name are required to match the census data with the social security deaths data. The first four variables (`SERIAL40`, `PERNUM`, `STATEFIP`, `NUMPREC40`) are needed to merge the CenSoc dataset with the IPUMS census data at a later stage. 
+
+The following pre-processing steps are done:
+
+1. Convert all name strings to upper case.
+2. Remove the middle name. The original first name variable contains both first and middle name. The name string is split and only the first name is used for matching. 
+3. Remove rows where either the first or last name are just question marks or blank. 
+4. Create a match key by concatenating last name, first name and age. 
+5. Subset the data to only include males. At this stage, we are not attempting to match the female population. 
+
+Each of these steps is done using the `load_census` function within the `censoc` package. 
+
+
+
+## Social Security Deaths
+
+For the social security deaths files, there are three raw files in which rows contain a continuous string of characters. For each of the three files, each row is split into social security number, last name, first name, middle initial, date of death and date of birth. The three files are then binded together to create one large file. (XX Josh: where did you get the other variable info from)?
+
+The following pre-processing steps are done:
+
+1. Remove any trailing white space from first and last names
+2. Split up date of birth and date of death to get day, month and year of birth and death. 
+3. Calculate age of person at census. The age is calculated based on knowing the date of birth and that the 1940 census was run in April. 
+4. Remove any deaths where the date of birth is missing
+5. Remove any deaths of people who born after 1940
+6. Remove any deaths before 1975
+7. Create a match key by concatenating last name, first name and census age. 
+
+Each of these steps is done using the `load_socsec_deaths` function. 
+
+# Match Method
+Currently, the two datasets are matched based on exact matches of first name, last name and age. For example, a match key could be `ALEXANDERMONICA31`. Census records that have a key that is not found in the social security deaths database are not matched. Any records with a duplicate match key are removed. In future, alternative match methods will be investigated, for example, accounting for name variants and spelling mistakes, simulating matched datasets based on duplicate keys, etc. 
+
+The match is done using the `create_censoc` function. Each state is initially matched separately. The specific steps are:
+
+1. Load in the cleaned census and social security datasets.
+2. Remove any duplicate keys.
+3. Merge the two datasets based on key.
+
+
+## Creating the national matched dataset
+Due to file size, the matching step is done separately for each census file in each US state. The resulting national dataset is created by:
+
+1. Loading in and binding all state matched files.
+2. Removing all rows that have duplicated keys.
+
+This can be done using the `create_national_censoc` function. 
+
+# Resulting Dataset
+## Match metrics
+
+# Merging with public-use IPUMS file
+
+
+
+
+
