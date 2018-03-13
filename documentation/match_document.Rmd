@@ -32,6 +32,8 @@ The SSDM is considered a public document under the Freedom of Information Act. M
 In our initial match, we obtained the SSDM files through the wesbite \texttt
 {\url{http://ssdmf.info/download.html}}. This wesbite appears to be run by an individual who has bought a copy of the SSDM and decided to distribute it freely. The 2013 version of the SSDM is available here: \texttt{\url{http://cancelthesefunerals.com/}}.
 
+__Note:__ XX need to work out whether we are using the 2011 or 2013 version. Based on dates of deaths in the CenSoc data, it looks like probably 2011. Also need to confirm that I should be restricting the latest date of death. 
+
 
 ### Data completeness
 Completeness of death reporting in the SSDM is lower pre-1970s, as a substantial proportion of the population did not pay into the social security system. Deaths are more likely to be reported at older ages, when are more likely to be receiving social security benefits. In addition, [previous studies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3816971/) have found death coverage in the SSDM is larger for men and for the white population. [Previous studies](https://www.ssa.gov/policy/docs/ssb/v64n1/v64n1p45.pdf) suggest more than 90% completeness of deaths over age 65 reported in the SSDM since 1975, compared to vital statistics sources. Our own comparison with HMD suggests XX% completeness of the SSDM data after 1975. 
