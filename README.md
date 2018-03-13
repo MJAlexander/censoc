@@ -27,7 +27,8 @@ Once you have obtained the CenSoc dataset, you will need to obtain census data o
 Goal is to have some mortality functions here as part of R package. 
 # Authors 
 
-- [Monica Alexander](https://www.monicaalexander.com/) (![Github](http://i.imgur.com/9I6NRUm.png): [MJAlexander](https://github.com/MJAlexander) | ![Twitter](http://i.imgur.com/wWzX9uB.png): [@MonJAlexander](https://twitter.com/monjalexander))
-- [Joshua Goldstein](http://www.site.demog.berkeley.edu/josh-goldstein)(![Github](http://i.imgur.com/9I6NRUm.png): [josh-goldstein-git](https://github.com/josh-goldstein-git))
-
 CenSoc is an on-going project by researchers at UC Berkeley, led by Joshua Goldstein. Most of the initial code development was done by Monica Alexander.
+
+- [Monica Alexander](https://www.monicaalexander.com/) (![Github](http://i.imgur.com/9I6NRUm.png): [MJAlexander](https://github.com/MJAlexander) | ![Twitter](http://i.imgur.com/wWzX9uB.png): [@MonJAlexander](https://twitter.com/monjalexander))
+- [Joshua Goldstein](http://www.site.demog.berkeley.edu/josh-goldstein) (![Github](http://i.imgur.com/9I6NRUm.png): [josh-goldstein-git](https://github.com/josh-goldstein-git))
+
