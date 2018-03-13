@@ -32,7 +32,7 @@ The SSDM is considered a public document under the Freedom of Information Act. M
 In our initial match, we obtained the SSDM files through the wesbite \texttt
 {\url{http://ssdmf.info/download.html}}. This wesbite appears to be run by an individual who has bought a copy of the SSDM and decided to distribute it freely. The 2013 version of the SSDM is available here: \texttt{\url{http://cancelthesefunerals.com/}}.
 
-__Note:__ XX need to work out whether we are using the 2011 or 2013 version. Based on dates of deaths in the CenSoc data, it looks like probably 2011. Also need to confirm that I should be restricting the latest date of death. 
+__Note:__ XX need to work out whether we are using the 2011 or 2013 version. Based on dates of deaths in the CenSoc data, it looks like probably 2011. Also need to confirm that I should be restricting the latest date of death.   
 
 
 ### Data completeness
