@@ -53,7 +53,7 @@ load_socsec_deaths <- function(socsec_files){
 
   cat("Creating keys. \n")
   # create key
-  socsec[,"tmp_key" := paste0(lname, fname, census_age)]
+  socsec[,"tmp_key" := paste(lname, fname, census_age, sep = "_")]
   socsec[,"clean_key" := clean_key(tmp_key),]
   socsec[,"n_clean_key" := .N, by = clean_key]
 

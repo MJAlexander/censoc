@@ -30,7 +30,7 @@ load_census <- function(census_file,
   census <- census[!(grepl("\\?", census$fname)|grepl("\\?", census$lname)|census$lname==""),]
 
   # create key
-  census[,"tmp_key" := paste0(lname, fname, census_age)]
+  census[,"tmp_key" := paste(lname, fname, census_age, sep = "_")]
   census[,"clean_key" := clean_key(tmp_key),]
   census[,"n_clean_key" := .N, by = clean_key]
   census <- census[,!"tmp_key"]
