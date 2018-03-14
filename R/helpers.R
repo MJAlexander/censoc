@@ -16,7 +16,7 @@ get_first_word <- function(x)
 
 #' Clean matching keys
 #'
-#' @param key a string that acts as a key that may have punctuation
+#' @param key a string that acts as a key that may have punctuation. Note that it retains underscores, which are used in the keys.
 #' @return a string with no punctuation
 #' @examples
 #' clean_key("testi'ing")
@@ -25,7 +25,7 @@ get_first_word <- function(x)
 
 ## function to clean keys
 clean_key <- function(key){
-  return(gsub(" +|[[:punct:]]", "", key))
+  return(gsub(" +|(?!_)[[:punct:]]","", key, perl = T))
 }
 
 

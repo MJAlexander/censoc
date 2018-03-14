@@ -7,7 +7,7 @@
 clean_key(key)
 }
 \arguments{
-\item{key}{a string that acts as a key that may have punctuation}
+\item{key}{a string that acts as a key that may have punctuation. Note that it retains underscores, which are used in the keys.}
 }
 \value{
 a string with no punctuation
