@@ -20,9 +20,11 @@ load_census <- function(census_file,
   census <- as.data.table(census)
 
   # clean variables
-  census[,"fname" := str_to_upper(NAMEFRST)]
+  census[,"fname" := enc2native(NAMEFRST)]
+  census[,"fname" := str_to_upper(fname)]
   census[,"fname" := get_first_word(fname)]
-  census[,"lname" := str_to_upper(NAMELAST)]
+  census[,"lname" := enc2native(NAMELAST)]
+  census[,"lname" := str_to_upper(lname)]
   census[,"census_age" := as.numeric(AGE)]
 
   # remove those with no name info
