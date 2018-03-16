@@ -106,7 +106,9 @@ This can be done using the `create_national_censoc` function.
 
 # Merging with public-use IPUMS file
 
+The CenSoc dataset contains information about individaul's birth date (and implied at the 1940 census), death date and state of residence in 1940. The dataset does not contain any other information on the characteristics of the individuals; however, by using the unique identifier information contained in the CenSoc dataset, the data can be merged back to the 1940 census available on the [IPUMS-USA](https://usa.ipums.org/usa/) website. 
 
+For instructions on how to obtain full count census data from IPUMS, see documentation here: \texttt{\url{https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf}}.
 
 
 
