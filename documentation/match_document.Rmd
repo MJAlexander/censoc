@@ -102,7 +102,30 @@ Due to file size, the matching step is done separately for each census file in e
 This can be done using the `create_national_censoc` function. 
 
 # Resulting Dataset
-## Match metrics
+A total of 7,564,451 individual males were matched across the census and SSDM to create the CenSoc dataset. As the 1940 full count census had 66,093,146 males, this corresponds to a raw match rate of 11.4%. A total of 43,881,719 males in the census had unqiue keys; as such the match rate on unique keys was 17.2%. 
+
+## Match rates by group
+
+The raw match rates differ marked by cohort/age at census. As the table below illustrates, match rates are highest for 15-40 year olds. This corresponds to cohorts 1900-1925. 
+
+```{r, echo = F, message = F}
+library(tidyverse)
+library(knitr)
+d <- read_csv("age_props.csv")
+d <- d %>% 
+  rename(match_rate = prop, match_rate_unique = prop_unique, census_age = census_age_group) %>% 
+  mutate(match_rate = round(match_rate*100, 1), match_rate_unique = round(match_rate_unique*100, 1))
+kable(d)
+```
+
+XX Need to add more characteristics
+
+## Accounting for mortality
+Note that these raw match rates do not take into consideration mortality. Some individuals would have died before 1975, and some are still alive after 2005, and so do not appear in the SSDM. Thus we would never expect to get match rates of 100% given we only observe a truncated window of deaths. 
+
+Based on overall US mortality reported in the HMD...XX TODO...
+
+## Characteristics of matched versus unmatched data
 
 # Merging with public-use IPUMS file
 
