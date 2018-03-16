@@ -85,7 +85,7 @@ Once the IPUMS census dataset is obtained, it can easily be merged with the CenS
 The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`:
 
 ```{r, eval=F}
-merged_df <- merge(censoc, census, by = "unique_d")
+merged_df <- merge(censoc, census, by = "unique_id")
 ```
 
 or using the tidyverse/dplyr functionality:
