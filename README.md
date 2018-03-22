@@ -1,4 +1,4 @@
-# censoc
+# CenSoc
 An R package for working with CenSoc dataset. 
 
 # Introduction
