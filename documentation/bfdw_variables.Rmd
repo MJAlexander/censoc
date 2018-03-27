@@ -21,7 +21,7 @@ output: pdf_document
 - `OWNERSHP`: Owns or rents dwelling
 - `RENT`: Monthly rent
 - `RACE`: race
-- `HISPAN`: hispanic status
+- `HISPAN`: Hispanic status
 - `MARST`: marital status
 - `EDUC`: Education
 - `BPL`: Place of birth
@@ -33,5 +33,5 @@ output: pdf_document
 - `INCWAGE`: Income from wages
 - `INCNONWG`: Has non-wage income greater than $50
 
-For full documentation about the census variables, refer to the IPUMS wesbite: [https://usa.ipums.org/usa-action/variables/search](https://usa.ipums.org/usa-action/variables/search).
+For full documentation about the census variables, refer to the IPUMS website: [https://usa.ipums.org/usa-action/variables/search](https://usa.ipums.org/usa-action/variables/search).
 
