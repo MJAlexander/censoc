@@ -1,0 +1,37 @@
+---
+title: "Variables in CenSoc"
+output: pdf_document
+---
+
+# Date of birth and death
+
+- `census_age` refers to the individual's age at the time of the 1940 Census. 
+- `byear`: year of birth
+- `dyear`: year of death
+- `bmonth`: month of birth
+- `dmonth`: month of death
+
+# 1940 Census variables
+
+- `SERIAL40`: Household serial number in 1940 Census
+- `NUMPREC40`: Number of person records in household
+- `PERNUM`: Person number within household
+- `STATEFIP`: State of residence FIPS code
+- `URBAN`: Lives in urban or rural area
+- `OWNERSHP`: Owns or rents dwelling
+- `RENT`: Monthly rent
+- `RACE`: race
+- `HISPAN`: hispanic status
+- `MARST`: marital status
+- `EDUC`: Education
+- `BPL`: Place of birth
+- `MBPL`: Mother's place of birth
+- `FBPL`: Father's place of birth
+- `EMPSTAT`: Employment status
+- `OCCSCORE`: Occupational income score
+- `OCC`: Occupation
+- `INCWAGE`: Income from wages
+- `INCNONWG`: Has non-wage income greater than $50
+
+For full documentation about the census variables, refer to the IPUMS wesbite: [https://usa.ipums.org/usa-action/variables/search](https://usa.ipums.org/usa-action/variables/search).
+
