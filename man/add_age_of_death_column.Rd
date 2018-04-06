@@ -10,6 +10,9 @@ add_age_of_death_column(dt)
 \arguments{
 \item{dt}{a CenSoc data table}
 }
+\value{
+a CenSoc data table with `age_of_death` column.
+}
 \description{
 Add age of death column to a CenSoc data table
 Add age of death based on month and year of birth and death.
