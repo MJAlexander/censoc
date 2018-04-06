@@ -17,7 +17,8 @@ tabulate_deaths <- function(df, ...){
   tab_df <- df %>%
     group_by(byear, age_of_death) %>%
     group_by(!!!add_grps, add = TRUE) %>%
-    summarise(n = n())
+    summarise(n = n()) %>%
+    ungroup()
 
   return(tab_df)
 
