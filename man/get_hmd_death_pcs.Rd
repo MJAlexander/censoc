@@ -4,10 +4,12 @@
 \alias{get_hmd_death_pcs}
 \title{Principal components from HMD}
 \usage{
-get_hmd_death_pcs(dx_data, single_country, n_pcs = 10)
+get_hmd_death_pcs(dx_data, demeaned = FALSE, single_country, n_pcs = 10)
 }
 \arguments{
 \item{dx_data}{HMD data on death distribution}
+
+\item{demeaned}{whether the values should be demeaned. If \code{TRUE}, the first column of the returned matrix is the mean.}
 
 \item{single_country}{whether or not dataset contains single or multiple countries}
 
