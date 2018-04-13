@@ -1,6 +1,5 @@
 ---
 title: "Obtaining the full count 1940 census from IPUMS to use with CenSoc"
-author: "Monica Alexander"
 date: "March 2018"
 output:
   pdf_document:

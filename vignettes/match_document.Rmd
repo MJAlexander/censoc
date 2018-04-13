@@ -1,6 +1,5 @@
 ---
 title: "Documentation for CenSoc Dataset"
-author: "Monica Alexander"
 date: "March 2018"
 output:
   pdf_document:
