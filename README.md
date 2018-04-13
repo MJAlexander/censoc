@@ -8,7 +8,14 @@ The `censoc` package contains code and functions that help to fully utilize the 
 
 In addition, this repository contains documentation outlining data sources and the matching process. 
 
-# How to install
+# Where to get the CenSoc dataset
+
+Data can be downloaded at https://censoc.demog.berkeley.edu 
+
+Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from [IPUMS-USA](https://usa.ipums.org/usa/). Information in [this document](https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf) will help on how to do that. Once you have both CenSoc and census data, you can merge them together. [This example R file](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R) gives an example of how to do that. 
+
+
+# How to install R package
 This package is not on CRAN. To install, use `devtools`:
 
 ```
@@ -19,12 +26,6 @@ devtools::install_github("MJAlexander/censoc")
 # Usage 
 
 Goal is to have some mortality functions here as part of R package. 
-
-# Where to get the CenSoc dataset
-
-Link to website, TODO!
-
-Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from [IPUMS-USA](https://usa.ipums.org/usa/). Information in [this document](https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf) will help on how to do that. Once you have both CenSoc and census data, you can merge them together. [This example R file](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R) gives an example of how to do that. 
 
 
 # Authors 

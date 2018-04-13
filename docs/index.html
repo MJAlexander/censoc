@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code to help match 1940 census and social security deaths data • censoc</title>
+<title>Code to use a matched data set of 1940 census and social security deaths data • censoc</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Code to help match 1940 census and social security deaths data">
-<meta property="og:description" content="What the package does (one paragraph).">
+<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Code to use a matched data set of 1940 census and social security deaths data">
+<meta property="og:description" content="This package provides functions to help utilize the CenSoc dataset. ">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -45,7 +45,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="http://github.com/MJAlexander/censoc">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -69,22 +76,23 @@
 <p>The <code>censoc</code> package contains code and functions that help to fully utilize the CenSoc dataset.</p>
 <p>In addition, this repository contains documentation outlining data sources and the matching process.</p>
 </div>
-<div id="how-to-install" class="section level1">
+<div id="where-to-get-the-censoc-dataset" class="section level1">
 <h1 class="hasAnchor">
-<a href="#how-to-install" class="anchor"></a>How to install</h1>
+<a href="#where-to-get-the-censoc-dataset" class="anchor"></a>Where to get the CenSoc dataset</h1>
+<p>Data can be downloaded at <a href="https://censoc.demog.berkeley.edu" class="uri">https://censoc.demog.berkeley.edu</a></p>
+<p>Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from <a href="https://usa.ipums.org/usa/">IPUMS-USA</a>. Information in <a href="https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf">this document</a> will help on how to do that. Once you have both CenSoc and census data, you can merge them together. <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">This example R file</a> gives an example of how to do that.</p>
+</div>
+<div id="how-to-install-r-package" class="section level1">
+<h1 class="hasAnchor">
+<a href="#how-to-install-r-package" class="anchor"></a>How to install R package</h1>
 <p>This package is not on CRAN. To install, use <code>devtools</code>:</p>
-<p><code>{r, eval = F} # install.packages("devtools") devtools::install_github("MJAlexander/censoc")</code></p>
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github"># install.packages("devtools")
+devtools::install_github("MJAlexander/censoc")</a></code></pre>
 </div>
 <div id="usage" class="section level1">
 <h1 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h1>
 <p>Goal is to have some mortality functions here as part of R package.</p>
-</div>
-<div id="where-to-get-the-censoc-dataset" class="section level1">
-<h1 class="hasAnchor">
-<a href="#where-to-get-the-censoc-dataset" class="anchor"></a>Where to get the CenSoc dataset</h1>
-<p>Link to website, TODO!</p>
-<p>Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from <a href="https://usa.ipums.org/usa/">IPUMS-USA</a>. Information in <a href="https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf">this document</a> will help on how to do that. Once you have both CenSoc and census data, you can merge them together. <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">This example R file</a> gives an example of how to do that.</p>
 </div>
 <div id="authors" class="section level1">
 <h1 class="hasAnchor">
@@ -104,7 +112,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Report a bug at <br><a href="NA">NA</a>
+<li>Browse source code at <br><a href="http://github.com/MJAlexander/censoc">http://​github.com/​MJAlexander/​censoc</a>
+</li>
+<li>Report a bug at <br><a href="http://github.com/MJAlexander/censoc/issues">http://​github.com/​MJAlexander/​censoc/​issues</a>
 </li>
 </ul>
 </div>
@@ -118,6 +128,7 @@
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Monica Alexander <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Joshua Goldstein <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
@@ -126,7 +137,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Monica Alexander.</p>
+  <p>Developed by Monica Alexander, Joshua Goldstein.</p>
 </div>
 
 <div class="pkgdown">
