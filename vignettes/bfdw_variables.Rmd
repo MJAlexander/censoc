@@ -1,7 +1,9 @@
 ---
-title: "Variables in CenSoc"
+title: "Variables in CenSoc for BFDW"
 output: pdf_document
 ---
+
+Below is a list of variables contained in the CenSoc data set to be used at the Berkeley Formal Demography Workshop, 2018. 
 
 # Date of birth and death
 
