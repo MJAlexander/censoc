@@ -1,0 +1,49 @@
+template:
+  params:
+    bootswatch: yeti
+
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    github:
+      icon: fa-github fa-lg
+      href: http://github.com/MJAlexander/censoc
+
+reference:
+- title: All functions
+  desc: ~
+  contents:
+  - '`add_age_of_death_column`'
+  - '`clean_key`'
+  - '`colVars`'
+  - '`create_censoc`'
+  - '`create_national_censoc`'
+  - '`get_deaths_in_jags_format`'
+  - '`get_first_word`'
+  - '`get_hmd_death_distribution`'
+  - '`get_hmd_death_pcs`'
+  - '`load_census`'
+  - '`load_socsec_deaths`'
+  - '`read_hmd`'
+  - '`tabulate_deaths`'
+  - '`waic`'
+
+articles:
+- title: All documents
+  desc: ~
+  contents: '``'
+
