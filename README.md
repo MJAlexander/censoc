@@ -11,7 +11,7 @@ In addition, this repository contains documentation outlining data sources and t
 # How to install
 This package is not on CRAN. To install, use `devtools`:
 
-```{r, eval = F}
+```
 # install.packages("devtools")
 devtools::install_github("MJAlexander/censoc")
 ```
