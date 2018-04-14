@@ -1,6 +1,11 @@
 ---
 title: "Variables in CenSoc for BFDW"
-output: pdf_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 Below is a list of variables contained in the CenSoc data set to be used at the Berkeley Formal Demography Workshop, 2018. 
