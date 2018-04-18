@@ -1,8 +1,8 @@
 # CenSoc [![Build Status](https://travis-ci.org/MJAlexander/censoc.svg?branch=master)](https://travis-ci.org/MJAlexander/censoc)
-An R package for working with CenSoc dataset. 
+Code and documentation for the CenSoc project. 
 
 # Introduction
-The 'CenSoc' project involves producing a dataset which contains records from the full-count 1940 US census to the social security deaths masterfile. The resulting CenSoc dataset provides researchers with a tool for studying mortality inequalities in the US and how conditions have changed over time. 
+The 'CenSoc' dataset is a matched micro dataset containing infomartion from the 1940 US census and the social security deaths masterfile. CenSoc provides researchers with a tool for studying mortality inequalities in the US and how conditions have changed over time. 
 
 The `censoc` package contains code and functions that help to fully utilize the CenSoc dataset. 
 
@@ -10,7 +10,7 @@ In addition, this repository contains documentation outlining data sources and t
 
 # Where to get the CenSoc dataset
 
-Data can be downloaded at https://censoc.demog.berkeley.edu 
+Data can be downloaded at https://censoc-download.demog.berkeley.edu. 
 
 Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from [IPUMS-USA](https://usa.ipums.org/usa/). Information in [this document](https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf) will help on how to do that. Once you have both CenSoc and census data, you can merge them together. [This example R file](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R) gives an example of how to do that. 
 
@@ -25,7 +25,7 @@ devtools::install_github("MJAlexander/censoc")
 
 # Usage 
 
-Goal is to have some mortality functions here as part of R package. 
+Todo. Goal is to have some mortality functions here as part of R package. 
 
 
 # Authors 
