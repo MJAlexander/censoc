@@ -4,7 +4,7 @@
 #'@param df a CenSoc data frame. Must have `EDUC` column.
 #'@return a CenSoc data table with `educ_recode` column.
 
-add_educ_recode_column <- function(df, ...){
+add_educ_recode_column <- function(df){
   df <- df %>%
     mutate(educ_recode = case_when(
       EDUC==2 ~ 0,

@@ -5,7 +5,7 @@
 \title{Add column with recoded education to a CenSoc data table
 Recode education variable. Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}}
 \usage{
-add_educ_recode_column(df, ...)
+add_educ_recode_column(df)
 }
 \arguments{
 \item{df}{a CenSoc data frame. Must have `EDUC` column.}
