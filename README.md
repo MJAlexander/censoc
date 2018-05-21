@@ -1,6 +1,7 @@
 # CenSoc 
 
 [![Build Status](https://travis-ci.org/MJAlexander/censoc.svg?branch=master)](https://travis-ci.org/MJAlexander/censoc)
+
 Code and documentation for the CenSoc project. 
 
 # Introduction
@@ -14,7 +15,7 @@ In addition, this repository contains documentation outlining data sources and t
 
 Data can be downloaded at https://censoc-download.demog.berkeley.edu. 
 
-Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from [IPUMS-USA](https://usa.ipums.org/usa/). Information in [this document](https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf) will help on how to do that. Once you have both CenSoc and census data, you can merge them together. [This example R file](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R) gives an example of how to do that. 
+Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from [IPUMS-USA](https://usa.ipums.org/usa/). Information in [this document](https://censoc.demog.berkeley.edu/articles/ipums_document.html) will help on how to do that. Once you have both CenSoc and census data, you can merge them together. [This example R file](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R) gives an example of how to do that. 
 
 
 # How to install R package
