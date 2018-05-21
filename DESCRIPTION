@@ -6,7 +6,7 @@ Authors@R: as.person(c(
     "Joshua Goldstein <josh@demog.berkeley.edu> [aut]"
     ))
 Description: This package provides functions to help utilize the CenSoc dataset. 
-Depends: R (>= 3.4.3)
+Depends: R (>= 3.4.0)
 URL: http://github.com/MJAlexander/censoc
 BugReports: http://github.com/MJAlexander/censoc/issues
 License: MIT
