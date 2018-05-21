@@ -1,4 +1,6 @@
-# CenSoc [![Build Status](https://travis-ci.org/MJAlexander/censoc.svg?branch=master)](https://travis-ci.org/MJAlexander/censoc)
+# CenSoc 
+
+[![Build Status](https://travis-ci.org/MJAlexander/censoc.svg?branch=master)](https://travis-ci.org/MJAlexander/censoc)
 Code and documentation for the CenSoc project. 
 
 # Introduction
