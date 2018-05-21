@@ -1,0 +1,1729 @@
+---
+title: "Deaths without denominators: using a matched dataset to study mortality patterns in the United States"
+author: "Monica Alexander"
+output:
+  pdf_document:
+    number_sections: true
+    citation_package: natbib
+bibliography: dissertation.bib
+pkgdown:
+  as_is: true
+  extension: pdf
+---
+
+\section{Introduction\footnote{This paper appeared as a chapter of my dissertation, `Bayesian Methods for Mortality Estimation'.}}\label{introduction}
+
+To understand national trends in mortality over time, it is important to
+study differences by demographic, socioeconomic and geographic
+characteristics. For example, the recent stagnation in life expectancy
+at birth in the United States is largely a consequence of worsening
+outcomes for males in young-adult age groups (\citet{cdc2017}). It is
+essential to understand differences across groups to better inform and
+target effective health policies. As such, studying mortality
+disparities across key subpopulations has become an important area of
+research. Recent studies in the United States have looked at mortality
+inequalities across income (\citet{chetty2016}; \citet{currie2016}),
+education (\citet{hummer2011}; \citet{masters2012}; \citet{hummer2013})
+and race (\citet{murray2006}; \citet{case2017}), finding evidence for
+increasing disparities across all groups.
+
+One issue with studying mortality inequalities, particularly by
+socioeconomic status (SES), is that there are few micro-level data
+sources available that link an individual's SES with their eventual age
+and date of death. The National Longitudinal Mortality Study (NLMS)
+(\citet{sorlie1995}); National Health Interview Survey Linked Mortality
+Files (\citet{national2005}); and the Health and Retirement Study
+(\citet{juster1995}) are important survey-based resources that contain
+SES, health and mortality information. However, these data sources only
+contain 10,000-250,000 death records over the period of study, so once
+the data are disaggregated by year, demographic and SES characteristics,
+the counts can be quite small and thus uncertainty around mortality
+estimates is high.
+
+There has been an increasing amount of mortality inequalities research
+that makes use of large-scale administrative datasets; for example, the
+use of Social Security (SSA) earnings and mortality data
+(\citet{waldron2007}) and income, tax and mortality data from the
+Internal Revenue Service (IRS) (\citet{chetty2016}). However, while
+large in size, these administrative datasets lack richness in terms of
+the type of information available. The SSA and IRS datasets only include
+information about income, and not other characteristics such as
+education or race. In addition, these datasets are not publicly
+available, which makes validation, reproducibility and extension of the
+research difficult.
+
+In this paper, a new dataset for studying mortality disparities and
+changes over time in the United States is presented. The dataset, termed
+`CenSoc', uses two large-scale datasets: the full-count 1940 Census to
+obtain demographic, socioeconomic and geographic information; and that
+is linked to the Social Security Deaths Masterfile (SSDM) to obtain
+mortality information. The full-count 1940 census has been used in many
+areas of demographic, social and economic research since it has been
+made digitally available (e.g.\ income inequality (\citet{frydman2011});
+education outcomes (\citet{saatcioglu2012}); and migrant assimilation
+(\citet{alexander2018})). The SSDM, which contains name, date of birth
+and date of death information, has been used to study mortality
+patterns, particularly at older ages (\citet{hill2001};
+\citet{gavrilov2011}). The resulting CenSoc
+dataset\footnote{Version 1 available at: \url{https://censoc.demog.berkeley.edu/}.}
+contains over 7.5 million records linking characteristics of males in
+1940 with their eventual date of death.
+
+As a consequence of the census and SSDM spanning two separate time
+points, the mortality information available in CenSoc has left- and
+right-truncated deaths by age, and no information about the relevant
+population at risk at any age or cohort. For example, the cohort born in
+1910 is observed at age 30 in the 1940 census and has death records for
+ages 65-95 (observed in the period 1975-2005); however, there is not
+information on the number of survivors in the same period. Thus, it is
+not straightforward to use mortality information in CenSoc to create
+comparable estimates over time. As such, this paper also develops
+mortality estimation methods to better use the `deaths without
+denominators' information contained in CenSoc. Bayesian hierarchical
+methods are presented to estimate truncated death distributions over age
+and cohort, allowing for prior information in mortality trends to be
+incorporated and estimates of life expectancy and associated uncertainty
+to be produced.
+
+The remainder of the paper is structured as follows. Firstly, the data
+sources and method used to create the CenSoc dataset are described. The
+issues with using CenSoc to estimate mortality indicators are then
+discussed. Two potential methods of mortality estimated are presented: a
+Gompertz model, and a principal components approach. These models are
+evaluated based on fitting to United States mortality data available
+through the Human Mortality Database. The principal components
+regression framework is then applied to the CenSoc data to estimate
+mortality trends by education and income. Finally, the results and
+future work are discussed.
+
+\section{The CenSoc dataset}\label{the-censoc-dataset}
+
+The CenSoc dataset was created by combining two separate data sources:
+the 1940 census, and the Social Security Deaths Master file (SSDM). The
+two data sources were matched based on unique identifiers of first name,
+last name and age at the time of the census. Due to issues with
+potential name changes with marriage, the matching process is restricted
+to only include males.
+
+As described below, the census observes individuals in 1940, and the
+SSDM observes individuals in the period 1975-2005. Therefore, by
+construction, the CenSoc dataset can only contain individuals who died
+between 1975 and 2005.
+
+\subsection{Data}\label{data}
+
+The demographic and socioeconomic data come from the U.S.\ 1940 census,
+which was completed on 1 April 1940. The census collected demographic
+information such as age, sex, race, number of children, birthplace, and
+mother's and father's birthplace. Geographic information, including
+county and street address, and economic information such as wages,
+non-wage income, hours worked, labor force status and ownership of house
+was also collected. The 1940 census had a total of 132,164,569
+individuals, 66,093,146 of whom were males.
+
+The 1940 census records were released by the U.S.\ National Archives on
+April 2, 2012 (\citet{census1940}). The original 1940 census records
+were digitized by Ancestry.com and are available through the Minnesota
+Population Center (MPC). The MPC provides a de-identified version of the
+complete count census as part of the IPUMS-USA project (\citet{ipums}).
+However, names and other identifying information are not available from
+the IPUMS website. Access to the restricted 1940 census data was granted
+by agreement between UC Berkeley and MPC. The data are encrypted and can
+only be accessed through computers or servers on the Berkeley demography
+network.
+
+Information on the age and date of death was obtained through the SSDM.
+This contains a record of all deaths that have been reported to the
+Social Security Administration (SSA) since 1962. The SSDM is used by
+financial and government agencies to match records and prevent identity
+fraud and is considered a public document under the Freedom of
+Information Act. Monthly and weekly updates of the file are sold by the
+National Technical Information Service of the U.S. Department of
+Commerce. A copy of the 2011 version was obtained through the Berkeley
+Library Data Lab.
+
+The SSDM contains an individual's first name, last name, middle initial,
+social security number, date of birth and date of death. The 2011 file
+has 85,822,194 death records. The death dates span the years 1962-2011.
+There are 76,056,377 individuals in the SSDM who were alive at the time
+of the 1940 census.
+
+Completeness of death reporting in the SSDM is lower pre-1970s, when a
+substantial proportion of the population did not pay into the social
+security system. Deaths are more likely to be reported at older ages,
+when a person was more likely to be receiving social security benefits
+(\citet{huntington2013}). Previous studies suggest more than 90\%
+completeness of deaths over age 65 reported in the SSDM since 1975,
+compared to vital statistics sources (\citet{hill2001}).
+
+To check the coverage of SSDM at the population level, the total number
+of deaths by year reported in the SSDM was compared to those in the
+Human Mortality Database (HMD) (\citet{hmd2018}). As
+Figs.\ \ref{hmd_ssdm_deaths} and \ref{hmd_ssdm_ratio} illustrate, the
+completeness of the SSDM file is around 95\% for ages 55+ in the period
+1975-2005. As such, the data used to create CenSoc is restricted to only
+include deaths from SSDM that occurred between the period 1975-2005.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.60000\textwidth]{fig/hmd_ssdm_deaths_55.pdf}
+\caption{Comparison of the number of deaths at ages 55+ in the SSDM (dotted line) and HMD (solid line), 1940-2011. While deaths in the earlier and later periods are underreported in the SSDM, the period 1975-2005 has close to full coverage. 
+\label{hmd_ssdm_deaths}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.50000\textwidth]{fig/hmd_ssdm_ratio_55.pdf}
+\caption{Ratio of deaths at ages 55+ in the SSDM to HMD, 1970-2011. The ratio is around 95\% over the period 1975-2005. 
+\label{hmd_ssdm_ratio}}
+\end{figure}
+
+\subsection{Data preparation}\label{data-preparation}
+
+For the Census dataset, the following pre-processing steps were done:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+%\tightlist
+\item
+  Convert all name strings to upper case.
+\item
+  Remove the middle name. The original first name variable contains both
+  first and middle name. The name string is split and only the first
+  name is used for matching.
+\item
+  Remove rows where either the first or last name are just question
+  marks or blank.
+\item
+  Create a match key by concatenating last name, first name and age.
+\item
+  Subset the data to only include males.
+\end{enumerate}
+
+For the social security deaths files, there are three raw files in which
+rows contain a continuous string of characters. For each of the three
+files, each row is split into social security number, last name, first
+name, middle initial, date of death and date of birth. The three files
+are then bound together to create one large file.
+
+The following pre-processing steps are done:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+%\tightlist
+\item
+  Remove any trailing white space from first and last names
+\item
+  Split date of birth and date of death to get day, month and year of
+  birth and death.
+\item
+  Calculate age of person at census. The age is calculated based on
+  knowing the date of birth and that the 1940 census was run in April.
+\item
+  Remove any deaths where the date of birth is missing
+\item
+  Remove any deaths of people who born after 1940
+\item
+  Remove any deaths before 1975
+\item
+  Create a match key by concatenating last name, first name and census
+  age.
+\end{enumerate}
+
+\subsection{Match Method}\label{match-method}
+
+The two datasets are matched based on exact matches of first name, last
+name and age. For example, a match key could be
+\texttt{EYREJANE18}. Census records with a key that is not found
+in the social security deaths database are not matched. The specific
+steps are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+%\tightlist
+\item
+  Load in the cleaned census and social security datasets.
+\item
+  Remove duplicate keys.
+\item
+  Merge the datasets based on key.
+\end{enumerate}
+
+Due to file size, the matching step is done separately for each census
+file in each U.S.\ state. The resulting national dataset is created by:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+%\tightlist
+\item
+  Loading and binding all state matched files.
+\item
+  Removing all rows that have duplicated keys.
+\end{enumerate}
+
+\subsection{Resulting Dataset}\label{resulting-dataset}
+
+A total of 7,564,451 individual males were matched across the census and
+SSDM to create the CenSoc dataset. As the 1940 full count census had
+66,093,146 males, this corresponds to a raw match rate of 11.4\%. A
+total of 43,881,719 males in the census had unique keys; as such the
+match rate on unique keys was 17.2\%.
+
+The raw match rates differ markedly by cohort/age at census. As Table 1
+illustrates, match rates are highest for 15-40 year olds. This
+corresponds to cohorts born in 1900-1925.
+
+```{r, echo = F, message = F, warning = F}
+library(tidyverse)
+library(knitr)
+d <- read_csv("age_props.csv")
+d <- d %>% 
+  mutate(census_age_group = factor(census_age_group, levels = c(paste(seq(0,70, by = 5), seq(4, 74, by = 5), sep = "-"), "75+"))) %>% 
+  arrange(census_age_group) %>% 
+  rename(match_rate = prop, match_rate_unique = prop_unique, census_age = census_age_group) %>% 
+  mutate(match_rate = round(match_rate*100, 1), match_rate_unique = round(match_rate_unique*100, 1)) %>% 
+  rename(`Match rate (%)` = match_rate, `Census age` = census_age,  `Unique match rate (%)` = match_rate_unique)
+
+kable(d, caption = "CenSoc match rates by age group")
+```
+
+
+These raw match rates do not take into consideration mortality. Some
+individuals died before 1975, and some are still alive after 2005;
+neither appears in the SSDM. In particular, the low rates at older ages
+are mostly due to the fact that people of that age in the census have
+already died by 1975. Thus we would never expect to get match rates of
+100\% given we only observe a truncated window of deaths.
+
+The matched CenSoc data and unmatched census records were also compared
+based on a set of socioeconomic variables, to understand the relative
+representation of key socioeconomic groups. The CenSoc dataset contains
+a slightly higher proportion of people who completed high school; own
+their own home; is the household head; living in urban areas; and are
+white (Fig.\ \ref{match_des}). These differences are relatively small,
+but consistently show CenSoc contains more advantaged people. There are
+several potential reasons for this. Firstly, it could be that more
+advantaged individuals are less likely to die before 1975, and so more
+likely to be observed in the window of SSDM. Secondly, it could be that
+more advantaged individuals are more likely to be matched, given they
+survived to 1975. This could be because they are more likely to have a
+social security number, and so be included in the dataset, or are less
+likely to be matched due to data quality issues (nicknames, misspelled
+names, etc.).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.80000\textwidth]{fig/match_des.pdf}
+\caption{Comparison of socioeconomic characteristics of matched and
+unmatched datasets. The red line is the proportion of each age group with that characteristics in the CenSoc dataset. The blue line is the same proportion for unmatched individuals in the 1940 census. \label{match_des}}
+\end{figure}
+
+While there are small differences across the matched and unmatched
+datasets, these are expected given different mortality patterns across
+subgroups. The somewhat selective nature of the matched CenSoc reocrds
+means that mortality estimates might be slightly lower than in the
+general population. For the study of subpopulations, however, it matters
+less if the overall data set is representative by subgroup, as long as
+the within-group CenSoc sample is broadly representative of that same
+group in the overall population.
+
+\section{Issues with using CenSoc to study mortality
+patterns}\label{issues-with-using-censoc-to-study-mortality-patterns}
+
+The CenSoc dataset contains individual records that link date of birth
+and death with other demographic and socioeconomic information. it is a
+useful resource to study patterns in mortality inequalities over time.
+However, as a consequence of the CenSoc data being constructed from two
+different data sources available in different years, it is not
+necessarily straightforward to calculate unbiased estimates of mortality
+differences by subgroup and over time. This section describes the issue
+and motivates the methods for mortality estimation described in later
+sections.
+
+\subsection{If complete death records were
+available}\label{if-complete-death-records-were-available}
+
+Instead of the CenSoc dataset, imagine if we could track every person in
+the 1940 census until they died, so the available dataset contained full
+records of death for all persons. If this were the case, then we could
+use standard demographic and survival analysis approaches to calculate
+key mortality indicators by subpopulation.
+
+If perfect deaths data existed, we would have a complete record of the
+number people by cohort (who were alive in the 1940 census) and the ages
+at which they died. For extinct cohorts, these death counts could be
+used to construct cohort lifetables and mortality indicators such as
+life expectancy or variance in age of death could be compared.
+Lifetables could also be constructed by key socioeconomic groups such as
+income, race or education, and change in mortality tracked over cohort.
+
+For cohorts that are not yet extinct, these data would be
+right-censored, i.e.\ the last date of observation (in this fictitious
+dataset, this would be 2018) is before the observed time of death.
+However, standard techniques from survival analysis could be used to
+measure mortality indicators. For example, non-parametric techniques
+like the Kaplan-Meier estimator could be used to compare empirical
+survival curves, and differences in survival across groups could be
+estimated in multivariate setting using Cox proportional hazard models
+(\citet{hougaard2012}; \citet{wachter2014}).
+
+\subsection{Characteristics of CenSoc
+data}\label{characteristics-of-censoc-data}
+
+However, we do not have complete records of dates of death for all
+persons in the 1940 Census. Instead, after observing the full population
+in 1940 (the blue line in the Lexis diagram, Fig.\ \ref{lexis}), we
+observe deaths only over the period 1975-2005 (the red shaded area in
+Fig.\ \ref{lexis}). This creates issues for the estimation of mortality
+indicators, for two main reasons: firstly, the deaths data available is
+both left- and right-truncated, and secondly, we do not observe the
+population at risk of dying at certain ages.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85\textwidth]{fig/lexis.png}
+\caption{Available information for CenSoc. Socioeconomic information is
+observed in the 1940 census (blue line); deaths are observed over 1975-2005 in the SSDM (red area). We only consider deaths above age 55, indicated by the dashed box. 
+\label{lexis}}
+\end{figure}
+
+As deaths are only observed over the period 1975-2005, the number of
+people who died before 1975, and the number who are still yet to die
+after 2005, are unknown. For the older cohorts, many have already died
+before 1975. The younger cohorts, e.g.\ those born in 1940, will only
+have reached relatively young ages by 1975, so many are still yet to
+die.
+
+Fig.\ \ref{censoc_deaths} illustrates the left- and right-truncation in
+the CenSoc dataset. Each colored line is a different cohort. For each
+cohort a different set of ages is available; for example, for the 1920
+cohort we observe deaths from age 55. In contrast, for the 1890 cohort
+we only observe deaths from age 85. Thus, methods of mortality
+estimation need to take the differing truncation into account, and
+adjust accordingly to make measures comparable over time.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{fig/censoc_deaths.pdf}
+\caption{Number of deaths observed by age and cohort in CenSoc. Each line is a different cohort. Every cohort has a different set of observed ages available. \label{censoc_deaths}}
+\end{figure}
+
+While truncation of observed deaths makes mortality estimation across
+cohorts more difficult, it is still possible with existing techniques.
+For example, techniques such as Kaplan-Meier and Cox proportional
+hazards regression are still possible with truncated and censored
+observations (\citet{hougaard2012}). If parametric models are used,
+truncation can be incorporated into the death density and survivorship
+functions (\citet{nelson2005}). However, it is the combination of
+truncated observations with the fact that no denominators are observed
+that makes estimation more difficult.
+
+In the period 1975-2005, we only observe deaths, not the total
+population. Not all persons in the 1940 Census are matched in CenSoc.
+There is no way of knowing whether unmatched people were still alive in
+1975 or not. Therefore, we do not know the size of the population at
+risk of dying in 1975.
+
+Knowing the exposure to risk is important for most mortality indicators.
+Lifetable quantities such as survivorship, the probability of dying and
+the hazard rate all rely on calculating some measure of risk relative to
+the baseline population.
+
+For extinct cohorts, we can assume there are no survivors beyond the
+ages that we observe and so it is possible to use the reverse survival
+method (\citet{andreev2003}) or multivariate techniques such as Cox
+proportional hazards regression to study differences in survival across
+socioeconomic groups. However, for cohorts that are not extinct,
+coefficient estimates from Cox regression will be biased towards zero.
+Thus, other techniques of mortality estimation need to be developed.
+
+\section{Mortality estimation for data with no
+denominators}\label{mortality-estimation-for-truncated-data-with-no-denominators}
+
+In this section, methods of mortality estimation for use with CenSoc are
+introduced. Firstly, relevant survival quantities are defined. The focus
+is then on estimating the distribution of deaths by age, which is the
+relevant quantity for CenSoc. Two models for deaths distribution
+estimation are introduced, one parametric (Gompertz) and one
+semi-parametric (principal components). The models are described and
+relative performance is assessed based on fitting to U.S.\ mortality data
+available through the Human Mortality Database.
+
+\subsection{Definition of survival
+quantities}\label{definition-of-survival-quantities}
+
+Define the survivorship function as
+\begin{equation}
+\label{eq:s}
+l(x) = Pr(X>x)
+\end{equation}
+i.e. \(l(x)\) is the probability that the age of death, \(X\), is
+greater than \(x\), or in other words, the proportion of the population
+that survive to exactly age \(x\). The hazard function is
+\begin{equation}
+\mu(x) = \lim_{\Delta x \to 0}\frac{Pr(x \le X < x + \Delta x | x \le X)}{\Delta X}.
+\end{equation}
+This is equivalent to
+\begin{equation}
+\label{eq:mu}
+\mu(x) = \frac{-d \log l(x)}{dx}.
+\end{equation}
+The cumulative death distribution function is
+\begin{equation}
+D(x) = 1 - l(x)
+\end{equation}
+and the density function is the derivative of this, i.e.
+\begin{equation}
+\label{eq:d}
+d(x)  = \frac{-d l(x)}{dx} = \mu(x) l(x) = \mu(x) \exp (-M(x))
+\end{equation}
+where \(M(x) = \int_0^x \mu(u) du\). As all people in a population must
+die eventually, \emph{memento mori}, \(d(x)\) is a probability density
+function, with \(\int d(x) = 1\). These quantities are continuous across
+age. Throughout this paper, the discrete versions are denoted with a
+subscript \(x\), for example, the discrete death distribution is written
+as \(d_x\).
+
+Given the lack of denominators in the CenSoc data set, the focus is on
+estimating mortality across cohorts based on information available about
+the density of deaths, \(d_x\). As shown in Fig.\ \ref{censoc_deaths}, we
+have partial information about the shape of \(d_x\) across cohorts. As
+such, the estimation of \(d_x\), i.e.\ the discrete death distribution by
+single year of age, is a starting point for inference about other
+mortality quantities. Once we have information about \(d_x\), other
+lifetable values can be calculated (\citet{wachter2014}, see Section
+7.3).
+
+Consider the following to illustrate how the estimation of \(d_x\)
+relates to the observed death counts. Say we observe death counts by
+age, \(y_x\), which implies a total number of deaths of \(D\),
+i.e.\ \[\sum_x y_x = D.\] If we multiply the total number of deaths \(D\)
+by \(d_x\), then that gives the number of deaths at age \(x\). In terms
+of fitting a model, we want to find estimates of the density, \(d_x\),
+which best describes the data we observe, \(y_x\).
+
+\subsection{Accounting for truncation}\label{accounting-for-truncation}
+
+Eq.\ \ref{eq:d} gives the density of deaths over the entire age range
+\(x\). Suppose instead we only observe ages between \(x_L\) and \(x_U\).
+In order to remain a probability density function, \(d(x)\) for the
+truncated period, defined as \(d^*(x)\), needs to be divided through by
+the difference of the survivorship functions at each end point:
+\begin{equation}
+\label{eq:dt}
+d^*(x) = \frac{d(x)}{l(x_L) - l(x_U)}.
+\end{equation}
+
+\subsection{\texorpdfstring{Estimating the death distribution
+\label{sec:est}}{Estimating the death distribution }}\label{estimating-the-death-distribution}
+
+Define \(y_x\) to be the observed number of deaths at age \(x\). It is
+assumed that deaths are only observed in the window of ages
+\([x_L, x_U]\). Conditional on the number of the total number of deaths,
+\(N\), the observed sequence of deaths
+\(\mathbf{y} = y_1, y_2, \dots, y_n\) has a multinomial distribution
+(\citet{chiang1960}):
+\begin{equation}
+\mathbf{y}|N \sim Multinomial(N, \mathbf{d^*})
+\end{equation}
+where \(\mathbf{d^*} = d^*_1, d^*_2, \dots, d^*_n\) and \(d_x^*\) is the
+discrete version of the truncated deaths density, and is equal to the
+proportion of total deaths that are observed between ages \(x\) and
+\(x+1\). The total number of observed deaths, \(D = \sum_x y_x\) is
+Poisson distributed around the true number of deaths i.e.:
+\begin{equation}
+\label{eq:D}
+D \sim Poisson(N).
+\end{equation}
+Thus, the marginal distribution of \(y_x\) is also Poisson distributed
+(\citet{mccullagh1989}), with
+\begin{equation}
+\label{eq:yx}
+y_x \sim Poisson(\lambda_x)
+\end{equation}
+where \(\lambda_x = N \cdot d_x^*\). The likelihood function of an
+observed sequence of deaths \(\mathbf{y} = y_1, y_2, \dots, y_n\) can
+then be written as:
+\begin{equation}
+P(\mathbf{y}|\mathbf{\lambda(\theta)}) = \exp\left(-\sum_i\lambda_i\right) \frac{\prod_i\lambda_i^{y_i}}{\prod_i y_i!\,}
+\end{equation}
+with corresponding log-likelihood
+\begin{equation}
+l(\mathbf{y}|\mathbf{\lambda(\theta)}) = -\sum_i\lambda_i +  \sum_i y_i \lambda_i - \log\prod_i y_i!.
+\end{equation}
+Here, \(\theta\) refers to the (potentially multiple) parameters that
+govern the rate of deaths, \(\lambda_x\). In practice it is the
+parameters \(\theta\) we are trying to estimate.
+
+One option to find values of \(\theta\) is to use maximum likelihood
+(ML) estimation. In this approach, the true parameter values are assumed
+to be fixed, but unknown. ML estimation finds parameter values that
+maximize the log-likelihood function based on data we observe about
+counts of death by age. Given the complexity of the likelihood function,
+numerical techniques need to be used, such as the
+Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm
+(\citet{fletcher2013}).\footnote{The BFGS algorithm, which is a class of quasi-Newton optimization routines, can be implemented using the `optim' function in R.}
+Standard errors around the estimates can be calculated based on the
+Hessian matrix, and inference can be carried out based on the assumption
+that the sampling distribution of the parameters are asymptotically
+normal.
+
+An alternative strategy to find best estimates of \(\theta\) is to use
+Bayesian analysis. In contrast to ML estimation, Bayesian methods assume
+the parameters \(\theta\) themselves are random variables. The goal is
+to estimate the posterior distribution of the parameters,
+\(P(\lambda(\theta)|y)\). By Bayes Rule,
+\begin{equation}
+P(\mathbf{\lambda(\theta)}|y) = \frac{P(y|\mathbf{\lambda(\theta)}) \cdot P(\mathbf{\lambda(\theta)})}{P(y)}
+\end{equation}
+where \(P(y|\mathbf{\lambda(\theta)})\) is the likelihood function,
+\(P(\mathbf{\lambda(\theta)})\) is the prior distribution on the
+parameters of interest and \(P(y)\) is the marginal probability of the
+data.
+
+For some posterior distributions, integrals for summarizing posterior
+distributions have closed-form solutions, or they can be easily computed
+using numerical methods. However, in many cases, the posterior
+distribution is difficult to handle in closed form. In such cases,
+Markov Chain Monte Carlo (MCMC) algorithms can be implemented to sample
+from the posterior distribution. For example, the Gibbs sampling
+algorithm (\citet{gelfand1990}) generates an instance from the
+distribution of each parameter in turn, conditional on the current
+values of the other parameters. It can be shown that the sequence of
+samples constitutes a Markov chain, and the stationary distribution of
+that Markov chain is the sought-after joint distribution. Gibbs Sampling
+can be implemented in R using the JAGS software (\citet{plummer2012}).
+
+There are several benefits of the Bayesian approach. Firstly, Bayesian methods are generally more computationally efficient than ML approaches, which can be sensitive to initial conditions and can take a relatively long time to converge. Secondly, if we can
+summarize the entire posterior distribution for a parameter, there is no
+need to rely on asymptotic arguments about the normality of the
+distribution. Having the entire posterior distribution for a parameter
+allows for additional tests and summaries that cannot be performed under
+a classical likelihood-based approach. Uncertainty intervals around
+parameter estimates can easily be calculated through assessing the
+quantiles of the resulting posterior distribution. In addition,
+distributions for the parameters in the model can be easily transformed
+into distributions of quantities that may be of interest are not
+directly estimated as part of the model. This is especially important in
+this context, because we are estimating parameters \(\theta\), but would
+like to also calculate implied quantities such as hazard rates or life
+expectancy.
+
+Another important aspect of the Bayesian approach is that it allows
+prior information about the parameters to be incorporated into the
+model. For example, it is expected that the mode age at death of the
+deaths distribution should be in the range of 70-85, and generally
+increase over time. Informative priors can be included in the model to
+incorporate this information. Thus, given these advantages, the methods
+proposed in the following sections will be fit within a Bayesian
+hierarchical framework.
+
+\section{Truncated Gompertz approach}\label{truncated-gompertz-approach}
+
+The first approach to estimate the truncated deaths distribution
+\(d^*_x\) is the Gompertz model (\citet{benjamin1825}). This model is
+one of the most well-known parametric mortality models. It does
+remarkably well at explaining mortality rates at adult ages across a
+wide range of populations, with just two parameters. The Gompertz hazard
+at age \(x\), \(\mu(x)\), has the exponential form
+\begin{equation}
+\mu(x) = \alpha e^{\beta x}.
+\end{equation}
+The \(\alpha\) parameter captures the starting level of mortality and
+the \(\beta\) parameter gives the rate of mortality increase over age.
+On the log scale, Gompertz hazards are linearly increasing across age:
+\begin{equation}
+\label{eq:logg}
+\log \mu(x) = \alpha + \beta x 
+\end{equation}
+Note here that \(x\) refers to the starting age of analysis and not
+necessarily age = 0. Indeed, in practice, the assumption of constant
+log-hazards is not realistic in younger age groups. In this application
+we are interested in modeling adult mortality, so younger ages are not
+an issue. There is, however, some evidence of mortality deceleration in
+the older ages (ages 90+), which would also lead to non-Gompertzian
+hazards (\citet{kannisto1988}; \citet{horiuchi1998}). Other parametric
+models have been proposed to account for this deceleration, which
+commonly include additional terms as well as the Gompertz \(\alpha\) and
+\(\beta\) (\citet{feehan2017}). The most parsimonious parametric
+approach is illustrated; however it could be extended to models with
+more parameters.
+
+Given the relationship between the hazard function and the survivorship
+function given in Eq.\ \ref{eq:mu}, the expression for the Gompertzian
+survivorship function is
+\begin{equation}
+l(x) = \exp\left(-\frac{\alpha}{\beta}\left(\exp(\beta x) - 1\right)\right)
+\end{equation}
+and it follows from Eq.\ \ref{eq:d} that the density of deaths at age
+\(x\), \(d(x)\) is
+\begin{equation}
+\label{eq:dgompertz}
+d(x) = \mu(x) l(x) = \alpha \exp(\beta x) \exp\left(-\frac{\alpha}{\beta}\left(\exp(\beta x) - 1\right)\right).
+\end{equation}
+
+\subsection{Reparameterization}\label{reparameterization}
+
+Estimates of the level and slope parameters \(\alpha\) and \(\beta\) in
+the Gompertz model are highly correlated. In general, the smaller the
+value of \(\beta\), the larger the value of \(\alpha\)
+(\citet{tai2017}). For example, Fig.\ \ref{plausible} shows values of
+\(\alpha\) and \(\beta\) that lead to mode ages of death within a
+plausible range (see Eq.\ \ref{eq:modeg} below). The figure illustrates
+two main points. Firstly, the plausible values of \(\alpha\) and
+\(\beta\) for human populations fall within a relatively small interval:
+\(\alpha\) is not likely to be greater than \(0.006\), and \(\beta\) is
+not likely to be greater than \(0.15\). Secondly, the strong negative
+correlation between the two parameters is apparent. A simulated study
+showed the correlation between estimated values of \(\alpha\) and
+\(\beta\) can be upwards of 0.95 (\citet{missov2015}), which is a
+statistical artifact rather than giving any insight into the ageing
+process or heterogeneity in frailty (\citet{burger2016}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.80000\textwidth]{fig/plausible_values.pdf}
+\caption{Plausible values of Gompertz parameters \(\alpha\) and
+\(\beta\) given a mode age of between 60-90 years. In general, the larger the value of $\alpha$, the smaller the value of $\beta$. The values of \(\alpha\) and
+\(\beta\) are limited to be below 0.006 and 0.15, respectively. \label{plausible}}
+\end{figure}
+
+The correlation between these parameters can cause estimation issues. As
+such, following past research (\citet{missov2015}; \citet{vaupel2014}) a
+re-parameterized version of the Gompertz model in terms of the mode age
+is considered. Under a Gompertz model, the mode age at death, \(M\) is
+(\citet{wachter2014})
+\begin{equation}
+\label{eq:modeg}
+M = \frac{1}{\beta}\log \left(\frac{\beta}{\alpha}\right).
+\end{equation}
+Gompertz hazards can thus be reparameterized in terms of \(M\) and
+\(\beta\):
+\begin{equation}
+\mu(x) = \beta \exp\left(\beta (x - M)\right).
+\end{equation}
+As \citet{missov2015} note, \(M\) and \(\beta\) are less correlated than
+\(\alpha\) and \(\beta\). In addition, the modal age has a more
+intuitive interpretation than \(\alpha\). The expression for the
+truncated deaths density \(d_x^*\) follows in the same way from
+Eqs.\ \ref{eq:d} and \ref{eq:dt}:
+\begin{eqnarray}
+d^*(x) &=& \frac{\mu(x) \cdot l(x)} {l(x_L) - l(x_U)}\\
+&=& \frac{\beta \exp\left(\beta (x - M)\right)\cdot \exp \left( -\exp \left(-\beta M \right) \left(\exp(\beta x)-1 \right)\right)}{\exp \left( -\exp \left(-\beta M \right) \left(\exp(\beta x_L)-1 \right)\right) - \exp \left( -\exp \left(-\beta M \right) \left(\exp(\beta x_U)-1 \right)\right)} \nonumber
+\label{eq:dtmode}
+\end{eqnarray}
+
+\subsection{Bayesian hierarchical
+model}\label{bayesian-hierarchical-model}
+
+Eq.\ \ref{eq:dtmode} gives a parametric expression for the
+distribution of deaths between ages \(x_L\) and \(x_U\) in terms of two
+parameters, \(\beta\) and \(M\). This section describes a strategy to
+estimate these parameters and associated uncertainty.
+
+Often when fitting a Gompertz process to observed mortality data,
+estimates of \(\alpha\) and \(\beta\) are obtained by regression
+techniques of mortality rates by age, based on Eq.\ \ref{eq:logg}. For
+example, a recent paper by Tai and Noymer compared different the
+performance of difference regression techniques in fitting Gompertz
+models to data from the Human Mortality Database (HMD)
+(\citet{tai2017}). However, in this situation, as discussed in Section
+\ref{sec:est}, parameters need to be estimated based on the non-linear
+deaths density \(d_x^*\).
+
+We propose a Bayesian hierarchical framework to estimate \(\beta\) and
+\(M\) over cohorts. Firstly, assume that we observe counts by age and
+cohort \(y_{c,x}\) between the ages \([x_{c,L}, x_{c,U}]\). Note the
+truncated age window can vary by cohort. The total number of deaths
+observed by cohort is equal to \(D_c\).
+
+From Eqs.\ \ref{eq:yx} and \ref{eq:D}, the observed deaths by age and
+cohort are distributed
+\begin{eqnarray}
+D_c &\sim & Poisson(N_c)\\
+y_{c,x} &\sim& Poisson(\lambda_{c,x})
+\end{eqnarray}
+where \(\lambda_{c,x} = N_c \cdot d^*_{c,x}\). In words, the total
+number of observed deaths in a cohort are a realization of a Poisson
+process with rate \(N_c\). The observed death counts by age are a
+realization of a Poisson process with a rate equal to the total deaths
+multiplied by the proportion of total deaths occurring at that age. In
+the Gompertz set up, from Eq.\ \ref{eq:dtmode} we have
+\[
+d_{c,x}^* = \frac{\mu(c,x) \cdot l(c,x)} {l(c,x_L) - l(c,x_U)}
+\]
+where \(\mu(c,x) = \beta \exp\left(\beta_c(x - M_c)\right)\) and
+\(l(c,x) = \exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x)-1 \right)\right)\).
+
+\subsubsection{\texorpdfstring{Priors on \(M_c\) and
+\(\beta_c\)}{Priors on M\_c and \textbackslash{}beta\_c}}\label{priors-on-m_c-and-beta_c}
+
+As part of the framework, prior distributions need to be specified on
+the \(M_c\) and \(\beta_c\) parameters. One option would be to put
+uninformative priors on both parameters, which treat each cohort
+independently. For example, relatively uninformative priors would be
+\[
+M_c \sim U(50, 90)
+\] and \[
+\beta_c \sim U(0.0001, 0.2).
+\]
+That is, both parameters are draws from Uniform distributions with
+bounds determined by plausible values of mortality
+(Fig.\ \ref{plausible}). However, this is modeling each cohort separately
+and does not allow for cohorts that may have fewer observed ages of
+death available to be informed by estimates of past cohorts. The value
+for \(\beta\) could increase or decrease over time, depending on the
+balance of mortality shifting and mortality compression
+(\citet{tuljapurkar2011}; \citet{bergeron2015}; \citet{tai2017}).
+However, we know from past trends that the mode age at death has been
+increasing fairly steadily across cohorts in developed countries
+(\citet{paccaud1998}; \citet{wilmoth1999}; \citet{canudas2008}). Thus we
+could incorporate this knowledge into the model in the form of a prior
+on \(M_c\) that has a temporal structure. For example, we chose to model
+\(M_c\) as a second-order random walk:
+\[
+M_c \sim N(2M_{c-1} - M_{c-2}, \sigma_M^2).
+\] 
+This set-up penalizes deviations away from a linear trend, and so the fit of $M_c$, especially over shorter time periods, is relatively linear. Second-order random walk priors have been used in
+past mortality modeling approaches (e.g\ \citet{alkemau52014}; \citet{currie2004}). 
+Other prior options for $M_c$ could include a linear model over cohort, or a times series model with drift; however the second-order random walk
+is less restrictive. The full model set-up becomes:
+\begin{eqnarray*}
+D_c &\sim & Poisson(N_c)\\
+y_{c,x} &\sim& Poisson(\lambda_{c,x})\\
+\lambda_{c,x} &=& N_c \cdot d^*_{c,x}\\
+d^*_{c,x} &=& \frac{\beta_c \exp\left(\beta_c (x - M_c)\right)\cdot \exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x)-1 \right)\right)}{\exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x_{c,L})-1 \right)\right) - \exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x_{c,U})-1 \right)\right)}\\
+\beta_c &\sim& U(0.0001, 0.2)\\
+M_c &\sim& N(M_{c-1} - M_{c-2}, \sigma_M^2)\\
+\sigma_M &\sim& U(0, 40)
+\end{eqnarray*}
+
+\section{Principal components regression
+approach}\label{principal-components-regression-approach}
+
+The Gompertz model relies on two parameters, which, while providing
+model parsimony, means the shape of the Gompertz death distribution is
+quite inflexible and may not be able to pick up real patterns in the
+observed data. There are many other parametric mortality models that
+could be considered, which include additional parameters for increased
+flexibility. For example, the Gompertz-Makeham model includes an
+additional parameter that is age-independent and aims to capture
+background/extrinsic mortality (\citet{makeham1860}). The Log-Quadratic
+model (\citet{steinsaltz2006}; \citet{wilmoth2012}) includes an
+additional parameter again to account for deceleration of mortality at
+advanced ages.
+
+While increasing the number of parameters in models increases the
+flexibility of the fit, this increased complexity means models are also
+often more difficult to fit, and there may be identifiable issues with
+some parameters (\citet{willemse2007}; \citet{girosi2008}). In addition,
+increasing the number of parameters may lead to model over-fitting.
+
+As an alternative to more complex parametric models, this section
+proposes a model framework based on data-derived principal components.
+The main idea is to use information about underlying mortality trends
+from existing data sources (a `mortality standard') to form the basis of a mortality model. Main
+patterns in death distributions from data are captured via Singular
+Value Decomposition (SVD) of age-specific death distributions. The SVD
+extracts `principal components', which describe main features of death
+distributions.
+
+Principal components create an underlying structure of the model in
+which the regularities in age patterns of human mortality can be
+expressed. These can be used as a basis for a regression framework to
+fit to the dataset of interest. Thus, instead of modeling \(d^*_x\) as a
+parametric distribution, as in Eq.\ \ref{eq:dtmode}, the model for
+\(d^*_x\) will be based on a principal components regression:
+\begin{equation}
+\textrm{logit } d^*_{x} =  P_{0,x} + \beta_{1} P_{1,x} + \beta_{2} P_{2,x}
+\end{equation}
+where
+\begin{itemize}
+%\tightlist
+\item
+  \(P_{0,x}\) is the mean death distribution (on the logit scale),
+  derived from a mortality standard;
+\item
+  \(P_{1,x}\) and \(P_{1,x}\) are the first two principal components
+  derived from the de-meaned mortality standard; and
+\item
+  The \(\beta_{d}\)'s are the coefficients associated with the principal
+  components.
+\end{itemize}
+Many different kinds of shapes of mortality curves can be expressed with
+different plausible values of the \(\beta\)'s. The death distribution is
+modeled on the logit scale and then transformed after estimation to
+ensure the estimated values are between zero and one.
+
+The use of SVD in demographic modeling and forecasting gained popularity
+after Lee and Carter used the technique as a basis for forecasting
+U.S.\ mortality rates (\citet{leecarter1992}). More recently, SVD has
+become increasingly used in demographic modeling, in both fertility and
+mortality settings. \citet{girosi2008} used this approach to forecast
+cause-specific mortality. \citet{schmertmann2014} used principal
+components based on data from the Human Fertility Database to construct
+informative priors to forecast cohort fertility rates. \citet{clark2016}
+use SVD as a basis for constructing model lifetables for use in
+data-sparse situations. \citet{alexander2017} used principal components
+to estimate and project subnational mortality rates. The SVD/principal
+components approach seems particularly suited to many demographic
+applications, due to the nature of demographic indicators being fairly
+stable across age and changing relatively gradually over time.
+
+\subsection{Obtaining principal
+components}\label{obtaining-principal-components}
+
+The SVD of matrix \(X\) is \[
+X = UDV^T.
+\] The three matrices resulting from the decomposition have special
+properties:
+
+\begin{itemize}
+%\tightlist
+\item
+  The columns of \(U\) and \(V\) are orthonormal, i.e.\ they are
+  orthogonal to each other and unit vectors. These are called the left
+  and right singular vectors, respectively.
+\item
+  \(D\) is a diagonal matrix with positive real entries.
+\end{itemize}
+
+In practice, the components obtained from SVD help to summarize some
+characteristics of the matrix that we are interested in, \(X\). In
+particular, the first right singular vector (i.e.\ the first column of
+\(V\)) gives the direction of the maximum variation of the data
+contained in \(X.\) The second right singular vector, which is
+orthogonal to the first, gives the direction of the second-most
+variation of the data, and so on. The \(U\) and \(D\) elements represent
+additional rotation and scaling transformations to get back the original
+data in \(X\).
+
+SVD is useful as a dimensionality reduction technique: it allows us to
+describe our dataset using fewer dimensions than implied by the original
+data. For example, often a large majority of variation in the data is
+captured by the direction of the first singular vector, and so even just
+looking at this dimension can capture key patterns in the data. SVD is
+closely related to Principal Components Analysis: principal components
+are derived by projecting data \(X\) onto principal axes, which are the
+right singular vectors \(V\).
+
+\subsubsection{The mortality standard: non-U.S.\ HMD
+data}\label{the-mortality-standard-non-u.s.hmd-data}
+
+To build a principal components regression framework, we need to choose
+a suitable mortality `standard', which forms the basis of the
+age-specific matrix of death distributions on which the SVD is
+performed. The chosen standard is based on cohort mortality information
+available through the HMD, excluding data for the U.S.. In this way, we
+obtain information about mortality patterns using all available
+high-quality data, without twice-using the U.S.\ data. This will enable the validation of models without overfitting. The proportion of
+total deaths between ages 50-105 at each age was calculated for each
+available cohort and country. This was done by multiplying the death
+rates and exposure to get an implied number of deaths by age, then
+calculating each age as a proportion of total deaths. The cohorts and
+countries used in the standard were restricted to those that have full
+information available across all ages.
+
+Fig.\ \ref{svd_data} shows the HMD data on death distributions by cohort
+and country from which the principal components are derived. Note that
+the distributions are plotted on the logit scale. Data are available
+from 23 different countries, across 118 different cohorts from
+1850-1910. For some countries and cohorts, the death proportions are
+quite noisy, for example for many of the cohorts in Israel (ISL).
+However, the idea of SVD is that the first few principal components will
+pick up the main patterns in these death distributions.
+
+\begin{figure}
+\centering
+\includegraphics[width=1.00000\textwidth]{fig/svd_data.pdf}
+\caption{Death distributions in HMD by country and cohort, ages 55-105. The plots show the proportion of deaths at each age, plotted on the logit scale. Each line is a different cohort. 
+\label{svd_data}}
+\end{figure}
+
+SVD is performed on a matrix of demeaned logit proportions of deaths at
+each age between 50 and 105. The matrix has dimensions of
+\(1129 \times 56\), as there are 1129 country-cohort observations and 56
+ages. Fig.\ \ref{hmd_pcs} shows the mean death distribution and first two
+principal components obtained from this
+matrix.\footnote{Note we refer to the right singular vectors as `principal components'. They are technically `principal axes'. }
+The mean schedule gives a shape of baseline mortality across the ages,
+with mortality peaking at around age 75. The first principal component
+could be interpreted as the average contribution of each age to
+mortality change over time. Note that there is a sign switch of this
+component at around age 80: proportions at younger ages decrease over
+time, whereas proportions at older ages increase. The second principal
+component is related to the shift or compression of mortality around the
+mode age at death over time.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.90000\textwidth]{fig/hmd_pcs.pdf}
+\caption{Mean death schedule and first two principal components derived
+from HMD data shown in Fig.\ \ref{svd_data}. The components are derived from data transformed to be on the logit scale. \label{hmd_pcs}}
+\end{figure}
+
+To reiterate, the idea is to use these three components as the basis of
+a regression framework. Different values of the regression coefficients
+lead to different death distributions. Fig.\ \ref{two_curves} shows two
+example death distributions that can be derived from the combination of
+the curves shown in in Fig.\ \ref{hmd_pcs}. For the red curve, the
+coefficient on the first principal component is relatively low, and the
+coefficient on the second component is relatively high, meaning that
+deaths are shifted to the left and more spread out compared to the blue
+curve.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.55000\textwidth]{fig/two_curves.pdf}
+\caption{Two example death distributions based on different linear
+combinations of curves in Fig.\ \ref{hmd_pcs}. For the red curve, the
+equation is
+\(\textrm{logit }^{-1}(P_{0,x} + 2.5 P_{1,x} + 1.25 P_{2,x})\). For the
+blue curve the equation is
+\(\textrm{logit }^{-1}(P_{0,x} + 6 P_{1,x} + 0.8 P_{2,x})\).
+\label{two_curves}}
+\end{figure}
+
+\subsection{Bayesian hierarchical
+model}\label{bayesian-hierarchical-model-1}
+
+The three principal components described above are used as the basis of
+a regression model within a hierarchical framework to model death
+distributions over cohorts.
+
+As before we have observed counts by age and cohort \(y_{c,x}\) between
+the ages \([x_{c,L}, x_{c,U}]\). The sum of these observed deaths is
+equal to \(D_c\). As before we have
+\begin{eqnarray*}
+D_c &\sim & Poisson(N_c)\\
+y_{c,x} &\sim& Poisson(\lambda_{c,x})
+\end{eqnarray*}
+where \(\lambda_{c,x} = N_c \cdot d^*_{c,x}\). Now \(d^*_{c,x}\) is
+modeled on the logit scale as
+\begin{equation}
+\textrm{logit } d^*_{c,x} =  P_{0,x} + \beta_{1,c} P_{1,x} + \beta_{2,c} P_{2,x}
+\end{equation}
+where
+
+\begin{itemize}
+%\tightlist
+\item
+  \(P_{0,x}\) is the mean death distribution on the logit scale.
+\item
+  The \(P_{1,x}\) and \(P_{2,x}\) are the first two principal component
+  of the standard logit death distributions, shown in the second and
+  third panels of Fig.\ \ref{hmd_pcs}.
+\item
+  The \(\beta_{d,c}\)s are the coefficients associated with the
+  principal components.
+\end{itemize}
+
+Note that this is a two parameter model for each cohort, with each of
+the \(\beta_{d,c}\) needing to be estimated. In a similar way to the
+Gompertz model, each cohort could be modeled independently, with
+non-informative priors put on the \(\beta\) coefficients. However,
+estimates of \(\beta\) are likely to be autocorrelated, and so a time
+series model is placed on the \(\beta_{d,c}\)'s. Assuming a temporal
+model on the principal component coefficients aids in the sharing of
+information about mortality distributions across cohorts, allowing
+cohorts with relatively few available data points to be partially
+informed by more data-rich cohorts.
+
+Looking at the interpretation of the principal components used in the
+model (Fig.\ \ref{hmd_pcs}), the first principal component most likely
+represents a shift in mortality away from younger ages and towards older
+ages. As such, we expect the coefficient on this principal component to
+broadly increase over time. As such, similarly to the model age parameter in the Gompertz model, the second-order differences in the
+\(\beta_{1,c}\) are penalized, which is equivalent to penalizing
+fluctuations away from a linear trend, while still allowing for a
+certain degree of flexibility in the trend over time.
+\[
+\beta_{1,c} \sim N(2\beta_{1,c-1} - \beta_{1,c-1}, \sigma^2_{1}).
+\]
+In terms of principal component 2, it is less clear intuitively what the
+trends should be over time. As such coefficients are modeled as a random
+walk across cohorts, which is slightly less restrictive than the model
+for \(\beta_{1,c}\): \[
+\beta_{2,c} \sim N(\beta_{2,c-1}, \sigma^2_{2})
+\]
+\subsubsection{\texorpdfstring{Constraint on
+\(d^*_x\)}{Constraint on d\^{}*\_x}}\label{constraint-on-d_x}
+
+For the principal components regression model, there needs to be an
+additional constraint placed of the principal components
+\(\beta_{d,c}\). The model as explained above does not necessarily
+ensure that the sum of the resulting deaths distribution \(d^*_x\)
+equals 1. However, this is a fundamental property of \(d^*_x\): over the
+population of interest, all people must die eventually. As such, an
+additional constraint is added to the model to ensure that
+\(\sum d^*_x = 1\).
+
+By imposing \(\sum d^*_x = 1\), combinations \(\beta_{d,c}\) that lead
+to the constraint not being met are given a probability of 0. In
+practice, initial values of \(\beta_{d,c}\) need to be specified in
+order to ensure the Gibbs Sampler stays within the constraint. To obtain
+plausible initial values, the model was first run with no constraint,
+and then initial values were chosen based on the unconstrained estimates
+which were close to resulting in \(\sum d^*_x = 1\).
+
+The full principal components model set-up is:
+\begin{eqnarray*}
+D_c &\sim & Poisson(N_c)\\
+y_{c,x} &\sim& Poisson(\lambda_{c,x})\\
+\lambda_{c,x} &=& N_c \cdot d^*_{c,x}\\
+\textrm{logit } d^*_{c,x} &=& P_{0,x} + \beta_{1,c} P_{1,x} + \beta_{2,c} P_{2,x}\\
+d^*_c &=& \sum_x d^*_{c,x} = 1 \\
+\beta_{d,c} &\sim& N(2\beta_{d,c-1} - \beta_{d,c-2}, \sigma^2_{d}) \textrm{ for } d = 1\\
+\beta_{d,c} &\sim& N(\beta_{d,c-1}, \sigma^2_{d}) \textrm{ for } d = 2\\ 
+\sigma_d &\sim& U(0, 40)
+\end{eqnarray*}
+
+\section{Illustration and comparison of
+models}\label{illustration-and-comparison-of-models}
+
+The performance of the two models is illustrated by fitting to
+U.S.\ mortality data obtained through the HMD (\citet{hmd2018}). This
+section describes the data available in the HMD and the resulting fits
+based on both the Gompertz and principal component approaches. The
+performance of the two methods is compared based on several in- and
+out-of-sample diagnostic measures.
+
+\subsection{Data}\label{data-1}
+
+The two models are fit to HMD data for U.S.\ males for cohorts 1900-1940,
+for ages 50-105. In order to fit to comparable data available in CenSoc,
+the cohort-based death rates and exposure to risk by age are converted
+into implied death counts by age. Fig.\ \ref{hmd_us_dx} shows death
+counts by age and cohort. While data on the deaths distribution is
+complete for older, already extinct cohorts, only part of the deaths
+distribution is available for the younger cohorts.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65000\textwidth]{fig/hmd_us_dx.pdf}
+\caption{Death counts by age, United States, males, cohorts 1900-1940,
+ages 50-105. Each line is a different cohort. Data come from the HMD. \label{hmd_us_dx}}
+\end{figure}
+
+\subsection{Computation}\label{computation}
+
+The hierarchical model frameworks specified above were fit within
+Bayesian frameworks using the statistical software R. Samples were taken
+from the posterior distributions of the parameters via a Markov Chain
+Monte Carlo (MCMC) algorithm. This was performed using JAGS software
+\citep{plummer2003}. Standard diagnostic checks using trace plots and
+the Gelman and Rubin diagnostic \citep{gelman1992} were used to check
+convergence.
+
+For the principal components approach, initial values \(\beta_{d,c}^*\)
+for the coefficients on the principal components were chosen to ensure
+that \(\sum_x d^*_{c,x} = 1\). These were obtained by first running the
+model without constraints to get an idea of plausible coefficient
+estimates. Initial values were chosen such that
+\[
+\textrm{logit} ^{-1} \left(\sum_x P_{0,x} + \beta_{1,c}^* P_{1,x} + \beta_{2,c}^* P_{2,x} \right) = 1
+\]
+Best estimates of all parameters of interest were taken to be the median
+of the relevant posterior samples. The 95\% Bayesian credible intervals
+were calculated by finding the 2.5\% and 97.5\% quantiles of the
+posterior samples.
+
+\subsection{Converting estimates to other measures of
+mortality}\label{converting-estimates-to-other-measures-of-mortality}
+
+In both the Gompertz and principal components approaches, we obtain
+samples from the estimated posterior distribution of \(d^*_{x}\),
+i.e.\ the (truncated) deaths distribution across age. These quantities
+can be converted into other mortality indicators, such as life
+expectancy at age 50, by utilizing standard relationships between life
+table quantities (\citet{preston2000}; \citet{wachter2014}). In
+particular, the proportion of people surviving to each age, \(l_x\), is
+calculated using reverse survival,
+\[
+l_x = 1 - \sum_{x+1}^{\omega} d^*_x
+\] i.e.\ the proportion alive at age \(x\) is 1 minus the sum of those
+who died in age groups above age \(x\), where \(\omega\) is the last age
+group (in this case, 105). The person-years lived between ages \(x\) and
+\(x+1\), i.e.\ \(L_x\) is estimated as
+\[
+L_x = \frac{l_x + l_{x+1}}{2}.
+\] The person-years lived above age \(x\) is then
+\[
+T_x = \sum_x L_x
+\] and the life expectancy at age \(x\) is then
+\[
+e_x = \frac{T_x}{l_x}.
+\]
+The above life table relationships are calculated based on all samples
+from the posterior distribution of \(d^*_{x}\), resulting in a set of
+samples for \(e_x\). The corresponding 95\% credible intervals around
+the estimates of \(e_x\) can be calculated based on the \(2.5\)th and
+\(97.5\)th percentiles of the samples.
+
+\subsection{Gompertz results}\label{gompertz-results}
+
+Results from fitting the truncated Gompertz hierarchical model are shown
+in Figs.\ \ref{hmd_M}-\ref{hmd_fits}. The mode age of death is steadily
+increasing over time, from around age 76 in cohort 1900 to 84 in cohort
+1940 (Fig.\ \ref{hmd_M}). In terms of the Gompertz slope parameter, after
+remaining fairly constant in the earlier cohorts, the estimate for
+\(\beta\) decreases across cohorts 1915-1925. Since 1925, however, the
+estimated values of \(\beta\) have stagnated.
+
+The uncertainty intervals around the estimates for both \(M\) and
+\(\beta\) increased for the younger cohorts. This reflects the fact that
+less data are available in the cohorts. For example, for the 1940
+cohort, observed death counts in HMD are only available up to age 74. As
+such, the model is fitting a deaths distribution across all ages based
+on only partial information about the shape of the distribution from the
+data.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65000\textwidth]{fig/hmd_M.pdf}
+\caption{Estimates of Gompertz mode age of death, United States. Median posterior estimates are shown by the dots. The shaded area represents the 95\% uncertainty interval. 
+\label{hmd_M}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.65000\textwidth]{fig/hmd_beta.pdf}
+\caption{Estimates of Gompertz \(\beta\), United States. Median posterior estimates are shown by the dots. The shaded area represents the 95\% uncertainty interval. 
+\label{hmd_beta}}
+\end{figure}
+
+Fig.\ \ref{hmd_fits} illustrates the fitted death distributions in
+comparison with the available data for nine cohorts between 1900-1940.
+In general, the truncated Gompertz model captures the main
+characteristics of the shape of the distributions well, as well as
+changes across cohorts. In the older cohorts in particular, the Gompertz
+curve is not an exact fit to the HMD data, and seems to place too much
+mass around the mode age of death, and not enough mass on younger ages
+of death (60-70). For cohorts younger than the 1925 cohort, the model is
+fitting the full curve based on only having data on the left side, with
+no real information about the modal age of death. However, fits for
+these cohorts are partially informed by past cohorts, through the
+temporally-correlated prior that was placed on \(M\).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95000\textwidth]{fig/hmd_fits.pdf}
+\caption{Truncated Gompertz model estimates and HMD data of deaths by age for nine cohorts between 1900 and 1940. Data from HMD are shown by the red dots. The estimates and associated 95\% uncertainty intervals are shown by the black lines and shaded areas.
+\label{hmd_fits}}
+\end{figure}
+
+\subsection{Principal component regression
+results}\label{principal-component-regression-results}
+
+Results from fitting the principal components regression model are shown
+in Fig.\ s \ref{hmd_pc_betas} and \ref{hmd_lc_fits}. The coefficient on
+the first principal component steadily increased over cohorts
+(Fig.\ \ref{hmd_pc_betas}). This represents a shift in the mass of the
+deaths distribution away from younger ages and towards the older ages.
+The coefficient on the second principal component broadly decreased over
+cohorts, but remained positive. Note that the uncertainty around the
+coefficient estimates increases across cohorts, as less information
+about the shape of the deaths distribution is available.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8000\textwidth]{fig/hmd_pc_betas.pdf}
+\caption{Estimates of principal component coefficients $\beta_{1,c}$ (left) and $\beta_{2,c}$ (right) across cohorts. Median posterior estimates are shown by the black lines. The shaded areas represent the 95\% uncertainty intervals.  
+\label{hmd_pc_betas}}
+\end{figure}
+
+Fig.\ \ref{hmd_lc_fits} illustrates the fitted death distributions in
+comparison with the available data for nine different cohorts between
+1900-1940. In general, the principal components model seems to produce
+fairly similar fits to the Gompertz model. However, especially in
+younger cohorts, the uncertainty around estimates is larger.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95000\textwidth]{fig/hmd_pc_fits.pdf}
+\caption{Principal component estimates and HMD data of deaths by age for nine cohorts between 1900 and 1940. Data from HMD are shown by the red dots. The estimates and associated 95\% uncertainty intervals are shown by the black lines and shaded areas.
+\label{hmd_lc_fits}}
+\end{figure}
+
+\subsection{Comparison of models}\label{comparison-of-models}
+
+Figs.\ \ref{hx_both} illustrates the estimates of the hazard rate at
+each age \(x\) on the log scale for the two models. A key assumption of
+the Gompertz model is that hazards are assumed to be log-linear, which
+is illustrated by the estimates in the left-hand panel. In contrast, the
+estimated hazards from the principal components model are not quite
+log-linear, with evidence of an increasing slope at older ages. For both
+models, hazards are decreasing across cohort.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85000\textwidth]{fig/hx_both.pdf}
+\caption{Estimated (log) hazard rates by cohort for the truncated Gompertz (left) and principal components model (right). Each line represents a different cohort. \label{hx_both}}
+\end{figure}
+
+Fig.\ \ref{le_both} shows the estimates of life expectancy at age 50
+(\(e_{50}\)) across cohorts for the two models. The estimates are quite
+similar across the two models for earlier cohorts, but start to diverge
+around the 1920 cohort, where there is lessening information available
+about the shape of the mortality curve. However, the estimates start to
+converge again in more recent cohorts, and there is no significant
+difference between the estimates by 1940. The uncertainty around the
+principal components is slightly larger in later cohorts.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85000\textwidth]{fig/le_both.pdf}
+\caption{Estimated life expectancy at age 50 by cohort for the Gompertz (red line) and principal components (blue line) models. The median estimates are shown as the lines, and 95\% uncertainty intervals are shown by the shaded areas.  \label{le_both}}
+\end{figure}
+
+\subsubsection{Model Performance}\label{model-performance}
+
+Several measures are considered to compare the performance of the
+Gompertz and principal components models based on estimates of
+U.S.\ mortality using HMD.
+
+Firstly, the relative performance of the models was assessed using the
+Watanabe-Akaike or widely available information criterion (WAIC), which
+measures a combination of model fit and a penalty based on the number of
+parameters (\citet{vehtari2017}). The lower the WAIC, the better the
+model. The Gompertz model resulted in a WAIC of -3876 compared to -4309
+for the principal components model. Thus, based on this measure, the
+principal components model outperforms the Gompertz model.
+
+Secondly, the root mean squared error (RMSE) of fitted values compared
+to HMD values was estimated, across both age and cohort. RMSE across
+cohorts is defined as:
+\begin{equation}
+\text{RMSE} = \sqrt{\frac{1}{A}\sum_{x=1}^A(\hat{y}_{c,x} - y_{c,x}^*)^2},
+\end{equation}
+where \(\hat{y}_{c,x}\) is the estimated death count at age \(x\) for
+cohort \(c\), \(y_{c,x}^*\) is the true mortality rate and \(A\) is the
+number of ages. In a similar way, the RMSE across age is
+\begin{equation}
+\text{RMSE} = \sqrt{\frac{1}{C}\sum_{c=1}^C(\hat{y}_{c,x} - y_{c,x}^*)^2},
+\end{equation}
+where \(C\) is the number of cohorts. Figs.\ \ref{rmse_cohort} and
+\ref{rmse_age} plot the RMSE across cohort and age for each model. In
+terms of both cohort and age, for the most part, the principal
+components model has a lower RMSE.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.80000\textwidth]{fig/rmse_cohort.pdf}
+\caption{RMSE by cohort for the Gompertz (red line) and principal components (blue line) models. \label{rmse_cohort}}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.80000\textwidth]{fig/rmse_age.pdf}
+\caption{RMSE by age for the Gompertz (red line) and principal components (blue line) models. \label{rmse_age}}
+\end{figure}
+
+One final measure that was considered to compare the two models was the
+coverage of the prediction intervals. Given that observed death counts
+by age are distributed \[
+y_{c,x} \sim Poisson(\lambda_{c,x})
+\] new observations of deaths by age and cohort, \(y^{new}_{c,x}\) can
+be predicted based on this distribution. Repeating this simulation many
+times gives a posterior predictive distribution of \(y_{c,x}\).
+Prediction intervals can be calculated based on this distribution and
+the coverage of such intervals assessed. For example, we would expect
+95\% prediction intervals of \(y^{new}_{c,x}\) to include the observed
+values \(y_{c,x}\) 95\% of the time.
+
+Fig.\ \ref{cov_cohort} illustrates the coverage of 95\% prediction
+intervals across cohorts for both models. Coverage of the intervals for
+both models are lower than expected for the earlier cohorts; however,
+from around the 1915 cohort, the coverage is at least 95\%. This
+suggests the uncertainty intervals are reasonably well calibrated.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.70000\textwidth]{fig/coverage_cohort.pdf}
+\caption{Coverage of 95\% prediction intervals for the Gompertz (red line) and principal components (blue line) models. If the uncertainty intervals are well-calibrated, the coverage of the prediction intervals would be expected to be 95\%. \label{cov_cohort}}
+\end{figure}
+
+\subsection{Discussion}\label{discussion}
+
+Both models fit reasonably well to HMD data, capture the main patterns
+in the death distribution and how it changes across cohorts. These
+models illustrate how underlying demographic structures can be fit
+within a Bayesian framework to get plausible estimates of death
+distributions when only truncated data are available. The principal
+components model appears to slightly out-perform the Gompertz model
+across several different measures. In particular, the WAIC and RMSE
+measures were lower for the principal components model, suggesting that
+it does a better job at fitting to the HMD data.
+
+The advantage of the principal components approach is that the
+underlying mortality structure is determined from real mortality data
+across a wide range of populations and time periods. The model is more
+flexible and better able to fit to death distributions that do not
+follow a simple parametric form. Thus, complex patterns in mortality
+data can be captured with relatively few parameter inputs. However, from
+a computational perspective, the principal components model requires
+initial conditions to be chosen to satisfy the constraint on the death
+distribution. In addition, fitting the principal components method
+requires extra data processing to obtain usable principal components,
+and decisions need to be made about the appropriate mortality standard.
+While non-U.S.\ HMD data was used as standard, potentially any standard
+could be chosen, and more than two principal components could be
+included into the model.
+
+While the Gompertz model did not statistically perform quite as well as
+the principal components model, it still has the advantage of being a
+well-known, simple parametric model. Gompertz parameters are easily
+interpreted and can be compared across different populations and
+studies. There is no requirement for a particular mortality standard to
+be chosen and justified. In summary, there are advantages and
+disadvantages to both methods, and model performance is reasonable for
+both options.
+
+\section{Estimating mortality inequalities using
+CenSoc}\label{estimating-mortality-inequalities-using-censoc}
+
+In this section, the mortality modeling approaches discussed above are
+applied to the CenSoc dataset to estimate mortality outcomes across
+cohorts and socioeconomic status (SES). In particular, mortality
+differences are estimated across education and income groups.
+
+Given the relative performance of the two modeling approaches in fitting
+to the HMD data, the principal components model is used to estimate the
+death distributions by cohort and SES. This approach appears to offer
+slightly more flexibility in fitting to, and capturing, the main
+characteristics of the partially observed death
+distributions.\footnote{Note that the Gompertz approach was also fitted to the CenSoc data by SES group, with the resulting estimates being very similar to those produced by the principal components method.}
+The method can be extended to allow for differing mortality trends by
+socioeconomic group, as shown below.
+
+\subsection{Mortality trends by education
+group}\label{mortality-trends-by-education-group}
+
+Education can affect mortality outcomes through a variety of different
+pathways (\citet{hummer1998}; \citet{elo2009}). Education may indirectly
+affect mortality and health outcomes through being associated with
+higher income, thereby increasing an individual's available resources to
+spend on health. Greater access to education also allows individuals to
+make more informed decisions about their health and lifestyle choices.
+Education may also mean increased social support, less exposure to acute
+and chronic stress, and a greater cognitive ability to cope with
+stressful situations.
+
+As an SES measure, education has the advantage of having temporally
+stable defined categories over time. In addition, unlike income or
+occupation, education changes very little over the lifecourse. It
+reflects the stock of human capital established relatively early in life
+that is available to individuals throughout their life course
+(\citet{elo2009}).
+
+We use CenSoc to estimate the relationship of years of schooling and
+mortality across cohorts. The 1940 census contains information on the
+number of years of schooling, from zero to 17+ years. The number of
+years of schooling was recoded into six levels:
+
+\begin{itemize}
+%\tightlist
+\item
+  less than middle school (less than 8 years)
+\item
+  middle school (8 years)
+\item
+  some high school (8-11 years)
+\item
+  high school (12 years)
+\item
+  some college (13-15 years)
+\item
+  college or more (16+)
+\end{itemize}
+
+The analysis includes the 25 birth cohorts 1890-1915, meaning the
+respondents were at least 25 years old at the time of the census.
+
+The principal components modeling framework described in Section 6 is
+extended to allow the principal component coefficients \(\beta_1\) and
+\(\beta_2\) to vary not only by cohort \(c\) but also by education level
+\(g\). As before, the mean death distribution and the two principal
+components were derived from cohort-based HMD data across all available
+countries. The principal component coefficients \(\beta\) were modeled
+using random walks across cohorts for each education group. The full
+model is:
+\begin{eqnarray*}
+D_{c,g} &\sim & Poisson(N_{c,g})\\
+y_{c,g,x} &\sim& Poisson(\lambda_{c,g,x})\\
+\lambda_{c,g,x} &=& N_{c,g} \cdot d^*_{c,g,x}\\
+\textrm{logit } d^*_{c,g,x} &=& P_{0,x} + \beta_{1,c,g} P_{1,x} + \beta_{2,c,g} P_{2,x}\\
+d^*_{c,g} &=& \sum_x d^*_{c,g,x} = 1 \\
+\beta_{d,c,g} &\sim& N(2\beta_{d,g,c-1} - \beta_{d,g, c-2}, \sigma^2_{d,g}) \textrm{ for } d = 1\\
+\beta_{d,c,g} &\sim& N(\beta_{d,g,c-1}, \sigma^2_{d,g}) \textrm{ for } d = 2\\ 
+\sigma_{d,g} &\sim& U(0, 40)
+\end{eqnarray*}
+Estimates and uncertainty for life expectancy at age 50 can be obtained
+using samples from the estimated posterior distribution of
+\(d^*_{c,g,x}\). Life expectancy at age 50 is calculated for each cohort
+and education group, i.e.\ \(e_{50, c, g}\).
+
+\subsubsection{Results}\label{results}
+
+Fig.\ \ref{censoc_educ_dx} shows the distribution of deaths by age and
+education level for different cohorts. The available data is shown by
+the dots, and the resulting estimate and 95\% credible intervals are
+shown by the colored lines and associated shaded area. This figure
+illustrates the changing distribution of education across cohorts. In
+the older cohorts, the largest groups were those who had less than a
+high school education. Over time the largest group becomes those with a
+high school certificate. Fig.\ \ref{censoc_educ_dx} also illustrates the
+differing amounts about ages of death information available by cohort.
+For the older cohorts, we observe the deaths at older ages, while the
+opposite is true for younger cohorts. Thus, moving through cohorts we
+observe the shape of the death distribution on the right, moving to the
+left.
+
+\begin{figure}
+\centering
+\includegraphics[width=1.00000\textwidth]{fig/censoc_educ_dx.pdf}
+\caption{Estimated and observed death counts in CenSoc by education
+level, cohorts 1890-1915. The available data are shown by the dots, the estimates and associated 95\% uncertainty intervals are shown by the lines and shaded areas.  \label{censoc_educ_dx}}
+\end{figure}
+
+Estimates and 95\% uncertainty intervals for life expectancy at age 50
+by education group are shown in Fig.\ \ref{le_educ}. In general,
+mortality disparities between the least and most-educated groups are
+increasing over time. For the older cohorts, life expectancy appeared to
+be generally increasing for all education groups, with no significant
+difference in the estimates; however, since around 1900 there has been a
+divergence in outcomes.
+
+For those in the education groups who had a high school certificate or
+higher, life expectancy increased across cohorts. For example,
+\(e_{50}\) those who had a college degree or higher increased from
+around 26.2 years to 28.5 years over the cohorts 1890-1915. The
+\(e_{50}\) is consistently around 1 year lower for those who had at
+least some post high school education but had not completed the college
+degree. The \(e_{50}\) for the high school group also increased over
+cohorts, although there was a period of stagnation between cohorts
+1900-1915. There is no significant difference in the life expectancy for
+those with high school only and those with some post high school
+education.
+
+For those population groups with less than high school, life expectancy
+stagnated or declined. Interestingly, there is very little difference in
+\(e_{50}\) for those who have 8 years of schooling compared to those who
+have some high school education. For the 1915 cohort, the estimate of
+\(e_{50}\) for these groups was around 3.5 years less than the most
+educated group. Life expectancy for those with less than middle school
+education initially increased, but has declined over time since around
+cohort 1897.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.70000\textwidth]{fig/le_education.pdf}
+\caption{Life expectancy at age 50 by education level, cohorts
+1890-1915. The shaded areas represent 95\% uncertainty intervals. \label{le_educ}}
+\end{figure}
+
+These results are broadly consistent with previous research which
+observes increasing disparities in mortality across education over time.
+Previous research has illustrated the clear education gradient in
+mortality that exists in the United States, with most studies finding
+the mortality differential between the lowest and highest education
+groups has increased over time (\citet{masters2012}; \citet{hummer2013};
+\citet{hendi2015}; \citet{krueger2015}). Fig.\ \ref{le_educ} suggests the
+widening disparity is a consequence of both increases in the higher
+education groups, and decreases in the lower-educated groups. As
+illustrated in Fig.\ \ref{censoc_educ_dx}, the least-educated groups are
+decreasing in size over cohort, and those left in the lowest education
+group may be becoming a more selective group with relatively worse
+outcomes.
+
+\subsection{Mortality trends by
+income}\label{mortality-trends-by-income}
+
+Mortality outcomes are strongly associated with income level, both at
+the individual and aggregate levels (\citet{preston1975};
+\citet{deaton2001}). Higher income can improve mortality in the absolute
+sense, through the availability of greater resources. Individual income
+may be important in the relative sense, through its relation to
+determining social class. For example, Wilkinson and Pickett argue that
+income mostly affects health and mortality through the psychosocial
+factors associated with an individual's relative position in the social
+hierarchy (\citet{wilkinson2006}; \citet{pickett2015}).
+
+The main measure of income in the 1940 census is the respondent's total
+pre-tax wage and salary income for the previous year. Thus, there is
+only one observation of each person's income in 1940, and so the
+mortality analysis by income group is based on this historical measure
+of income, rather than income near the time of death. As the observation
+window of deaths is 1975-2005, the income measure is at least 35 years
+prior to death. This has the disadvantage of being outdated information
+and not reflective of an individual's wealth at a time closer to death.
+However, historical income is mostly likely strongly correlated with
+more recent income, and so this measure is still a proxy for more recent
+SES. In addition, the historical measure of income may be less subject
+to reverse causality issues, that is, the possibility that someone who
+is suffering from a serious illness is unlikely to be working full time.
+
+The analysis above is repeated by broad income group. Income groups are
+defined based on the quartile of an individual's income from wages in
+1940 for the relevant age group. Those with zero income are removed from
+the analysis, as they are likely to be self-employed and include many
+high income individuals. The same modeling framework defined in the
+previous section was fit to birth cohorts 1890-1915, divided into the
+four income groups. Life expectancy at age 50 for each cohort and income
+group, i.e.\ \(e_{50, c, g}\), was again calculated based on the
+posterior samples of the truncated death distribution \(d^*_{c,g,x}\).
+
+\subsubsection{Results}\label{results-1}
+
+Fig.\ \ref{le_inc} shows the estimates and 95\% uncertainty intervals for
+life expectancy at age 50 by income group across the 25 birth cohorts.
+Up until around 1900, there was no significant difference in the
+estimates across income groups. For cohorts younger than 1900, however,
+life expectancy has increased for the two highest groups, i.e.\ those who
+had higher than median income, and decreased for those groups below
+median income, such that the life expectancy gap in the 1915 cohort was
+around 1.5 years. While the higher income groups experienced improving
+mortality conditions, life expectancy in the lower income showed some
+evidence of stagnation or decline. The lowest income group had declining
+life expectancy until cohort 1905, although this has stagnated in more
+recent cohorts. In general, mortality inequality has increased over
+time. This observation is broadly consistent with other studies, which
+find evidence for increasing mortality inequality across income at both
+the individual and county levels, and a stagnation of progress in the
+lower income groups (\citet{waldron2007}; \citet{bosworth2014};
+\citet{chetty2016}; \citet{currie2016}).
+
+\begin{figure}
+\centering
+\includegraphics[width=0.70000\textwidth]{fig/le_inc.pdf}
+\caption{Life expectancy at age 50 by income group, cohorts 1890-1915. The shaded areas represent 95\% uncertainty intervals.
+\label{le_inc}}
+\end{figure}
+
+\section{Discussion}\label{discussion-1}
+
+This paper described `CenSoc', a dataset which was created using the
+1940 U.S.\ Census and Social Security Deaths Masterfile, and contains
+over 7.5 million records that link individual's demographic,
+socioeconomic and geographic information with their age and date of
+death. This dataset is available for researchers to study mortality
+disparities and changes in the United States.
+
+In contrast to many studies of socioeconomic inequalities in mortality,
+which use data at the aggregate level, CenSoc provides information at
+the individual level, so that mortality outcomes can be directly related
+to SES. The large number of records available in CenSoc provides greater
+statistical power in analysis compared to other smaller linked datasets
+such as the NHIS Linked Mortality Files or the National Longitudinal
+Mortality Study. In addition, the mortality estimates do not rely on
+comparing deaths data from one source to population data from another
+source, thereby avoiding common problems associated with
+numerator-denominator bias when studying mortality by race, for example
+(\citet{preston1999}; \citet{black2017}).
+
+By construction, CenSoc only contains individuals that 1) died in the
+period 1975-2005; and 2) were successfully matched across the two
+datasets. As a consequence, the mortality information available in
+CenSoc is of the form of left- and right-truncated deaths by age, with
+no information about the relevant population at risk at any age or
+cohort. This means that, apart from extinct cohorts (those that have
+reached an age in 2005 where there are very few or no survivors),
+standard techniques of survival analysis and mortality estimation cannot
+be used. As such, a second part of this paper was to develop mortality
+estimation methods in order to best to utilize the `deaths without
+denominators' information contained in CenSoc. Two methods of estimating
+the truncated deaths distribution across age, cohort (and potentially
+other population subgroups) were presented. Both methods were fit in a
+Bayesian setting, which allowed for the incorporation of priors on
+parameters of interest, and also allowed for uncertainty in the
+resulting estimates and other quantities of interest, such as life
+expectancy, to be reported, with minimal additional calculations.
+
+The first was a parametric approach, modeling death distributions under
+the assumption of Gompertz hazards. A particular contribution of this
+approach was to formulate the Gompertz model as a Bayesian hierarchical
+framework, which allowed somewhat informative priors to be placed on the
+mode age at death and how it changed over time. Placing structure on
+trends over cohort accounts for autocorrelation in mortality trends and
+has the additional benefit of providing a clear framework for the
+projection of mortality trends into the future. Results of fitting the
+truncated Gompertz model to HMD data for the United States gave
+reasonable results. However, discrepancies between the fitted and
+observed death distributions, as well as the relatively narrow
+uncertainty intervals around the estimates, highlighted the inherent
+lack of flexibility of the Gompertz approach.
+
+The second modeling approach presented was the principal components
+model. In contrast to a purely parametric model, this approach extracts
+key patterns from high-quality mortality data and uses them as the basis
+of a regression for the death distributions over age and cohort. The
+death distributions are thus modeled as a combination of these key
+mortality patterns, and changes in the relative combinations over time
+are estimated within a Bayesian hierarchical framework. The principal
+components approach offered a greater flexibility compared to the
+Gompertz model, and generally produced lower root mean squared errors
+and better coverage of uncertainty intervals when fit to HMD data.
+
+After testing on HMD data, the principal components model was then used
+to estimate mortality outcomes by education and income using the CenSoc
+dataset. Differences by group were estimated across 25 birth cohorts
+from 1890 to 1975. Results suggest that both the education and income
+gradient in adult mortality has increased over time. This is a
+consequence not only of life expectancy in the highest education/income
+groups increasing at a faster rate, but also of life expectancy in the
+lowest SES groups stagnating, or even declining in the case of
+education.
+
+There are several limitations of this work and areas for future
+research. Firstly, while the resulting CenSoc dataset is quite large in
+terms of absolute numbers, the raw match rate is only around 20\%, (and
+at its highest, around 28\% for 20-24 year olds). While some individuals
+are unmatched for mortality reasons --- i.e.\ dying outside of the SSDM
+window --- others are missed because of the matching method. Indeed, the
+method used to match across the two datasets is very simple, using only
+exact matches of name and age, and only taking unique combinations. Any
+duplicate keys are discarded. In addition, the exact match process does
+not account for small changes in name across the two datasets, such as
+spelling errors, the use of nicknames, or the use of initials. Future
+work will focus on more detailed data cleaning to pick up name errors,
+and also investigating probabilistic matching techniques to deal with
+partial matches, based on Jaro-Winkler distances (\citet{jaro1989};
+\citet{winkler1990}) or NYIIS phonetic codes (\citet{abramitzky2018}).
+Another option would be to create multiple datasets based on duplicate
+keys and calculate mortality indicators across all datasets, with the
+related uncertainty in estimates constructed using bootstrapping
+techniques.
+
+The CenSoc dataset contains only males. Matching females across the two
+datasets is more difficult because of the possibility of marriage
+between the time of the census and SSDM window, which would lead to a
+name change. As the SSDM only contains information on name, date of
+birth and date of death, there is no information about marital status at
+time of death. It would be possible to create a dataset with married
+females (married at the time of census), and to investigate partial
+matches based on age, first and middle name, and probable marriage
+rates.
+
+For the principal components approach, the age distribution was cut off
+at a maximum age of 105. This was chosen mostly because of observed
+discontinuities in the principal components derived from HMD data, with
+large, sudden changes in the principal components at older ages.
+Discontinuities may partly be an artifact of the methods of estimate
+used by HMD, which switch over at around age 80-90, depending on the
+country and quality of raw data available (\citet{wilmoth2007}). Future
+work will investigate the sensitivity of principal components to choices
+of different countries and cohorts being included in the matrix on which
+the SVD is performed.
+
+Notwithstanding these areas for future research, the CenSoc project
+provides a useful new data source for the study of mortality disparities
+and change over time. This paper introduced the dataset and also
+developed methods to fully utilize the mortality information available.
+The CenSoc data, code used to match the raw data, code and functions to
+estimate mortality indicators, and the relevant documentation has been
+made publicly available (at the time of writing at:
+\url{https://censoc.demog.berkeley.edu/}). By providing an open source,
+transparent resource, the goal is to encourage reproducibility of
+research and provide a resource for other researchers to help answer
+their own research questions of interest.
+
