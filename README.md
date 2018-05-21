@@ -22,6 +22,7 @@ Once you have obtained the CenSoc dataset, you will need to obtain census data o
 This package is not on CRAN. To install, use `devtools`:
 
 ```
+# If you have not installed devtools, uncomment the line below
 # install.packages("devtools")
 devtools::install_github("MJAlexander/censoc")
 ```

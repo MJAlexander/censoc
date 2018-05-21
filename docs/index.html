@@ -82,10 +82,10 @@
       </header><div class="row">
   <div class="contents col-md-9">
     
-<div id="censoc-build-status" class="section level1">
+<div id="censoc" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#censoc-build-status" class="anchor"></a>CenSoc <a href="https://travis-ci.org/MJAlexander/censoc"><img src="https://travis-ci.org/MJAlexander/censoc.svg?branch=master" alt="Build Status"></a>
-</h1></div>
+<a href="#censoc" class="anchor"></a>CenSoc</h1></div>
+
 <p>Code and documentation for the CenSoc project.</p>
 </div>
 <div id="introduction" class="section level1">
@@ -99,13 +99,14 @@
 <h1 class="hasAnchor">
 <a href="#where-to-get-the-censoc-dataset" class="anchor"></a>Where to get the CenSoc dataset</h1>
 <p>Data can be downloaded at <a href="https://censoc-download.demog.berkeley.edu" class="uri">https://censoc-download.demog.berkeley.edu</a>.</p>
-<p>Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from <a href="https://usa.ipums.org/usa/">IPUMS-USA</a>. Information in <a href="https://github.com/MJAlexander/censoc/blob/master/documentation/ipums_document.pdf">this document</a> will help on how to do that. Once you have both CenSoc and census data, you can merge them together. <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">This example R file</a> gives an example of how to do that.</p>
+<p>Once you have obtained the CenSoc dataset, you will need to obtain census data of interest from <a href="https://usa.ipums.org/usa/">IPUMS-USA</a>. Information in <a href="https://censoc.demog.berkeley.edu/articles/ipums_document.html">this document</a> will help on how to do that. Once you have both CenSoc and census data, you can merge them together. <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">This example R file</a> gives an example of how to do that.</p>
 </div>
 <div id="how-to-install-r-package" class="section level1">
 <h1 class="hasAnchor">
 <a href="#how-to-install-r-package" class="anchor"></a>How to install R package</h1>
 <p>This package is not on CRAN. To install, use <code>devtools</code>:</p>
-<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github"># install.packages("devtools")
+<pre><code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github"># If you have not installed devtools, uncomment the line below
+# install.packages("devtools")
 devtools::install_github("MJAlexander/censoc")</a></code></pre>
 </div>
 <div id="usage" class="section level1">
@@ -151,7 +152,13 @@ devtools::install_github("MJAlexander/censoc")</a></code></pre>
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/MJAlexander/censoc"><img src="https://travis-ci.org/MJAlexander/censoc.svg?branch=master" alt="Build Status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
