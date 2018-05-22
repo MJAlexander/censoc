@@ -3,7 +3,7 @@
 #' Given a CenSoc data frame with individual birth years, ages of death and other grouping variables,
 #' will return tabulated deaths by group
 #'
-#' @param df CenSoc datafrane
+#' @param df CenSoc dataframe
 #' @param ... grouping variables (in addition to year and race)
 #' @return tabulated dataframe
 
