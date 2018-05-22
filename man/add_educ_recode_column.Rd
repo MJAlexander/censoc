@@ -2,8 +2,7 @@
 % Please edit documentation in R/add_educ_recode_column.R
 \name{add_educ_recode_column}
 \alias{add_educ_recode_column}
-\title{Add column with recoded education to a CenSoc data table
-Recode education variable. Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}}
+\title{Add column with recoded education to a CenSoc data table}
 \usage{
 add_educ_recode_column(df)
 }
@@ -14,6 +13,6 @@ add_educ_recode_column(df)
 a CenSoc data table with `educ_recode` column.
 }
 \description{
-Add column with recoded education to a CenSoc data table
-Recode education variable. Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}
+Recode education variable.
+Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}
 }
