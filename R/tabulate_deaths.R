@@ -22,7 +22,8 @@ tabulate_deaths <- function(df, ...){
 
   # remove obs that have implausible ages
   tab_df <- tab_df %>%  mutate(year_death = age_of_death+byear) %>% filter(year_death %in% 1975:2005)
-
+  ## restrict to only use ages 65+
+  tab_df <- tab_df %>% filter(age_of_death>64)
   return(tab_df)
 
 }
