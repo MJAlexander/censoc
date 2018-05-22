@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a national dataset of matched census and socsec data based on state matched files — create_national_censoc • censoc</title>
+<title>Add column with recoded education to a CenSoc data table — add_educ_recode_column • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,9 +28,9 @@
 
 
 
-<meta property="og:title" content="Create a national dataset of matched census and socsec data based on state matched files — create_national_censoc" />
+<meta property="og:title" content="Add column with recoded education to a CenSoc data table — add_educ_recode_column" />
 
-<meta property="og:description" content="Create a national dataset of matched census and socsec data based on state matched files" />
+<meta property="og:description" content="Recode education variable." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,31 +115,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a national dataset of matched census and socsec data based on state matched files</h1>
-    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/create_national_censoc.R'><code>R/create_national_censoc.R</code></a></small>
-    <div class="hidden name"><code>create_national_censoc.Rd</code></div>
+    <h1>Add column with recoded education to a CenSoc data table</h1>
+    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/add_educ_recode_column.R'><code>R/add_educ_recode_column.R</code></a></small>
+    <div class="hidden name"><code>add_educ_recode_column.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a national dataset of matched census and socsec data based on state matched files</p>
+    <p>Recode education variable.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_national_censoc</span>(<span class='no'>state_censoc_files</span>)</pre>
+    <pre class="usage"><span class='fu'>add_educ_recode_column</span>(<span class='no'>df</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>state_censoc_files</th>
-      <td><p>a vector of filenames referring to state matched censoc files</p></td>
+      <th>df</th>
+      <td><p>a CenSoc data frame. Must have `EDUC` column.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a dataframe with matched census and socsec data</p>
+    <p>a CenSoc data table with `educ_recode` column.</p>
     
 
   </div>
