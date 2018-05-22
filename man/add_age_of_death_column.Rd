@@ -2,8 +2,7 @@
 % Please edit documentation in R/add_age_of_death_column.R
 \name{add_age_of_death_column}
 \alias{add_age_of_death_column}
-\title{Add age of death column to a CenSoc data table
-Add age of death based on month and year of birth and death.}
+\title{Add age of death column to a CenSoc data table}
 \usage{
 add_age_of_death_column(dt)
 }
@@ -14,6 +13,5 @@ add_age_of_death_column(dt)
 a CenSoc data table with `age_of_death` column.
 }
 \description{
-Add age of death column to a CenSoc data table
 Add age of death based on month and year of birth and death.
 }

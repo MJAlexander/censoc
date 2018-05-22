@@ -1,7 +1,6 @@
 #' Add column with recoded education to a CenSoc data table
 #'
 #' Recode education variable.
-#' Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}
 #'
 #'@param df a CenSoc data frame. Must have `EDUC` column.
 #'@return a CenSoc data table with `educ_recode` column.
@@ -32,5 +31,4 @@ add_educ_recode_column <- function(df){
       TRUE ~ 999
     ))
   return(df)
-
 }

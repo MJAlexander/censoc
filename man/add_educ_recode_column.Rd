@@ -14,5 +14,4 @@ a CenSoc data table with `educ_recode` column.
 }
 \description{
 Recode education variable.
-Based on \url{https://usa.ipums.org/usa-action/variables/EDUC#codes_section}
 }

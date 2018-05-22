@@ -1,4 +1,5 @@
 #' Add age of death column to a CenSoc data table
+#'
 #' Add age of death based on month and year of birth and death.
 #'
 #'@param dt a CenSoc data table
