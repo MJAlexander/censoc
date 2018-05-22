@@ -20,6 +20,9 @@ tabulate_deaths <- function(df, ...){
     summarise(n = n()) %>%
     ungroup()
 
+  # remove obs that have implausible ages
+  tab_df <- tab_df %>%  mutate(year_death = age_of_death+byear) %>% filter(year_death %in% 1975:2005)
+
   return(tab_df)
 
 }
