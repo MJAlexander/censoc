@@ -15,7 +15,7 @@ model{
         log_mu.cgx[c,g,x] <- log(mu.cgx[c,g,x])
       } # end ages
 
-      log_D.cg[c,g] ~ dnorm(log_N.cg[c,g], tau.d[c,g])
+      log_D.cg[c,g] ~ dnorm(log_N.cg[c,g], tau.d[c,g])T(,log_denom[c,g])
       tau.d[c,g] <- pow(sigma.d[c,g], -2)
       sigma.d[c,g] ~ dunif(0, 3)
 
