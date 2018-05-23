@@ -9,7 +9,7 @@ tabulate_deaths(df, ...)
 \arguments{
 \item{df}{CenSoc dataframe}
 
-\item{...}{grouping variables (in addition to year and race)}
+\item{...}{grouping variables (in addition to year and age at death)}
 }
 \value{
 tabulated dataframe

@@ -4,7 +4,7 @@
 #' will return tabulated deaths by group
 #'
 #' @param df CenSoc dataframe
-#' @param ... grouping variables (in addition to year and race)
+#' @param ... grouping variables (in addition to year and age at death)
 #' @return tabulated dataframe
 
 tabulate_deaths <- function(df, ...){

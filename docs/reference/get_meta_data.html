@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate number of deaths by birth year, age of death and possible grouping variables — tabulate_deaths • censoc</title>
+<title>Get meta data associated with tabulated deaths by cohort, age of death and grouping variable — get_meta_data • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,10 @@
 
 
 
-<meta property="og:title" content="Calculate number of deaths by birth year, age of death and possible grouping variables — tabulate_deaths" />
+<meta property="og:title" content="Get meta data associated with tabulated deaths by cohort, age of death and grouping variable — get_meta_data" />
 
-<meta property="og:description" content="Given a CenSoc data frame with individual birth years, ages of death and other grouping variables,
-will return tabulated deaths by group" />
+<meta property="og:description" content="Given a tabulated deaths data frame and a minimum age of estimation,
+will return age vector and length, cohort length, group levels and length" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,36 +116,36 @@ will return tabulated deaths by group" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate number of deaths by birth year, age of death and possible grouping variables</h1>
-    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/tabulate_deaths.R'><code>R/tabulate_deaths.R</code></a></small>
-    <div class="hidden name"><code>tabulate_deaths.Rd</code></div>
+    <h1>Get meta data associated with tabulated deaths by cohort, age of death and grouping variable</h1>
+    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/get_meta_data.R'><code>R/get_meta_data.R</code></a></small>
+    <div class="hidden name"><code>get_meta_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Given a CenSoc data frame with individual birth years, ages of death and other grouping variables,
-will return tabulated deaths by group</p>
+    <p>Given a tabulated deaths data frame and a minimum age of estimation,
+will return age vector and length, cohort length, group levels and length</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tabulate_deaths</span>(<span class='no'>df</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_meta_data</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>CenSoc dataframe</p></td>
+      <th>tab_df</th>
+      <td><p>A tabulated CenSoc dataframe</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>grouping variables (in addition to year and age at death)</p></td>
+      <th>min_age</th>
+      <td><p>The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tabulated dataframe</p>
+    <p>a list of metadata</p>
     
 
   </div>
