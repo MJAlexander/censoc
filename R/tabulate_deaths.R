@@ -4,11 +4,10 @@
 #' will return tabulated deaths by group
 #'
 #' @param df CenSoc dataframe
-#' @param min_age the minimum age of death in CenSoc to consider. Default is 60. Shouldn't be any less than 55 as coverage becomes low.
 #' @param ... grouping variables (in addition to year and race)
 #' @return tabulated dataframe
 
-tabulate_deaths <- function(df, min_age = 60, ...){
+tabulate_deaths <- function(df, ...){
   if(sum(c("byear", "age_of_death") %in% colnames(df))!=2){
     stop("Data frame must contain columns byear and age_of death.")
   }
@@ -23,8 +22,8 @@ tabulate_deaths <- function(df, min_age = 60, ...){
 
   # remove obs that have implausible ages
   tab_df <- tab_df %>%  mutate(year_death = age_of_death+byear) %>% filter(year_death %in% 1975:2005)
-  # restrict to only use ages 65+
-  tab_df <- tab_df %>% filter(age_of_death>=min_age)
+  # restrict to only use ages 60
+  tab_df <- tab_df %>% filter(age_of_death>=60) %>% select(-year_death)
   return(tab_df)
 
 }

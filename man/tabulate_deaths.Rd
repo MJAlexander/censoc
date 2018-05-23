@@ -4,12 +4,10 @@
 \alias{tabulate_deaths}
 \title{Calculate number of deaths by birth year, age of death and possible grouping variables}
 \usage{
-tabulate_deaths(df, min_age = 60, ...)
+tabulate_deaths(df, ...)
 }
 \arguments{
 \item{df}{CenSoc dataframe}
-
-\item{min_age}{the minimum age of death in CenSoc to consider. Default is 60. Shouldn't be any less than 55 as coverage becomes low.}
 
 \item{...}{grouping variables (in addition to year and race)}
 }
