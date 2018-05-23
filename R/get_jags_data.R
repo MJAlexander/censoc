@@ -6,10 +6,11 @@
 #' @param tab_df A tabulated CenSoc dataframe
 #' @param ncohorts Number of cohorts
 #' @param ngroups Number of group levels
+#' @param min_age The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)
 #' @return a list containing data elements in the right form for JAGS input
 
 
-get_jags_data <- function(tab_df, ncohorts, ngroups){
+get_jags_data <- function(tab_df, ncohorts, ngroups, min_age){
 
   y.ci <- matrix(NA, nrow = ncohorts, ncol = (tab_df %>% group_by(byear) %>% summarise(n = n()) %>% summarise(max(n)))[[1]])
   geta.ci <- matrix(NA, nrow = ncohorts, ncol = (tab_df %>% group_by(byear) %>% summarise(n = n()) %>% summarise(max(n)))[[1]])
@@ -18,7 +19,7 @@ get_jags_data <- function(tab_df, ncohorts, ngroups){
 
   for(i in 1:ncohorts){
     ccounts <- tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(n) %>% pull()
-    cages <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(age_of_death) %>% pull()) - min(ages)+1
+    cages <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(age_of_death) %>% pull()) - min_age+1
     ceduc <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(3) %>% pull()) - min(group_levels)+1
     y.ci[i,1:length(ccounts)] <- ccounts
     geta.ci[i,1:length(cages)] <- cages

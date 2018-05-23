@@ -4,7 +4,7 @@
 \alias{get_jags_data}
 \title{Get left and right truncation ages for each cohort and grouping variable level}
 \usage{
-get_jags_data(tab_df, ncohorts, ngroups)
+get_jags_data(tab_df, ncohorts, ngroups, min_age)
 }
 \arguments{
 \item{tab_df}{A tabulated CenSoc dataframe}
@@ -12,6 +12,8 @@ get_jags_data(tab_df, ncohorts, ngroups)
 \item{ncohorts}{Number of cohorts}
 
 \item{ngroups}{Number of group levels}
+
+\item{min_age}{The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)}
 }
 \value{
 a list containing data elements in the right form for JAGS input
