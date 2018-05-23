@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run MCMC for Bayesian trunacted Gompertz model — run_gompertz_model • censoc</title>
+<title>Run MCMC for Bayesian truncated Gompertz model — run_gompertz_model • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,10 @@
 
 
 
-<meta property="og:title" content="Run MCMC for Bayesian trunacted Gompertz model — run_gompertz_model" />
+<meta property="og:title" content="Run MCMC for Bayesian truncated Gompertz model — run_gompertz_model" />
 
-<meta property="og:description" content="Given a tabulated deaths data frame and the number of groups and cohorts,
-will return list containing data elements in the right form for JAGS input" />
+<meta property="og:description" content="Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
+and a minimum age of estimation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,19 +116,19 @@ will return list containing data elements in the right form for JAGS input" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run MCMC for Bayesian trunacted Gompertz model</h1>
+    <h1>Run MCMC for Bayesian truncated Gompertz model</h1>
     <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/run_gompertz_model.R'><code>R/run_gompertz_model.R</code></a></small>
     <div class="hidden name"><code>run_gompertz_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Given a tabulated deaths data frame and the number of groups and cohorts,
-will return list containing data elements in the right form for JAGS input</p>
+    <p>Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
+and a minimum age of estimation.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>run_gompertz_model</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>, <span class='kw'>number_chains</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+    <pre class="usage"><span class='fu'>run_gompertz_model</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>, <span class='kw'>number_chains</span> <span class='kw'>=</span> <span class='fl'>6</span>,
   <span class='kw'>number_iterations</span> <span class='kw'>=</span> <span class='fl'>5000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -143,12 +143,12 @@ will return list containing data elements in the right form for JAGS input</p>
       <td><p>The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)</p></td>
     </tr>
     <tr>
-      <th>ncohorts</th>
-      <td><p>Number of cohorts</p></td>
+      <th>number_chains</th>
+      <td><p>The number of chains of MCMC</p></td>
     </tr>
     <tr>
-      <th>ngroups</th>
-      <td><p>Number of group levels</p></td>
+      <th>number_iterations</th>
+      <td><p>The number of iterations per chain of MCMC</p></td>
     </tr>
     </table>
     

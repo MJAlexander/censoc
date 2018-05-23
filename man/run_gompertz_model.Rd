@@ -2,9 +2,9 @@
 % Please edit documentation in R/run_gompertz_model.R
 \name{run_gompertz_model}
 \alias{run_gompertz_model}
-\title{Run MCMC for Bayesian trunacted Gompertz model}
+\title{Run MCMC for Bayesian truncated Gompertz model}
 \usage{
-run_gompertz_model(tab_df, min_age, number_chains = 4,
+run_gompertz_model(tab_df, min_age, number_chains = 6,
   number_iterations = 5000)
 }
 \arguments{
@@ -12,14 +12,14 @@ run_gompertz_model(tab_df, min_age, number_chains = 4,
 
 \item{min_age}{The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)}
 
-\item{ncohorts}{Number of cohorts}
+\item{number_chains}{The number of chains of MCMC}
 
-\item{ngroups}{Number of group levels}
+\item{number_iterations}{The number of iterations per chain of MCMC}
 }
 \value{
 a list containing data elements in the right form for JAGS input
 }
 \description{
-Given a tabulated deaths data frame and the number of groups and cohorts,
-will return list containing data elements in the right form for JAGS input
+Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
+and a minimum age of estimation.
 }

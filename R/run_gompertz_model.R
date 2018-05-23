@@ -1,19 +1,19 @@
-#' Run MCMC for Bayesian trunacted Gompertz model
+#' Run MCMC for Bayesian truncated Gompertz model
 #'
-#' Given a tabulated deaths data frame and the number of groups and cohorts,
-#' will return list containing data elements in the right form for JAGS input
+#' Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
+#' and a minimum age of estimation.
 #'
 #' @param tab_df A tabulated CenSoc dataframe
-#' @param ncohorts Number of cohorts
-#' @param ngroups Number of group levels
 #' @param min_age The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)
+#' @param number_chains The number of chains of MCMC
+#' @param number_iterations The number of iterations per chain of MCMC
 #' @return a list containing data elements in the right form for JAGS input
 
 
 
 run_gompertz_model <- function(tab_df,
                                min_age,
-                               number_chains = 4,
+                               number_chains = 6,
                                number_iterations = 5000){
 
   # get meta data
