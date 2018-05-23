@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • censoc</title>
+<title>Get left and right truncation ages for each cohort and grouping variable level — get_jags_data • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Get left and right truncation ages for each cohort and grouping variable level — get_jags_data" />
+
+<meta property="og:description" content="Given a tabulated deaths data frame and the number of groups and cohorts,
+will return list containing data elements in the right form for JAGS input" />
+<meta name="twitter:card" content="summary" />
 
 
 <!-- mathjax -->
@@ -43,7 +47,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,138 +114,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Get left and right truncation ages for each cohort and grouping variable level</h1>
+    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/get_jags_data.R'><code>R/get_jags_data.R</code></a></small>
+    <div class="hidden name"><code>get_jags_data.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Given a tabulated deaths data frame and the number of groups and cohorts,
+will return list containing data elements in the right form for JAGS input</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="add_age_of_death_column.html">add_age_of_death_column()</a></code> </p>
-        </td>
-        <td><p>Add age of death column to a CenSoc data table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="add_educ_recode_column.html">add_educ_recode_column()</a></code> </p>
-        </td>
-        <td><p>Add column with recoded education to a CenSoc data table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="clean_key.html">clean_key()</a></code> </p>
-        </td>
-        <td><p>Clean matching keys</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="colVars.html">colVars()</a></code> </p>
-        </td>
-        <td><p>Calculate variance of columns</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_censoc.html">create_censoc()</a></code> </p>
-        </td>
-        <td><p>Create a dataset of matched census and socsec data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="create_national_censoc.html">create_national_censoc()</a></code> </p>
-        </td>
-        <td><p>Create a national dataset of matched census and socsec data based on state matched files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_first_word.html">get_first_word()</a></code> </p>
-        </td>
-        <td><p>Get first word from a string</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_hmd_death_distribution.html">get_hmd_death_distribution()</a></code> </p>
-        </td>
-        <td><p>HMD death distributions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_hmd_death_pcs.html">get_hmd_death_pcs()</a></code> </p>
-        </td>
-        <td><p>Principal components from HMD</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_jags_data.html">get_jags_data()</a></code> </p>
-        </td>
-        <td><p>Get left and right truncation ages for each cohort and grouping variable level</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_meta_data.html">get_meta_data()</a></code> </p>
-        </td>
-        <td><p>Get meta data associated with tabulated deaths by cohort, age of death and grouping variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_truncation_ages.html">get_truncation_ages()</a></code> </p>
-        </td>
-        <td><p>Get left and right truncation ages for each cohort and grouping variable level</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_census.html">load_census()</a></code> </p>
-        </td>
-        <td><p>Load a census file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="load_socsec_deaths.html">load_socsec_deaths()</a></code> </p>
-        </td>
-        <td><p>Load a census file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_hmd.html">read_hmd()</a></code> </p>
-        </td>
-        <td><p>Read in HMD text file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tabulate_deaths.html">tabulate_deaths()</a></code> </p>
-        </td>
-        <td><p>Calculate number of deaths by birth year, age of death and possible grouping variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="waic.html">waic()</a></code> </p>
-        </td>
-        <td><p>Calculate WAIC from log-likelihood</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>get_jags_data</span>(<span class='no'>tab_df</span>, <span class='no'>ncohorts</span>, <span class='no'>ngroups</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tab_df</th>
+      <td><p>A tabulated CenSoc dataframe</p></td>
+    </tr>
+    <tr>
+      <th>ncohorts</th>
+      <td><p>Number of cohorts</p></td>
+    </tr>
+    <tr>
+      <th>ngroups</th>
+      <td><p>Number of group levels</p></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>a list containing data elements in the right form for JAGS input</p>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
+
   </div>
 </div>
 
