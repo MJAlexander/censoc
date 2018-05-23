@@ -17,6 +17,7 @@ get_meta_data <- function(tab_df, min_age){
 
   return(list(ages = ages,
               nages = nages,
+              cohorts = cohorts,
               ncohorts = ncohorts,
               group_levels = group_levels,
               ngroups = ngroups))
