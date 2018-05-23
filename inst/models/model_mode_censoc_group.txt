@@ -1,0 +1,39 @@
+model{
+
+  for(c in 1:ncohorts){
+    for(i in 1:n.c[c]){
+      log_y.ci[c,i] ~ dnorm(log_y.hat[c,getg.ci[c,i], geta.ci[c,i]], tau.y)
+    }
+    for(g in 1:ngroups){
+        denom[c,g] <-  exp(-exp(-b[c,g]*M[c,g])*(exp(b[c,g]*x_left[c,g]) - 1)) - exp(-exp(-b[c,g]*M[c,g])*(exp(b[c,g]*(x_right[c,g]+1)) - 1))
+        log_denom[c,g] <- log(denom[c,g])
+      for (x in 1:nages) {
+        y.hat[c,g,x] <- exp(log_y.hat[c,g,x])
+        log_y.hat[c,g,x] <- log_D.cg[c,g] + log_mu.cgx[c,g,x] - log_denom[c,g]
+        l.cgx[c,g,x] <- exp(-exp(-b[c,g]*M[c,g])*(exp(b[c,g]*ages[x]) - 1))
+        mu.cgx[c,g,x] <-  b[c,g]*exp(b[c,g]*(ages[x] - M[c,g]))*l.cgx[c,g,x]
+        log_mu.cgx[c,g,x] <- log(mu.cgx[c,g,x])
+      } # end ages
+
+      log_D.cg[c,g] ~ dnorm(log_N.cg[c,g], tau.d[c,g])
+      tau.d[c,g] <- pow(sigma.d[c,g], -2)
+      sigma.d[c,g] ~ dunif(0, 3)
+
+      } # end groups
+    } # end cohorts
+
+    for(g in 1:ngroups){
+      M[1,g] ~ dunif(75, 90)
+      b[1,g] ~ dunif(0.00001,0.3)
+      for(c in 2:ncohorts){
+       M[c,g] ~ dnorm(M[c-1,g], tau.M)
+       b[c,g] ~ dnorm(b[c-1,g], tau.b)T(0.00001, 0.3)
+      }
+    }
+    tau.y <- pow(sigma.y, -2)
+    sigma.y ~ dunif(0, 40)
+    tau.M <- pow(sigma.M, -2)
+    sigma.M ~ dunif(0, 40)
+    tau.b <- pow(sigma.b, -2)
+    sigma.b ~ dunif(0, 40)
+}
