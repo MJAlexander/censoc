@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get left and right truncation ages for each cohort and grouping variable level — get_jags_data • censoc</title>
+<title>Run MCMC for Bayesian trunacted Gompertz model — run_gompertz_model • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@
 
 
 
-<meta property="og:title" content="Get left and right truncation ages for each cohort and grouping variable level — get_jags_data" />
+<meta property="og:title" content="Run MCMC for Bayesian trunacted Gompertz model — run_gompertz_model" />
 
 <meta property="og:description" content="Given a tabulated deaths data frame and the number of groups and cohorts,
 will return list containing data elements in the right form for JAGS input" />
@@ -116,9 +116,9 @@ will return list containing data elements in the right form for JAGS input" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get left and right truncation ages for each cohort and grouping variable level</h1>
-    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/get_jags_data.R'><code>R/get_jags_data.R</code></a></small>
-    <div class="hidden name"><code>get_jags_data.Rd</code></div>
+    <h1>Run MCMC for Bayesian trunacted Gompertz model</h1>
+    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/run_gompertz_model.R'><code>R/run_gompertz_model.R</code></a></small>
+    <div class="hidden name"><code>run_gompertz_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -128,7 +128,8 @@ will return list containing data elements in the right form for JAGS input</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>get_jags_data</span>(<span class='no'>tab_df</span>, <span class='no'>ncohorts</span>, <span class='no'>ngroups</span>, <span class='no'>min_age</span>)</pre>
+    <pre class="usage"><span class='fu'>run_gompertz_model</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>, <span class='kw'>number_chains</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>number_iterations</span> <span class='kw'>=</span> <span class='fl'>5000</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,16 +139,16 @@ will return list containing data elements in the right form for JAGS input</p>
       <td><p>A tabulated CenSoc dataframe</p></td>
     </tr>
     <tr>
+      <th>min_age</th>
+      <td><p>The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)</p></td>
+    </tr>
+    <tr>
       <th>ncohorts</th>
       <td><p>Number of cohorts</p></td>
     </tr>
     <tr>
       <th>ngroups</th>
       <td><p>Number of group levels</p></td>
-    </tr>
-    <tr>
-      <th>min_age</th>
-      <td><p>The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)</p></td>
     </tr>
     </table>
     
