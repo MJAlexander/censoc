@@ -10,7 +10,7 @@ add_educ_recode_column(df)
 \item{df}{a CenSoc data frame. Must have `EDUC` column.}
 }
 \value{
-a CenSoc data table with `educ_recode` column.
+a CenSoc data frame with `educ_recode` column.
 }
 \description{
 Recode education variable.
