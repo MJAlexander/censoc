@@ -82,24 +82,28 @@ get_estimated_hx_ex <- function(mod,
     colnames(hdfm) <- cohorts
     hdfm$age <- ages
     hdfm$group <- i
-    hdfm <- hdfm %>% gather(cohort, ex_median, -age, -group)
+    hdfm <- hdfm %>% gather(cohort, hx_median, -age, -group)
 
     hdfl <- as_tibble(h.xcgl[,,i])
     colnames(hdfl) <- cohorts
     hdfl$age <- ages
     hdfl$group <- i
-    hdfl <- hdfl %>% gather(cohort, ex_lower, -age, -group)
+    hdfl <- hdfl %>% gather(cohort, hx_lower, -age, -group)
 
     hdfu <- as_tibble(h.xcgu[,,i])
     colnames(hdfu) <- cohorts
     hdfu$age <- ages
     hdfu$group <- i
-    hdfu <- hdfu %>% gather(cohort, ex_upper, -age, -group)
+    hdfu <- hdfu %>% gather(cohort, hx_upper, -age, -group)
 
     hdfg <- hdfm %>% left_join(hdfl) %>% left_join(hdfu)
     hdf <- rbind(hdf, hdfg)
   }
   edf <- edf %>% mutate(group_label = group_labels[group])
+  edf$group_label <- factor(edf$group_label, levels = group_labels)
+  edf$cohort <- as.numeric(edf$cohort)
   hdf <- hdf %>% mutate(group_label = group_labels[group])
+  hdf$group_label <- factor(hdf$group_label, levels = group_labels)
+  hdf$cohort <- as.numeric(hdf$cohort)
   return(list(ex_df = edf, hx_df = hdf))
 }
