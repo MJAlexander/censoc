@@ -20,7 +20,7 @@ get_jags_data <- function(tab_df, ncohorts, ngroups, min_age){
   for(i in 1:ncohorts){
     ccounts <- tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(n) %>% pull()
     cages <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(age_of_death) %>% pull()) - min_age+1
-    ceduc <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(3) %>% pull()) - min(group_levels)+1
+    ceduc <- (tab_df %>% ungroup() %>% filter(byear==cohorts[i]) %>% select(3) %>% pull())
     y.ci[i,1:length(ccounts)] <- ccounts
     geta.ci[i,1:length(cages)] <- cages
     getg.ci[i,1:length(ceduc)] <- ceduc
