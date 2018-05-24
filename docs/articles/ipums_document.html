@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1>Obtaining the full count 1940 census from IPUMS to use with CenSoc</h1>
             
-            <h4 class="date">2018-05-23</h4>
+            <h4 class="date">2018-05-24</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/ipums_document.Rmd"><code>vignettes/ipums_document.Rmd</code></a></small>
       <div class="hidden name"><code>ipums_document.Rmd</code></div>
@@ -108,7 +108,7 @@
 <a href="#registering-for-ipums" class="anchor"></a>Registering for IPUMS</h1>
 <p>The Integrated Public Use Microdata Series (IPUMS) is a collection of individual-level data sources. IPUMS consists of microdata samples from censuses and surveys, in both the USA and internationally. IPUMS is housed at the Minnesota Population Center at the University of Minnesota.</p>
 <p>The IPUMS-USA data collection is free to use, but researchers must register and agree to terms and conditions. All you need to do to register is to fill out the form here:</p>
-<p></p>
+
 <p>(Note: this link was accessed in March 2018. If it is broken, go to , navigate to ‘Login’ and then ‘Create an account’).</p>
 </div>
 <div id="choosing-variables-from-the-1940-full-count-census" class="section level1">
@@ -183,7 +183,7 @@ To obtain these variables:</p>
 <p>The idea is to create a unqiue ID by concatenating <code>SERIAL40</code>, <code>PERNUM</code> and <code>STATEFIP</code>. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> This can be done using base <code>R</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span><span class="kw">merge</span>(censoc, census, <span class="dt">by =</span> <span class="st">"unique_id"</span>)</code></pre></div>
 <p>or using the tidyverse/dplyr functionality:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span>censoc %&gt;%<span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span>censoc <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">left_join</span>(census, <span class="dt">by =</span> <span class="st">"unique_id"</span>)</code></pre></div>
 <p>or using the <code>data.table</code> package (which is probably the fastest):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span>censoc[census, nomatch=<span class="dv">0</span>]</code></pre></div>

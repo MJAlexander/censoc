@@ -7,15 +7,16 @@
 #' @param min_age The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)
 #' @param number_chains The number of chains of MCMC
 #' @param number_iterations The number of iterations per chain of MCMC
-#' @return a list containing data elements in the right form for JAGS input
+#' @return a JAGS model object
 
 
 
-run_gompertz_model <- function(tab_df,
+truncated_gompertz_model <- function(tab_df,
                                min_age,
-                               number_chains = 6,
-                               number_iterations = 5000){
+                               number_chains = 3,
+                               number_iterations = 7500){
 
+  cat("Processing data into JAGS format. \n")
   # get meta data
   md <- get_meta_data(tab_df, min_age)
   for (i in 1:length(md)){
@@ -45,6 +46,7 @@ run_gompertz_model <- function(tab_df,
   parnames <- c("y.hat", "b", "M", "mu.cgx", "tau.y")
 
   # run MCMC!
+  cat("Running model. \n")
   mod<-jags(data = jags.data,
             parameters.to.save=parnames,
             n.chains = number_chains,
@@ -53,9 +55,12 @@ run_gompertz_model <- function(tab_df,
                                      "model_mode_censoc_group.txt",
                                      package="censoc"))
 
-  mod$BUGSoutput$summary[mod$BUGSoutput$summary[,"Rhat"]>1.1,]
-  mcmc.array <- mod$BUGSoutput$sims.array
-
-
+  if(max(mod$BUGSoutput$summary[grepl("b|M",rownames(mod$BUGSoutput$summary)),"Rhat"])>1.1){
+    cat(paste0("Maximum Rhat is ", max(mod$BUGSoutput$summary[,"Rhat"]), ". \n"))
+    cat("Model did not converge, Running update. \n")
+    mod <- autojags(mod, n.iter = number_iterations)
+  }
+  cat(paste0("Maximum Rhat is ", max(mod$BUGSoutput$summary[,"Rhat"]), ". \n"))
+  return(mod)
 
 }
