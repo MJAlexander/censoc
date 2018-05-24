@@ -4,7 +4,7 @@
 \alias{get_death_proportions_post_samples}
 \title{Get posterior samples of death distribution from Bayesian truncated Gompertz model}
 \usage{
-get_death_proportions_post_samples(mod, cohorts, ncohorts, ngroups, nages)
+get_death_proportions_post_samples(mod, ncohorts, ngroups, nages)
 }
 \arguments{
 \item{mod}{a JAGS model object}
