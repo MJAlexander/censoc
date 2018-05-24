@@ -31,7 +31,7 @@ model{
       }
     }
     tau.y <- pow(sigma.y, -2)
-    sigma.y ~ dunif(0, 40)
+    sigma.y ~ dunif(0, 3)
     tau.M <- pow(sigma.M, -2)
     sigma.M ~ dunif(0, 40)
     tau.b <- pow(sigma.b, -2)
