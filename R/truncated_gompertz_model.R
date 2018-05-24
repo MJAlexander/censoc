@@ -42,6 +42,7 @@ truncated_gompertz_model <- function(tab_df,
   jags.data <- c(md, xtruncs, dta,  list(log_y.ci = log(y.ci), log_N.cg = log(N.cg)))
   jags.data[["cohorts"]] <- NULL
   jags.data[["group_levels"]] <- NULL
+  jags.data[["group_labels"]] <- NULL
   jags.data[["y.ci"]] <- NULL
   jags.data[["N.cg"]] <- NULL
 
