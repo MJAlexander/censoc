@@ -99,7 +99,7 @@ get_estimated_hx_ex <- function(mod,
     hdfg <- hdfm %>% left_join(hdfl) %>% left_join(hdfu)
     hdf <- rbind(hdf, hdfg)
   }
-  ex_df <- ex_df %>% mutate(group_label = group_labels[group])
-  hx_df <- hx_df %>% mutate(group_label = group_labels[group])
+  edf <- edf %>% mutate(group_label = group_labels[group])
+  hdf <- hdf %>% mutate(group_label = group_labels[group])
   return(list(ex_df = edf, hx_df = hdf))
 }
