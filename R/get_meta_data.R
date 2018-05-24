@@ -14,12 +14,14 @@ get_meta_data <- function(tab_df, min_age){
   ncohorts <- length(cohorts)
   group_levels <- sort(unique(tab_df[,3][[1]])) # grouping variable should be in the third column
   ngroups <- length(group_levels)
+  group_labels <- unique(tab_df[,5][[1]]) # grouping variable should be in the 5th column
 
   return(list(ages = ages,
               nages = nages,
               cohorts = cohorts,
               ncohorts = ncohorts,
               group_levels = group_levels,
+              group_labels = group_labels,
               ngroups = ngroups))
 
 }

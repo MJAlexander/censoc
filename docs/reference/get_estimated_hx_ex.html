@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run MCMC for Bayesian truncated Gompertz model — truncated_gompertz_model • censoc</title>
+<title>Get estimates of hazard rates and life expectancy — get_estimated_hx_ex • censoc</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -28,10 +28,10 @@
 
 
 
-<meta property="og:title" content="Run MCMC for Bayesian truncated Gompertz model — truncated_gompertz_model" />
+<meta property="og:title" content="Get estimates of hazard rates and life expectancy — get_estimated_hx_ex" />
 
-<meta property="og:description" content="Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
-and a minimum age of estimation." />
+<meta property="og:description" content="Get estimates and uncertainity intervals of mortality indicators
+by age, group and cohort and associated uncertainty intervals." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,49 +116,53 @@ and a minimum age of estimation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run MCMC for Bayesian truncated Gompertz model</h1>
-    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/truncated_gompertz_model.R'><code>R/truncated_gompertz_model.R</code></a></small>
-    <div class="hidden name"><code>truncated_gompertz_model.Rd</code></div>
+    <h1>Get estimates of hazard rates and life expectancy</h1>
+    <small class="dont-index">Source: <a href='http://github.com/MJAlexander/censoc/blob/master/R/get_estimated_hx_ex.R'><code>R/get_estimated_hx_ex.R</code></a></small>
+    <div class="hidden name"><code>get_estimated_hx_ex.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Estimates a Bayesian truncated Gompertz model based on an inputted tabulated dataframe of deaths
-and a minimum age of estimation.</p>
+    <p>Get estimates and uncertainity intervals of mortality indicators
+by age, group and cohort and associated uncertainty intervals.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>truncated_gompertz_model</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>, <span class='kw'>number_chains</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>number_iterations</span> <span class='kw'>=</span> <span class='fl'>7500</span>, <span class='kw'>run_update</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>get_estimated_hx_ex</span>(<span class='no'>mod</span>, <span class='no'>ncohorts</span>, <span class='no'>ngroups</span>, <span class='no'>group_labels</span>, <span class='no'>nages</span>,
+  <span class='kw'>alpha_level</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tab_df</th>
-      <td><p>A tabulated CenSoc dataframe</p></td>
+      <th>mod</th>
+      <td><p>a JAGS model object</p></td>
     </tr>
     <tr>
-      <th>min_age</th>
-      <td><p>The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)</p></td>
+      <th>ncohorts</th>
+      <td><p>number of cohorts</p></td>
     </tr>
     <tr>
-      <th>number_chains</th>
-      <td><p>The number of chains of MCMC</p></td>
+      <th>ngroups</th>
+      <td><p>number of groups</p></td>
     </tr>
     <tr>
-      <th>number_iterations</th>
-      <td><p>The number of iterations per chain of MCMC</p></td>
+      <th>group_labels</th>
+      <td><p>labels of groups</p></td>
     </tr>
     <tr>
-      <th>run_update</th>
-      <td><p>Whether or not to automatically run model update if model did not converge</p></td>
+      <th>nages</th>
+      <td><p>number of ages</p></td>
+    </tr>
+    <tr>
+      <th>alpha_level</th>
+      <td><p>level of significance. Default is 5%.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a JAGS model object</p>
+    <p>an array of posterior samples of death proportions by age, cohort and group</p>
     
 
   </div>
