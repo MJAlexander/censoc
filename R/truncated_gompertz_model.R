@@ -8,6 +8,7 @@
 #' @param number_chains The number of chains of MCMC
 #' @param number_iterations The number of iterations per chain of MCMC
 #' @param run_update Whether or not to automatically run model update if model did not converge
+#' @param run_in_parallel Whether or not to run the MCMC chains in paralell. If TRUE the model run time should be a bit faster.
 #' @return a JAGS model object
 
 
@@ -16,7 +17,8 @@ truncated_gompertz_model <- function(tab_df,
                                min_age,
                                number_chains = 3,
                                number_iterations = 7500,
-                               run_update = FALSE){
+                               run_update = FALSE,
+                               run_in_parallel = FALSE){
 
   cat("Processing data into JAGS format. \n")
   # get meta data
@@ -50,13 +52,24 @@ truncated_gompertz_model <- function(tab_df,
 
   # run MCMC!
   cat("Running model. \n")
-  mod<-jags(data = jags.data,
-            parameters.to.save=parnames,
-            n.chains = number_chains,
-            n.iter = number_iterations,
-            model.file = system.file("models",
-                                     "model_mode_censoc_group.txt",
-                                     package="censoc"))
+  if(run_in_parallel){
+    mod<-jags.parallel(data = jags.data,
+              parameters.to.save=parnames,
+              n.chains = number_chains,
+              n.iter = number_iterations,
+              model.file = system.file("models",
+                                       "model_mode_censoc_group.txt",
+                                       package="censoc"))
+  }
+  else{
+    mod<-jags(data = jags.data,
+              parameters.to.save=parnames,
+              n.chains = number_chains,
+              n.iter = number_iterations,
+              model.file = system.file("models",
+                                       "model_mode_censoc_group.txt",
+                                       package="censoc"))
+  }
 
   if(max(mod$BUGSoutput$summary[grepl("b|M",rownames(mod$BUGSoutput$summary)),"Rhat"])>1.1){
     if(run_update){
@@ -65,7 +78,8 @@ truncated_gompertz_model <- function(tab_df,
       mod <- autojags(mod, n.iter = number_iterations)
     }
   }
-  cat(paste0("Maximum Rhat is ", max(mod$BUGSoutput$summary[,"Rhat"]), ". \n"))
+  cat("Model finished. \n")
+  cat(paste0("Maximum Rhat is ", max(mod$BUGSoutput$summary[grepl("b|M",rownames(mod$BUGSoutput$summary)),"Rhat"]), ". \n"))
   return(mod)
 
 }

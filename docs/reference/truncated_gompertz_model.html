@@ -129,7 +129,7 @@ and a minimum age of estimation.</p>
     </div>
 
     <pre class="usage"><span class='fu'>truncated_gompertz_model</span>(<span class='no'>tab_df</span>, <span class='no'>min_age</span>, <span class='kw'>number_chains</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>number_iterations</span> <span class='kw'>=</span> <span class='fl'>7500</span>, <span class='kw'>run_update</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+  <span class='kw'>number_iterations</span> <span class='kw'>=</span> <span class='fl'>7500</span>, <span class='kw'>run_update</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>run_in_parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +153,10 @@ and a minimum age of estimation.</p>
     <tr>
       <th>run_update</th>
       <td><p>Whether or not to automatically run model update if model did not converge</p></td>
+    </tr>
+    <tr>
+      <th>run_in_parallel</th>
+      <td><p>Whether or not to run the MCMC chains in paralell. If TRUE the model run time should be a bit faster.</p></td>
     </tr>
     </table>
     

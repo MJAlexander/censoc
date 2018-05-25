@@ -5,7 +5,7 @@
 \title{Run MCMC for Bayesian truncated Gompertz model}
 \usage{
 truncated_gompertz_model(tab_df, min_age, number_chains = 3,
-  number_iterations = 7500, run_update = FALSE)
+  number_iterations = 7500, run_update = FALSE, run_in_parallel = FALSE)
 }
 \arguments{
 \item{tab_df}{A tabulated CenSoc dataframe}
@@ -17,6 +17,8 @@ truncated_gompertz_model(tab_df, min_age, number_chains = 3,
 \item{number_iterations}{The number of iterations per chain of MCMC}
 
 \item{run_update}{Whether or not to automatically run model update if model did not converge}
+
+\item{run_in_parallel}{Whether or not to run the MCMC chains in paralell. If TRUE the model run time should be a bit faster.}
 }
 \value{
 a JAGS model object
