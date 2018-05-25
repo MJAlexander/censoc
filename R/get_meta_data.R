@@ -12,7 +12,8 @@ get_meta_data <- function(tab_df, min_age){
   nages <- length(ages)
   cohorts <- sort(unique(tab_df$byear))
   ncohorts <- length(cohorts)
-  group_levels <- sort(unique(tab_df[,3][[1]])) # grouping variable should be in the third column
+  if(mode(tab_df[,3][[1]])!="numeric") stop("The third column must contain integers referring to the group level. \n")
+  group_levels <- 1:length(unique(tab_df[,3][[1]])) # grouping variable should be in the third column
   ngroups <- length(group_levels)
   group_labels <- unique(tab_df[,5][[1]]) # grouping variable should be in the 5th column
 
