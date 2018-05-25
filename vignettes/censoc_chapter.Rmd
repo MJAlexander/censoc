@@ -54,7 +54,7 @@ research difficult.
 
 In this paper, a new dataset for studying mortality disparities and
 changes over time in the United States is presented. The dataset, termed
-`CenSoc', uses two large-scale datasets: the full-count 1940 Census to
+'CenSoc', uses two large-scale datasets: the full-count 1940 Census to
 obtain demographic, socioeconomic and geographic information; and that
 is linked to the Social Security Deaths Masterfile (SSDM) to obtain
 mortality information. The full-count 1940 census has been used in many
@@ -78,7 +78,7 @@ ages 65-95 (observed in the period 1975-2005); however, there is not
 information on the number of survivors in the same period. Thus, it is
 not straightforward to use mortality information in CenSoc to create
 comparable estimates over time. As such, this paper also develops
-mortality estimation methods to better use the `deaths without
+mortality estimation methods to better use the 'deaths without
 denominators' information contained in CenSoc. Bayesian hierarchical
 methods are presented to estimate truncated death distributions over age
 and cohort, allowing for prior information in mortality trends to be
@@ -562,7 +562,7 @@ maximize the log-likelihood function based on data we observe about
 counts of death by age. Given the complexity of the likelihood function,
 numerical techniques need to be used, such as the
 Broyden-Fletcher-Goldfarb-Shanno (BFGS) algorithm
-(\citet{fletcher2013}).\footnote{The BFGS algorithm, which is a class of quasi-Newton optimization routines, can be implemented using the `optim' function in R.}
+(\citet{fletcher2013}).\footnote{The BFGS algorithm, which is a class of quasi-Newton optimization routines, can be implemented using the 'optim' function in R.}
 Standard errors around the estimates can be calculated based on the
 Hessian matrix, and inference can be carried out based on the assumption
 that the sampling distribution of the parameters are asymptotically
@@ -794,7 +794,7 @@ y_{c,x} &\sim& Poisson(\lambda_{c,x})\\
 \lambda_{c,x} &=& N_c \cdot d^*_{c,x}\\
 d^*_{c,x} &=& \frac{\beta_c \exp\left(\beta_c (x - M_c)\right)\cdot \exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x)-1 \right)\right)}{\exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x_{c,L})-1 \right)\right) - \exp \left( -\exp \left(-\beta_c M_c \right) \left(\exp(\beta_c x_{c,U})-1 \right)\right)}\\
 \beta_c &\sim& U(0.0001, 0.2)\\
-M_c &\sim& N(M_{c-1} - M_{c-2}, \sigma_M^2)\\
+M_c &\sim& N(2M_{c-1} - M_{c-2}, \sigma_M^2)\\
 \sigma_M &\sim& U(0, 40)
 \end{eqnarray*}
 
@@ -822,10 +822,10 @@ increasing the number of parameters may lead to model over-fitting.
 As an alternative to more complex parametric models, this section
 proposes a model framework based on data-derived principal components.
 The main idea is to use information about underlying mortality trends
-from existing data sources (a `mortality standard') to form the basis of a mortality model. Main
+from existing data sources (a 'mortality standard') to form the basis of a mortality model. Main
 patterns in death distributions from data are captured via Singular
 Value Decomposition (SVD) of age-specific death distributions. The SVD
-extracts `principal components', which describe main features of death
+extracts 'principal components', which describe main features of death
 distributions.
 
 Principal components create an underlying structure of the model in
@@ -911,7 +911,7 @@ right singular vectors \(V\).
 data}\label{the-mortality-standard-non-u.s.hmd-data}
 
 To build a principal components regression framework, we need to choose
-a suitable mortality `standard', which forms the basis of the
+a suitable mortality 'standard', which forms the basis of the
 age-specific matrix of death distributions on which the SVD is
 performed. The chosen standard is based on cohort mortality information
 available through the HMD, excluding data for the U.S.. In this way, we
@@ -945,7 +945,7 @@ each age between 50 and 105. The matrix has dimensions of
 \(1129 \times 56\), as there are 1129 country-cohort observations and 56
 ages. Fig.\ \ref{hmd_pcs} shows the mean death distribution and first two
 principal components obtained from this
-matrix.\footnote{Note we refer to the right singular vectors as `principal components'. They are technically `principal axes'. }
+matrix.\footnote{Note we refer to the right singular vectors as 'principal components'. They are technically 'principal axes'. }
 The mean schedule gives a shape of baseline mortality across the ages,
 with mortality peaking at around age 75. The first principal component
 could be interpreted as the average contribution of each age to
@@ -1602,7 +1602,7 @@ lower income groups (\citet{waldron2007}; \citet{bosworth2014};
 
 \section{Discussion}\label{discussion-1}
 
-This paper described `CenSoc', a dataset which was created using the
+This paper described 'CenSoc', a dataset which was created using the
 1940 U.S.\ Census and Social Security Deaths Masterfile, and contains
 over 7.5 million records that link individual's demographic,
 socioeconomic and geographic information with their age and date of
@@ -1630,7 +1630,7 @@ cohort. This means that, apart from extinct cohorts (those that have
 reached an age in 2005 where there are very few or no survivors),
 standard techniques of survival analysis and mortality estimation cannot
 be used. As such, a second part of this paper was to develop mortality
-estimation methods in order to best to utilize the `deaths without
+estimation methods in order to best to utilize the 'deaths without
 denominators' information contained in CenSoc. Two methods of estimating
 the truncated deaths distribution across age, cohort (and potentially
 other population subgroups) were presented. Both methods were fit in a
