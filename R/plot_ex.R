@@ -9,7 +9,7 @@
 
 
 plot_ex <- function(ex_df, ex_age, group_title){
-  p <- ggplot(ex_df %>% filter(age == min_age), aes(cohort, ex_median)) +
+  p <- ggplot(ex_df %>% filter(age == ex_age), aes(cohort, ex_median)) +
     geom_line(aes(color = group_label), lwd = 1.2) +
     geom_ribbon(aes(ymin = ex_lower, ymax = ex_upper, fill = group_label), alpha = 0.2)+
     ylab(paste0("Life expectancy at age ", ex_age))+
