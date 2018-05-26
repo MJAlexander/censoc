@@ -4,6 +4,7 @@
 #'
 #'@param df a CenSoc data frame. Must have `HISPAN` column.
 #'@return a CenSoc data frame with `hispan_recode` column.
+#'@export
 
 add_hispan_recode_column <- function(df){
   df <- df %>%

@@ -6,6 +6,7 @@
 #' @param df CenSoc dataframe
 #' @param ... grouping variables (in addition to year and age at death)
 #' @return tabulated dataframe
+#' @export
 
 tabulate_deaths <- function(df, ...){
   if(sum(c("byear", "age_of_death") %in% colnames(df))!=2){

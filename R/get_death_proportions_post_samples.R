@@ -7,6 +7,7 @@
 #' @param ngroups number of groups
 #' @param nages number of ages
 #' @return an array of posterior samples of death proportions by age, cohort and group
+#' @export
 
 get_death_proportions_post_samples <- function(mod,
                                                ncohorts,

@@ -5,6 +5,7 @@
 #' @param males_only whether to just keep males. Default is \code{TRUE}.
 #' @return a census dataframe with match key and unique IPUMS identifier
 #' @import data.table
+#' @export
 
 load_census <- function(census_file,
                         cols_to_keep = NULL,

@@ -4,6 +4,7 @@
 #' @param add_country logicial indicating whether or not to add a column with the country name. Default is `FALSE`
 #' @param country_name country name
 #' @return a data table with the contents of HMD file read in.
+#' @export
 
 
 read_hmd <- function(file_name,

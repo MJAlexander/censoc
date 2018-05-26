@@ -8,6 +8,7 @@
 #' @param ngroups Number of group levels
 #' @param min_age The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)
 #' @return a list containing data elements in the right form for JAGS input
+#' @export
 
 
 get_jags_data <- function(tab_df, ncohorts, ngroups, min_age){

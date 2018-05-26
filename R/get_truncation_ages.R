@@ -7,6 +7,7 @@
 #' @param ncohorts Number of cohorts
 #' @param ngroups Number of group levels
 #' @return a list containing matrices of left and right truncation ages
+#' @export
 
 get_truncation_ages <- function(tab_df, ncohorts, ngroups){
   x_left <- tab_df %>%

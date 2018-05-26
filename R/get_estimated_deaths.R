@@ -11,6 +11,7 @@
 #' @param nages number of ages
 #' @param alpha_level level of significance. Default is 5\%.
 #' @return a dataframe with estimated deaths by age, group and cohort
+#' @export
 
 get_estimated_deaths <- function(mod,
                                  cohorts,
