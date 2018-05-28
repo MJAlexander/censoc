@@ -86,9 +86,9 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Documentation for CenSoc Dataset</h1>
-                        <h4 class="author">Vignette Author</h4>
+                        <h4 class="author">Monica Alexander</h4>
             
-            <h4 class="date">2018-05-25</h4>
+            <h4 class="date">2018-05-28</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/match_document.Rmd"><code>vignettes/match_document.Rmd</code></a></small>
       <div class="hidden name"><code>match_document.Rmd</code></div>
@@ -105,120 +105,70 @@
 <div id="the-censoc-r-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#the-censoc-r-package" class="anchor"></a>The <code>censoc</code> R package</h2>
-<p>The CenSoc project has an accompanying R package <code>censoc</code>, which contains supporting R code and documentation used to create and work with the CenSoc dataset. The package can be found here: .</p>
+<p>The CenSoc project has an accompanying R package <code>censoc</code>, which contains supporting R code and documentation used to create and work with the CenSoc dataset. Information about the package can be found <a href="https://censoc.demog.berkeley.edu/index.html">here</a>.</p>
+<p>The CenSoc dataset was created by combining two separate data sources: the 1940 census, and the Social Security Deaths Master file (SSDM). The two data sources were matched based on unique identifiers of first name, last name and age at the time of the census. Due to issues with potential name changes with marriage, the matching process is restricted to only include males.</p>
+<p>As described below, the census observes individuals in 1940, and the SSDM observes individuals in the period 1975-2005. Therefore, by construction, the CenSoc dataset can only contain individuals who died between 1975 and 2005.</p>
 </div>
-</div>
-<div id="data-sources" class="section level1">
-<h1 class="hasAnchor">
-<a href="#data-sources" class="anchor"></a>Data sources</h1>
-<div id="census" class="section level2">
+<div id="data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#census" class="anchor"></a>Census</h2>
-<p>The original 1940 census records were digitized by Ancestry.com and are made available through the Minnesota Population Center (MPC). The MPC provides a de-identified version of the complete count census as part of the IPUMS-USA website: . However, name and other identifying information is not available from the IPUMS website.</p>
-<p>Access to the resticted 1940 census data was granted by agreement between UC Berkeley and MPC. The data are encrypted and can only be accessed through computers or servers on the Berkeley demography network.</p>
+<a href="#data" class="anchor"></a>Data</h2>
+<p>The demographic and socioeconomic data come from the U.S. 1940 census, which was completed on 1 April 1940. The census collected demographic information such as age, sex, race, number of children, birthplace, and mother’s and father’s birthplace. Geographic information, including county and street address, and economic information such as wages, non-wage income, hours worked, labor force status and ownership of house was also collected. The 1940 census had a total of 132,164,569 individuals, 66,093,146 of whom were males.</p>
+<p>The 1940 census records were released by the U.S. National Archives on April 2, 2012. The original 1940 census records were digitized by Ancestry.com and are available through the Minnesota Population Center (MPC). The MPC provides a de-identified version of the complete count census as part of the IPUMS-USA project. However, names and other identifying information are not available from the IPUMS website. Access to the restricted 1940 census data was granted by agreement between UC Berkeley and MPC. The data are encrypted and can only be accessed through computers or servers on the Berkeley demography network.</p>
+<p>Information on the age and date of death was obtained through the SSDM. This contains a record of all deaths that have been reported to the Social Security Administration (SSA) since 1962. The SSDM is used by financial and government agencies to match records and prevent identity fraud and is considered a public document under the Freedom of Information Act. Monthly and weekly updates of the file are sold by the National Technical Information Service of the U.S. Department of Commerce. A copy of the 2011 version was obtained through the Berkeley Library Data Lab.</p>
+<p>The SSDM contains an individual’s first name, last name, middle initial, social security number, date of birth and date of death. The 2011 file has 85,822,194 death records. The death dates span the years 1962-2011. There are 76,056,377 individuals in the SSDM who were alive at the time of the 1940 census.</p>
+<p>Completeness of death reporting in the SSDM is lower pre-1970s, when a substantial proportion of the population did not pay into the social security system. Deaths are more likely to be reported at older ages, when a person was more likely to be receiving social security benefits.</p>
+<p>To check the coverage of SSDM at the population level, the total number of deaths by year reported in the SSDM was compared to those in the Human Mortality Database (HMD). As the Figure below illustrates, the completeness of the SSDM file is high (around 95%) for ages 55+ in the period 1975-2005. As such, the data used to create CenSoc is restricted to only include deaths from SSDM that occurred between the period 1975-2005.</p>
+<p><img src="fig/hmd_ssdm_deaths_55.png" width="600px"></p>
 </div>
-<div id="social-security-deaths" class="section level2">
+<div id="data-preparation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#social-security-deaths" class="anchor"></a>Social Security Deaths</h2>
-<p>The Social Security Administration (SSA) has kept a record of all deaths that have been reported to the SSA since 1962 in their death master file (SSDM). The SSDM is used by financial and government agencies to match records and prevent identity fraud.</p>
-<p>The SSDM is considered a public document under the Freedom of Information Act. Monthly and weekly updates of the file are sold by the National Technical Information Service of the U.S. Department of Commerce.</p>
-<p>In our initial match, we obtained the SSDM files through the wesbite . This wesbite appears to be run by an individual who has bought a copy of the SSDM and decided to distribute it freely. The 2013 version of the SSDM is available here: .</p>
-<p><strong>Note:</strong> XX need to work out whether we are using the 2011 or 2013 version. Based on dates of deaths in the CenSoc data, it looks like probably 2011. Also need to confirm that I should be restricting the latest date of death.</p>
-<div id="data-completeness" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-completeness" class="anchor"></a>Data completeness</h3>
-<p>Completeness of death reporting in the SSDM is lower pre-1970s, as a substantial proportion of the population did not pay into the social security system. Deaths are more likely to be reported at older ages, when are more likely to be receiving social security benefits. In addition, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3816971/">previous studies</a> have found death coverage in the SSDM is larger for men and for the white population. <a href="https://www.ssa.gov/policy/docs/ssb/v64n1/v64n1p45.pdf">Previous studies</a> suggest more than 90% completeness of deaths over age 65 reported in the SSDM since 1975, compared to vital statistics sources. Our own comparison with HMD suggests XX% completeness of the SSDM data after 1975.</p>
-</div>
-</div>
-</div>
-<div id="data-preparation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#data-preparation" class="anchor"></a>Data preparation</h1>
-<p>Prior to matching the two datasets, the relevant variables are cleaned to ensure the that matches are not affected by issues like trailing white space, punctuation, differences in case, etc. The cleaning steps for each dataset are described below.</p>
-<div id="census-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#census-1" class="anchor"></a>Census</h2>
-<p>For the Census dataset, the following releveant variables are retained:</p>
+<a href="#data-preparation" class="anchor"></a>Data preparation</h2>
+<p>For the Census dataset, the following pre-processing steps were done (using the <code>load_census</code> function):</p>
 <ul>
-<li>
-<code>SERIAL40</code>: 1940 census serial number</li>
-<li>
-<code>PERNUM</code>: person number in household</li>
-<li>
-<code>STATEFIP</code>: US state code</li>
-<li>
-<code>NUMPREC40</code>: total size of household</li>
-<li>
-<code>AGE</code>: age of respondent</li>
-<li>
-<code>SEX</code>: sex of respondent</li>
-<li>
-<code>NAMELAST</code>: first name of respondent (and middle name, if applicable)</li>
-<li>
-<code>NAMEFRST</code>: last name of respondent</li>
-</ul>
-<p>Age, sex and name are required to match the census data with the social security deaths data. The first four variables (<code>SERIAL40</code>, <code>PERNUM</code>, <code>STATEFIP</code>, <code>NUMPREC40</code>) are needed to merge the CenSoc dataset with the IPUMS census data at a later stage.</p>
-<p>The following pre-processing steps are done:</p>
-<ol style="list-style-type: decimal">
 <li>Convert all name strings to upper case.</li>
 <li>Remove the middle name. The original first name variable contains both first and middle name. The name string is split and only the first name is used for matching.</li>
 <li>Remove rows where either the first or last name are just question marks or blank.</li>
 <li>Create a match key by concatenating last name, first name and age.</li>
-<li>Subset the data to only include males. At this stage, we are not attempting to match the female population.</li>
-</ol>
-<p>Each of these steps is done using the <code>load_census</code> function within the <code>censoc</code> package.</p>
-</div>
-<div id="social-security-deaths-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#social-security-deaths-1" class="anchor"></a>Social Security Deaths</h2>
-<p>For the social security deaths files, there are three raw files in which rows contain a continuous string of characters. For each of the three files, each row is split into social security number, last name, first name, middle initial, date of death and date of birth. The three files are then binded together to create one large file. (XX Josh: where did you get the other variable info from)?</p>
-<p>The following pre-processing steps are done:</p>
-<ol style="list-style-type: decimal">
+<li>Subset the data to only include males.</li>
+</ul>
+<p>For the social security deaths files, there are three raw files in which rows contain a continuous string of characters. For each of the three files, each row is split into social security number, last name, first name, middle initial, date of death and date of birth. The three files are then bound together to create one large file.</p>
+<p>The following pre-processing steps are done (using the <code>load_socsec_deaths</code> function):</p>
+<ul>
 <li>Remove any trailing white space from first and last names</li>
-<li>Split up date of birth and date of death to get day, month and year of birth and death.</li>
+<li>Split date of birth and date of death to get day, month and year of birth and death.</li>
 <li>Calculate age of person at census. The age is calculated based on knowing the date of birth and that the 1940 census was run in April.</li>
 <li>Remove any deaths where the date of birth is missing</li>
 <li>Remove any deaths of people who born after 1940</li>
 <li>Remove any deaths before 1975</li>
 <li>Create a match key by concatenating last name, first name and census age.</li>
-</ol>
-<p>Each of these steps is done using the <code>load_socsec_deaths</code> function.</p>
+</ul>
 </div>
-</div>
-<div id="match-method" class="section level1">
-<h1 class="hasAnchor">
-<a href="#match-method" class="anchor"></a>Match Method</h1>
-<p>Currently, the two datasets are matched based on exact matches of first name, last name and age. For example, a match key could be <code>ALEXANDERMONICA31</code>. Census records that have a key that is not found in the social security deaths database are not matched. Any records with a duplicate match key are removed. In future, alternative match methods will be investigated, for example, accounting for name variants and spelling mistakes, simulating matched datasets based on duplicate keys, etc.</p>
-<p>The match is done using the <code>create_censoc</code> function. Each state is initially matched separately. The specific steps are:</p>
+<div id="match-method" class="section level2">
+<h2 class="hasAnchor">
+<a href="#match-method" class="anchor"></a>Match method</h2>
+<p>The two datasets are matched based on exact matches of first name, last name and age. For example, a match key could be . Census records with a key that is not found in the social security deaths database are not matched. The specific steps are:</p>
 <ol style="list-style-type: decimal">
 <li>Load in the cleaned census and social security datasets.</li>
-<li>Remove any duplicate keys.</li>
-<li>Merge the two datasets based on key.</li>
+<li>Remove duplicate keys.</li>
+<li>Merge the datasets based on key.</li>
 </ol>
-<div id="creating-the-national-matched-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#creating-the-national-matched-dataset" class="anchor"></a>Creating the national matched dataset</h2>
-<p>Due to file size, the matching step is done separately for each census file in each US state. The resulting national dataset is created by:</p>
+<p>Due to file size, the matching step is done separately for each census file in each U.S. state. The resulting national dataset is created by:</p>
 <ol style="list-style-type: decimal">
-<li>Loading in and binding all state matched files.</li>
-<li>Removing all rows that have duplicated keys.</li>
+<li>Loading and binding all state matched files.</li>
+<li>Removing all rows that have duplicated keys. \end{enumerate}</li>
 </ol>
-<p>This can be done using the <code>create_national_censoc</code> function.</p>
 </div>
-</div>
-<div id="resulting-dataset" class="section level1">
-<h1 class="hasAnchor">
-<a href="#resulting-dataset" class="anchor"></a>Resulting Dataset</h1>
-<p>A total of 7,564,451 individual males were matched across the census and SSDM to create the CenSoc dataset. As the 1940 full count census had 66,093,146 males, this corresponds to a raw match rate of 11.4%. A total of 43,881,719 males in the census had unqiue keys; as such the match rate on unique keys was 17.2%.</p>
-<div id="match-rates-by-group" class="section level2">
+<div id="resulting-dataset" class="section level2">
 <h2 class="hasAnchor">
-<a href="#match-rates-by-group" class="anchor"></a>Match rates by group</h2>
-<p>The raw match rates differ marked by cohort/age at census. As the table below illustrates, match rates are highest for 15-40 year olds. This corresponds to cohorts 1900-1925.</p>
+<a href="#resulting-dataset" class="anchor"></a>Resulting dataset</h2>
+<p>A total of 7,564,451 individual males were matched across the census and SSDM to create the CenSoc dataset. As the 1940 full count census had 66,093,146 males, this corresponds to a raw match rate of 11.4%. A total of 43,881,719 males in the census had unique keys; as such the match rate on unique keys was 17.2%.</p>
+<p>The raw match rates differ markedly by cohort/age at census. As Table 1 illustrates, match rates are highest for 15-40 year olds. This corresponds to cohorts born in 1900-1925.</p>
 <table class="table">
+<caption>CenSoc match rates by age group</caption>
 <thead><tr class="header">
-<th align="left">census_age</th>
-<th align="right">match_rate</th>
-<th align="right">match_rate_unique</th>
+<th align="left">Census age</th>
+<th align="right">Match rate (%)</th>
+<th align="right">Unique match rate (%)</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -227,59 +177,59 @@
 <td align="right">14.4</td>
 </tr>
 <tr class="even">
+<td align="left">5-9</td>
+<td align="right">11.6</td>
+<td align="right">18.4</td>
+</tr>
+<tr class="odd">
 <td align="left">10-14</td>
 <td align="right">14.5</td>
 <td align="right">22.7</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">15-19</td>
 <td align="right">17.0</td>
 <td align="right">26.3</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">20-24</td>
 <td align="right">18.2</td>
 <td align="right">27.4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">25-29</td>
 <td align="right">18.0</td>
 <td align="right">26.8</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">30-34</td>
 <td align="right">16.6</td>
 <td align="right">24.8</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">35-39</td>
 <td align="right">13.9</td>
 <td align="right">20.7</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">40-44</td>
 <td align="right">10.8</td>
 <td align="right">16.0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">45-49</td>
 <td align="right">7.4</td>
 <td align="right">11.0</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">50-54</td>
 <td align="right">4.2</td>
 <td align="right">6.2</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">55-59</td>
 <td align="right">1.7</td>
 <td align="right">2.6</td>
-</tr>
-<tr class="even">
-<td align="left">5-9</td>
-<td align="right">11.6</td>
-<td align="right">18.4</td>
 </tr>
 <tr class="odd">
 <td align="left">60-64</td>
@@ -303,24 +253,14 @@
 </tr>
 </tbody>
 </table>
-<p>XX Need to add more characteristics</p>
-</div>
-<div id="accounting-for-mortality" class="section level2">
-<h2 class="hasAnchor">
-<a href="#accounting-for-mortality" class="anchor"></a>Accounting for mortality</h2>
-<p>Note that these raw match rates do not take into consideration mortality. Some individuals would have died before 1975, and some are still alive after 2005, and so do not appear in the SSDM. Thus we would never expect to get match rates of 100% given we only observe a truncated window of deaths.</p>
-<p>Based on overall US mortality reported in the HMD…XX TODO…</p>
-</div>
-<div id="characteristics-of-matched-versus-unmatched-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#characteristics-of-matched-versus-unmatched-data" class="anchor"></a>Characteristics of matched versus unmatched data</h2>
+<p>These raw match rates do not take into consideration mortality. Some individuals died before 1975, and some are still alive after 2005; neither appears in the SSDM. In particular, the low rates at older ages are mostly due to the fact that people of that age in the census have already died by 1975. Thus we would never expect to get match rates of 100% given we only observe a truncated window of deaths.</p>
 </div>
 </div>
 <div id="merging-with-public-use-ipums-file" class="section level1">
 <h1 class="hasAnchor">
 <a href="#merging-with-public-use-ipums-file" class="anchor"></a>Merging with public-use IPUMS file</h1>
 <p>The CenSoc dataset contains information about individaul’s birth date (and implied at the 1940 census), death date and state of residence in 1940. The dataset does not contain any other information on the characteristics of the individuals; however, by using the unique identifier information contained in the CenSoc dataset, the data can be merged back to the 1940 census available on the <a href="https://usa.ipums.org/usa/">IPUMS-USA</a> website.</p>
-<p>For instructions on how to obtain full count census data from IPUMS, see documentation here: .</p>
+<p>For instructions on how to obtain full count census data from IPUMS, see documentation <a href="https://censoc.demog.berkeley.edu/articles/ipums_document.html">here</a>.</p>
 </div>
   </div>
 
@@ -332,30 +272,10 @@
 <li>
 <a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#the-censoc-r-package">The <code>censoc</code> R package</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#data-sources">Data sources</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#census">Census</a></li>
-      <li><a href="#social-security-deaths">Social Security Deaths</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#data-preparation">Data preparation</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#census-1">Census</a></li>
-      <li><a href="#social-security-deaths-1">Social Security Deaths</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#match-method">Match Method</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#creating-the-national-matched-dataset">Creating the national matched dataset</a></li>
-      </ul>
-</li>
-      <li>
-<a href="#resulting-dataset">Resulting Dataset</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#match-rates-by-group">Match rates by group</a></li>
-      <li><a href="#accounting-for-mortality">Accounting for mortality</a></li>
-      <li><a href="#characteristics-of-matched-versus-unmatched-data">Characteristics of matched versus unmatched data</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#data-preparation">Data preparation</a></li>
+      <li><a href="#match-method">Match method</a></li>
+      <li><a href="#resulting-dataset">Resulting dataset</a></li>
       </ul>
 </li>
       <li><a href="#merging-with-public-use-ipums-file">Merging with public-use IPUMS file</a></li>
