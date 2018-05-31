@@ -7,6 +7,7 @@
 #' @param demeaned whether the values should be demeaned. If \code{TRUE}, the first column of the returned matrix is the mean.
 #' @param n_pcs number of principal components to return. Default is 10.
 #' @return a matrix that contains principal components by age of logit death distributions.
+#' @export
 
 
 get_hmd_death_pcs <- function(dx_data,

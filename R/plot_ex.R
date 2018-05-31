@@ -6,6 +6,7 @@
 #' @param ex_age age for life expectancy to be plotted. Minimum is the minimum age of estimation (default is 55).
 #' @param group_title string indicating the type of group being considered, e.g. "Education"
 #' @return a ggplot object
+#' @export
 
 
 plot_ex <- function(ex_df, ex_age, group_title){

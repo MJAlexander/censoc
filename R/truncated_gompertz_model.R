@@ -10,6 +10,7 @@
 #' @param run_update Whether or not to automatically run model update if model did not converge
 #' @param run_in_parallel Whether or not to run the MCMC chains in paralell. If TRUE the model run time should be a bit faster.
 #' @return a JAGS model object
+#' @export
 
 
 

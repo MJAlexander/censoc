@@ -4,6 +4,7 @@
 #'
 #'@param df a CenSoc data frame. Must have `RACE` column.
 #'@return a CenSoc data frame with `race_recode` column.
+#'@export
 
 add_race_recode_column <- function(df){
   df <- df %>%

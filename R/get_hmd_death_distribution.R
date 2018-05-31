@@ -8,6 +8,7 @@
 #' @param remove_na whether or not to remove the countries/ years that do not have every age. Default is `TRUE`.
 #' @param single_country whether or not dataset contains single or multiple countries
 #' @return a tibble that contains proportion of male deaths by age
+#' @export
 
 
 get_hmd_death_distribution <- function(mx_data,

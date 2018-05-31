@@ -4,6 +4,7 @@
 #'
 #'@param df a CenSoc data frame. Must have `EDUC` column.
 #'@return a CenSoc data frame with `educ_recode` column.
+#'@export
 
 add_educ_recode_column <- function(df){
   df <- df %>%

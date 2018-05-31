@@ -2,6 +2,7 @@
 #'
 #' @param state_censoc_files a vector of filenames referring to state matched censoc files
 #' @return a dataframe with matched census and socsec data
+#' @export
 
 
 create_national_censoc <- function(state_censoc_files){

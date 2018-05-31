@@ -3,6 +3,7 @@
 #' @param socsec_files a vector of file names where the social security death files live.
 #' @return a dataframe with match key, age, and date of death
 #' @import data.table
+#' @export
 
 load_socsec_deaths <- function(socsec_files){
 

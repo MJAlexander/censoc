@@ -4,6 +4,7 @@
 #'
 #'@param dt a CenSoc data table
 #'@return a CenSoc data table with `age_of_death` column.
+#'@export
 
 add_age_of_death_column <- function(dt){
   dt <- as.data.table(dt)

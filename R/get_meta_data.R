@@ -6,6 +6,7 @@
 #' @param tab_df A tabulated CenSoc dataframe
 #' @param min_age The minimum age of estimation, i.e. where to start estimates of dx from (lowest that makes sense is probably 40)
 #' @return a list of metadata
+#' @export
 
 get_meta_data <- function(tab_df, min_age){
   ages <- min_age:110

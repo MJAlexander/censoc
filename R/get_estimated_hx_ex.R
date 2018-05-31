@@ -10,6 +10,7 @@
 #' @param nages number of ages
 #' @param alpha_level level of significance. Default is 5\%.
 #' @return an array of posterior samples of death proportions by age, cohort and group
+#' @export
 
 
 get_estimated_hx_ex <- function(mod,
