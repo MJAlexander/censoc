@@ -15,7 +15,4 @@ a string with no punctuation
 \description{
 Clean matching keys
 }
-\examples{
-clean_key("testi'ing")
-}
 \keyword{internal}

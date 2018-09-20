@@ -15,7 +15,4 @@ first word from string of words
 \description{
 Get first word from a string
 }
-\examples{
-get_first_word("Agatha Christie")
-}
 \keyword{internal}
