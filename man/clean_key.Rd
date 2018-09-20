@@ -18,3 +18,4 @@ Clean matching keys
 \examples{
 clean_key("testi'ing")
 }
+\keyword{internal}

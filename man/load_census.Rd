@@ -19,3 +19,4 @@ a census dataframe with match key and unique IPUMS identifier
 \description{
 Load a census file
 }
+\keyword{internal}

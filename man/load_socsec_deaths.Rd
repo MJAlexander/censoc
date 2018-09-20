@@ -15,3 +15,4 @@ a dataframe with match key, age, and date of death
 \description{
 Load a census file
 }
+\keyword{internal}

@@ -4,7 +4,7 @@
 #' @return first word from string of words
 #' @examples
 #' get_first_word("Agatha Christie")
-#' @export
+#' @keywords internal
 
 get_first_word <- function(x)
 {
@@ -20,7 +20,7 @@ get_first_word <- function(x)
 #' @return a string with no punctuation
 #' @examples
 #' clean_key("testi'ing")
-#' @export
+#' @keywords internal
 
 
 ## function to clean keys

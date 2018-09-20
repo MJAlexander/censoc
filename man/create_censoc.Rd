@@ -17,3 +17,4 @@ a dataframe with matched census and socsec data
 \description{
 Create a dataset of matched census and socsec data
 }
+\keyword{internal}

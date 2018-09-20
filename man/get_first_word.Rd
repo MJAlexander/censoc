@@ -18,3 +18,4 @@ Get first word from a string
 \examples{
 get_first_word("Agatha Christie")
 }
+\keyword{internal}
