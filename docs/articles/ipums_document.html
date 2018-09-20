@@ -8,8 +8,8 @@
 <title>Obtaining the full count 1940 census from IPUMS to use with CenSoc • censoc</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Obtaining the full count 1940 census from IPUMS to use with CenSoc">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Obtaining the full count 1940 census from IPUMS to use with CenSoc">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -87,7 +87,7 @@
     <div class="page-header toc-ignore">
       <h1>Obtaining the full count 1940 census from IPUMS to use with CenSoc</h1>
             
-            <h4 class="date">2018-05-28</h4>
+            <h4 class="date">2018-09-20</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/ipums_document.Rmd"><code>vignettes/ipums_document.Rmd</code></a></small>
       <div class="hidden name"><code>ipums_document.Rmd</code></div>
@@ -108,13 +108,13 @@
 <a href="#registering-for-ipums" class="anchor"></a>Registering for IPUMS</h1>
 <p>The Integrated Public Use Microdata Series (IPUMS) is a collection of individual-level data sources. IPUMS consists of microdata samples from censuses and surveys, in both the USA and internationally. IPUMS is housed at the Minnesota Population Center at the University of Minnesota.</p>
 <p>The IPUMS-USA data collection is free to use, but researchers must register and agree to terms and conditions. All you need to do to register is to fill out the form here:</p>
-
-<p>(Note: this link was accessed in March 2018. If it is broken, go to , navigate to ‘Login’ and then ‘Create an account’).</p>
+<p><a href="https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenu">https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenu</a></p>
+<p>(Note: this link was accessed in March 2018. If it is broken, go to <a href="https://usa.ipums.org/usa/" class="uri">https://usa.ipums.org/usa/</a>, navigate to ‘Login’ and then ‘Create an account’).</p>
 </div>
 <div id="choosing-variables-from-the-1940-full-count-census" class="section level1">
 <h1 class="hasAnchor">
 <a href="#choosing-variables-from-the-1940-full-count-census" class="anchor"></a>Choosing variables from the 1940 full count census</h1>
-<p>Once you have an account, you are ready to select and download data from the 1940 full count census. To get started, go to  and under ‘CREATE YOUR CUSTOM DATA SET’ click the ‘GET DATA’ button.</p>
+<p>Once you have an account, you are ready to select and download data from the 1940 full count census. To get started, go to <a href="https://usa.ipums.org/usa/" class="uri">https://usa.ipums.org/usa/</a> and under ‘CREATE YOUR CUSTOM DATA SET’ click the ‘GET DATA’ button.</p>
 <div id="select-data-sample" class="section level2">
 <h2 class="hasAnchor">
 <a href="#select-data-sample" class="anchor"></a>Select data sample</h2>
@@ -179,20 +179,21 @@ To obtain these variables:</p>
 <div id="merging-ipums-with-censoc" class="section level1">
 <h1 class="hasAnchor">
 <a href="#merging-ipums-with-censoc" class="anchor"></a>Merging IPUMS with CenSoc</h1>
-<p>Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example <code>R</code> file can be found here: .</p>
-<p>The idea is to create a unqiue ID by concatenating <code>SERIAL40</code>, <code>PERNUM</code> and <code>STATEFIP</code>. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> This can be done using base <code>R</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span><span class="kw">merge</span>(censoc, census, <span class="dt">by =</span> <span class="st">"unique_id"</span>)</code></pre></div>
-<p>or using the tidyverse/dplyr functionality:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span>censoc <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">left_join</span>(census, <span class="dt">by =</span> <span class="st">"unique_id"</span>)</code></pre></div>
-<p>or using the <code>data.table</code> package (which is probably the fastest):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df &lt;-<span class="st"> </span>censoc[census, nomatch=<span class="dv">0</span>]</code></pre></div>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique.<a href="#fnref1">↩</a></p></li>
-</ol>
+<p>Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example <code>R</code> file can be found <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">here</a>.</p>
+<!-- The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`: -->
+<!-- ```{r, eval=F} -->
+<!-- merged_df <- merge(censoc, census, by = "unique_id") -->
+<!-- ``` -->
+<!-- or using the tidyverse/dplyr functionality: -->
+<!-- ```{r, eval = F} -->
+<!-- merged_df <- censoc %>%  -->
+<!--   left_join(census, by = "unique_id") -->
+<!-- ``` -->
+<!-- or using the `data.table` package (which is probably the fastest): -->
+<!-- ```{r, eval = F} -->
+<!-- merged_df <- censoc[census, nomatch=0] -->
+<!-- ``` -->
+<!-- [^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique. -->
 </div>
   </div>
 

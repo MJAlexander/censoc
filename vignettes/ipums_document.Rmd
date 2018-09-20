@@ -20,12 +20,12 @@ The Integrated Public Use Microdata Series (IPUMS) is a collection of individual
 
 The IPUMS-USA data collection is free to use, but researchers must register and agree to terms and conditions. All you need to do to register is to fill out the form here:
 
-\url{https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenu}
+https://uma.pop.umn.edu/usa/user/new?return_url=https%3A%2F%2Fusa.ipums.org%2Fusa-action%2Fmenu
 
-(Note: this link was accessed in March 2018. If it is broken, go to \texttt{\url{https://usa.ipums.org/usa/}}, navigate to 'Login' and then 'Create an account'). 
+(Note: this link was accessed in March 2018. If it is broken, go to https://usa.ipums.org/usa/, navigate to 'Login' and then 'Create an account'). 
 
 # Choosing variables from the 1940 full count census
-Once you have an account, you are ready to select and download data from the 1940 full count census. To get started, go to \texttt{\url{https://usa.ipums.org/usa/}} and under 'CREATE YOUR CUSTOM DATA SET' click the 'GET DATA' button. 
+Once you have an account, you are ready to select and download data from the 1940 full count census. To get started, go to https://usa.ipums.org/usa/ and under 'CREATE YOUR CUSTOM DATA SET' click the 'GET DATA' button. 
 
 ## Select data sample
 To restrict data extraction to the 1940 full count:
@@ -80,25 +80,25 @@ Given the size of the file, the processing may take a while. Once the file is re
 
 # Merging IPUMS with CenSoc
 
-Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example `R` file can be found here: \texttt{\url{https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R}}.
+Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example `R` file can be found [here](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R).  
 
-The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`:
+<!-- The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`: -->
 
-```{r, eval=F}
-merged_df <- merge(censoc, census, by = "unique_id")
-```
+<!-- ```{r, eval=F} -->
+<!-- merged_df <- merge(censoc, census, by = "unique_id") -->
+<!-- ``` -->
 
-or using the tidyverse/dplyr functionality:
-```{r, eval = F}
-merged_df <- censoc %>% 
-  left_join(census, by = "unique_id")
-```
+<!-- or using the tidyverse/dplyr functionality: -->
+<!-- ```{r, eval = F} -->
+<!-- merged_df <- censoc %>%  -->
+<!--   left_join(census, by = "unique_id") -->
+<!-- ``` -->
 
-or using the `data.table` package (which is probably the fastest):
+<!-- or using the `data.table` package (which is probably the fastest): -->
 
-```{r, eval = F}
-merged_df <- censoc[census, nomatch=0]
-```
+<!-- ```{r, eval = F} -->
+<!-- merged_df <- censoc[census, nomatch=0] -->
+<!-- ``` -->
 
 
-[^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique.
+<!-- [^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique. -->
