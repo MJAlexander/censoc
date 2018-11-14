@@ -82,23 +82,42 @@ Given the size of the file, the processing may take a while. Once the file is re
 
 Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example `R` file can be found [here](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R).  
 
-<!-- The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`: -->
+The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`:
 
-<!-- ```{r, eval=F} -->
-<!-- merged_df <- merge(censoc, census, by = "unique_id") -->
-<!-- ``` -->
+The variable "HISTID" uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
 
-<!-- or using the tidyverse/dplyr functionality: -->
-<!-- ```{r, eval = F} -->
-<!-- merged_df <- censoc %>%  -->
-<!--   left_join(census, by = "unique_id") -->
-<!-- ``` -->
+A tidyverse join: 
 
-<!-- or using the `data.table` package (which is probably the fastest): -->
+```{r, eval = FALSE}
+library(tidyverse)
+censoc <- read_csv('path/to/your/censoc')
+census <- read_csv('path/to/your/ipums')
+merged_df <- censoc %>%
+  left_join(census, by = "HISTID")
+```
 
-<!-- ```{r, eval = F} -->
-<!-- merged_df <- censoc[census, nomatch=0] -->
-<!-- ``` -->
+A data.table merge (faster): 
+```{r, eval = FALSE}
+library(data.table)
+censoc <- fread('path/to/your/censoc')
+census <- fread('path/to/your/ipums')
+setkey(censoc, HISTID)
+setkey(census, HISTID)
+merged_df <- censoc[census, nomatch=0]
+```
+
+Using the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
+```{r, eval = FALSE}
+library(ipumsr)
+library(tidyverse)
+
+read_ipums_micro(data_file = "path/to/your/ipums",  ddi = "path/to/your/ipums/ddi")
+censoc <- read_csv('path/to/your/censoc')
+
+merged_df <- censoc %>%
+  left_join(census, by = "HISTID")
+```
 
 
-<!-- [^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique. -->
+
+[^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique.

@@ -5,7 +5,8 @@
 \title{Run MCMC for Bayesian truncated Gompertz model}
 \usage{
 truncated_gompertz_model(tab_df, min_age, number_chains = 3,
-  number_iterations = 7500, run_update = FALSE, run_in_parallel = FALSE)
+  number_iterations = 7500, run_update = FALSE,
+  run_in_parallel = FALSE)
 }
 \arguments{
 \item{tab_df}{A tabulated CenSoc dataframe}

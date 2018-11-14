@@ -1,0 +1,47 @@
+---
+title: "Merging full count 1940 census from IPUMS with CenSoc Data"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Merging IPUMS and Censoc
+
+It is straightforward to match CENSOC data to IPUMS census data once both datasets have been [obtained](https://censoc.demog.berkeley.edu/articles/ipums_document.html).  
+
+The variable "HISTID" uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
+
+A tidyverse join: 
+
+```{r, eval = F}
+library(tidyverse)
+censoc <- read_csv('path/to/your/censoc')
+census <- read_csv('path/to/your/ipums')
+merged_df <- censoc %>%
+  left_join(census, by = "HISTID")
+```
+
+A data.table merge (probably faster): 
+```{r, eval = F}
+library(data.table)
+censoc <- fread('path/to/your/censoc')
+census <- fread('path/to/your/ipums')
+setkey(censoc, HISTID)
+setkey(census, HISTID)
+merged_df <- censoc[census, nomatch=0]
+```
+
+Using the [IPUMSR Package] (https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
+```{r, eval = F}
+library(ipumsr)
+library(tidyverse)
+
+read_ipums_micro(data_file = "path/to/your/ipums",  ddi = "path/to/your/ipums/ddi")
+censoc <- read_csv('path/to/your/censoc')
+
+merged_df <- censoc %>%
+  left_join(census, by = "HISTID")
+```

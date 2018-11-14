@@ -4,8 +4,8 @@
 \alias{get_estimated_deaths}
 \title{Get estimated deaths from Bayesian truncated Gompertz model}
 \usage{
-get_estimated_deaths(mod, cohorts, ncohorts, group_levels, ngroups, ages, nages,
-  alpha_level = 0.05)
+get_estimated_deaths(mod, cohorts, ncohorts, group_levels, ngroups, ages,
+  nages, alpha_level = 0.05)
 }
 \arguments{
 \item{mod}{a JAGS model object}

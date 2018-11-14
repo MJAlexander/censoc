@@ -15,9 +15,9 @@ LazyData: true
 Imports:
   data.table,
   stringr,
-  rlang,
-  tidyverse
-RoxygenNote: 6.0.1
+  rlang (>= 0.3),
+  tidyverse (>= 1.2.1)
+RoxygenNote: 6.1.0.9000
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

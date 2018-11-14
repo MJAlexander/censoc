@@ -1,9 +1,11 @@
-pandoc: 1.19.2.1
+pandoc: 1.17.2
 pkgdown: 1.1.0
 pkgdown_sha: ~
 articles:
   bfdw_variables: bfdw_variables.html
   censoc_chapter: censoc_chapter.html
   ipums_document: ipums_document.html
+  ipums_merge: ipums_merge.html
   match_document: match_document.html
+  truncated_gompertz_mortality: truncated_gompertz_mortality.html
 

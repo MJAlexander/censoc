@@ -4,7 +4,8 @@
 \alias{get_hmd_death_pcs}
 \title{Principal components from HMD}
 \usage{
-get_hmd_death_pcs(dx_data, demeaned = FALSE, single_country, n_pcs = 10)
+get_hmd_death_pcs(dx_data, demeaned = FALSE, single_country,
+  n_pcs = 10)
 }
 \arguments{
 \item{dx_data}{HMD data on death distribution}
