@@ -58,4 +58,61 @@ merged_df <- censoc %>%
 ```
 
 
-## Characteristics of CenSoc 
+## Characteristics of Merged Dataset
+
+The merged dataset should contain 7,563,309 records (1142 cases can't be matched as the HISTIDS were unavailable).
+
+After merging, checking that you can replicate these descriptive statisics with your merged dataset is a helpful to check the merge was successful.
+
+Race: 
+
+```{r, eval = F}
+merged_df %>%
+                 group_by(RACE) %>%
+                 tally() %>%
+                 mutate(freq = signif(n*100 / sum(n), 3)) %>%
+                 select(RACE, n, freq)
+```
+
+
+| race|       n|    freq
+|----:|-------:|-------:|
+|    1| 7103201| 93.9000|
+|    2|  435422|  5.7600|
+|    3|   12252|  0.1620|
+|    4|    4726|  0.0625|
+|    5|    5540|  0.0732|
+|    6|    2168|  0.0287|
+
+Average age at death by race: 
+
+```{r, eval = F}
+# code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section
+merged_df <- merged_df %>% mutate(race_name = case_when(
+  RACE == 1 ~ "White",
+  RACE == 2 ~ "Black",
+  RACE == 3 ~ "American Indian/Alaskan native",
+  RACE == 4 ~ "Chinese",
+  RACE == 5 ~ "Japanese",
+  RACE == 6 ~ "Other Asian or Pacific Islander",
+  TRUE ~ "NA"
+))
+
+# calculate age at death
+merged_df <- merged_df %>%
+  mutate(age_at_death = dyear - byear)
+
+# calculate average age at death by race
+merged_df %>% group_by(race_name) %>% 
+  summarise(mean_age_at_death = mean(age_at_death))
+```
+
+|race_name                       | mean_age_at_death|
+|:-------------------------------|-----------------:|
+|American Indian/Alaskan native  |          71.41781|
+|Black                           |          73.48863|
+|Chinese                         |          76.75264|
+|Japanese                        |          76.95217|
+|Other Asian or Pacific Islander |          78.97832|
+|White                           |          76.08496|
+
