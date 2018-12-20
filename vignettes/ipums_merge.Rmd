@@ -45,3 +45,6 @@ censoc <- read_csv('path/to/your/censoc')
 merged_df <- censoc %>%
   left_join(census, by = "HISTID")
 ```
+
+
+## Characteristics of CenSoc 

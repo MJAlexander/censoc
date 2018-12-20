@@ -95,6 +95,7 @@ plot_ex(ex_df, ex_age, group_title)
 
 * For the `truncated_gompertz_model` function to work, the `tab_df` must follow the ordering used above. In particular, the third column must be a number referring to the group level. The fifth column must be a label for each group.
 
-* For the model to converge, the value of "Rhat" must be 1.1 or lower. If your model did not converge, try running it for more iterations. 
-__NOTE: Model run time can be quite long. In this case, for 4,000 iterations it could take 3 minutes using 3 place of birth categories. However, increasing the number of iterations or the categories, increases the run time..__
+* For the model to converge, the value of "Rhat" must be 1.1 or lower. If your model did not converge, try running it for more iterations.
+
+- **NOTE: Model run time can be quite long. In this case, for 4,000 iterations it could take 3 minutes using 3 place of birth categories. However, increasing the number of iterations or the categories, increases the run time.**
   
