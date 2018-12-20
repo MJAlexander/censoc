@@ -61,7 +61,7 @@
       <a href="../articles/ipums_document.html">Obtaining the full count 1940 census from IPUMS to use with CenSoc</a>
     </li>
     <li>
-      <a href="../articles/ipums_merge.html">Merging full count 1940 census from IPUMS with CenSoc Data</a>
+      <a href="../articles/ipums_merge.html">Merging IPUMS and Censoc</a>
     </li>
     <li>
       <a href="../articles/match_document.html">Documentation for CenSoc Dataset</a>
@@ -93,7 +93,7 @@
     <div class="page-header toc-ignore">
       <h1>Obtaining the full count 1940 census from IPUMS to use with CenSoc</h1>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-12-20</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/ipums_document.Rmd"><code>vignettes/ipums_document.Rmd</code></a></small>
       <div class="hidden name"><code>ipums_document.Rmd</code></div>
@@ -137,21 +137,15 @@
 <div id="variables-required-for-censoc-merge" class="section level2">
 <h2 class="hasAnchor">
 <a href="#variables-required-for-censoc-merge" class="anchor"></a>Variables required for CenSoc merge</h2>
-<p>There are several technical variables that are required for the CenSoc merge. These are:</p>
+<p>There is only one technical variable required for the CenSoc merge. This is:</p>
 <ul>
 <li>
-<code>SERIAL40</code>: 1940 census serial number</li>
-<li>
-<code>PERNUM</code>: person number in household</li>
-<li>
-<code>STATEFIP</code>: US state code</li>
+<code>HISTID</code>: a consistent individual-level identifier.</li>
 </ul>
-<p>Together, these variables make up a unique identifier that allows correspondence across the two datasets. Additionally, the <code>SEX</code> variable is needed in order to restrict the sample to be males only.<br>
+<p>This variables is a unique identifier that allows correspondence across the two datasets. Additionally, the <code>SEX</code> variable is needed in order to restrict the sample to be males only.<br>
 To obtain these variables:</p>
 <ol style="list-style-type: decimal">
-<li>From the HOUSEHOLD drop down, select ‘HISTORICAL TECHNICAL’. Then click on the cross next to <code>SERIAL40</code> to select it.</li>
-<li>From the HOUSEHOLD drop down, select ’GEOGRAPHIC. Then click on the cross next to <code>STATEFIP</code> to select it.</li>
-<li>From the PERSON drop down, select ‘TECHNICAL’. Note that <code>PERNUM</code> should be <code>[preselected]</code>, but you can click on the cross next to it just to make sure.</li>
+<li>From the PERSON drop down, select ‘TECHNICAL’. Note that <code>HISTID</code> should be <code>[preselected]</code>, but you can click on the cross next to it just to make sure.</li>
 <li>From the PERSON drop down, select ‘DEMOGRAPHIC’. Then click on the cross next to <code>SEX</code>.</li>
 </ol>
 <p>Additionally, you may want to select <code>AGE</code> from PERSONAL → DEMOGRAPHIC. This is not required, but this variable should be equal to the <code>census_age</code> variable in CenSoc.</p>
@@ -185,37 +179,7 @@ To obtain these variables:</p>
 <div id="merging-ipums-with-censoc" class="section level1">
 <h1 class="hasAnchor">
 <a href="#merging-ipums-with-censoc" class="anchor"></a>Merging IPUMS with CenSoc</h1>
-<p>Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example <code>R</code> file can be found <a href="https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R">here</a>.</p>
-<p>The idea is to create a unqiue ID by concatenating <code>SERIAL40</code>, <code>PERNUM</code> and <code>STATEFIP</code>. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> This can be done using base <code>R</code>:</p>
-<p>The variable “HISTID” uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets.</p>
-<p>A tidyverse join:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
-censoc &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'path/to/your/censoc'</span>)
-census &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'path/to/your/ipums'</span>)
-merged_df &lt;-<span class="st"> </span>censoc %&gt;%
-<span class="st">  </span><span class="kw">left_join</span>(census, <span class="dt">by =</span> <span class="st">"HISTID"</span>)</code></pre></div>
-<p>A data.table merge (faster):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(data.table)
-censoc &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/fread">fread</a></span>(<span class="st">'path/to/your/censoc'</span>)
-census &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/fread">fread</a></span>(<span class="st">'path/to/your/ipums'</span>)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/setkey">setkey</a></span>(censoc, HISTID)
-<span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/setkey">setkey</a></span>(census, HISTID)
-merged_df &lt;-<span class="st"> </span>censoc[census, nomatch=<span class="dv">0</span>]</code></pre></div>
-<p>Using the <a href="https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html">IPUMSR Package</a>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ipumsr)
-<span class="kw">library</span>(tidyverse)
-
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ipumsr/topics/read_ipums_micro">read_ipums_micro</a></span>(<span class="dt">data_file =</span> <span class="st">"path/to/your/ipums"</span>,  <span class="dt">ddi =</span> <span class="st">"path/to/your/ipums/ddi"</span>)
-censoc &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'path/to/your/censoc'</span>)
-
-merged_df &lt;-<span class="st"> </span>censoc %&gt;%
-<span class="st">  </span><span class="kw">left_join</span>(census, <span class="dt">by =</span> <span class="st">"HISTID"</span>)</code></pre></div>
-</div>
-<div class="footnotes">
-<hr>
-<ol>
-<li id="fn1"><p>Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique.<a href="#fnref1">↩</a></p></li>
-</ol>
+<p>Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. The unique ID <code>HISTID</code> is available in the CenSoc and IPUMS census dataset and can be used to merge the two datasets. More complete instructions can be found <a href="https://censoc.demog.berkeley.edu/articles/ipums_merge.html">here</a>.</p>
 </div>
   </div>
 
