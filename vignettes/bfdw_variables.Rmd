@@ -12,6 +12,7 @@ Below is a list of variables contained in the CenSoc data set to be used at the 
 
 # Date of birth and death
 
+- `HISTID` consistent individual-level identifier
 - `census_age` refers to the individual's age at the time of the 1940 Census. 
 - `byear`: year of birth
 - `dyear`: year of death
