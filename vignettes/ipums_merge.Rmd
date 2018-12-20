@@ -62,9 +62,9 @@ merged_df <- censoc %>%
 
 The merged dataset should contain 7,563,309 records (1142 cases can't be matched as the HISTIDS were unavailable).
 
-After merging, checking that you can replicate these descriptive statisics with your merged dataset to ensure the merge was successful.
+Checking that you can replicate these descriptive statisics with your merged dataset is a helpful way to ensure the merge was successful.
 
-Race: 
+#### Race: 
 
 ```{r, eval = F}
 merged_df %>%
@@ -84,7 +84,7 @@ merged_df %>%
 |    5|    5540|  0.0732|
 |    6|    2168|  0.0287|
 
-Average age at death by race: 
+#### Average age at death by race: 
 
 ```{r, eval = F}
 # code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section
