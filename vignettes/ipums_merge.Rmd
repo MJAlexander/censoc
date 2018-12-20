@@ -62,7 +62,7 @@ merged_df <- censoc %>%
 
 The merged dataset should contain 7,563,309 records (1142 cases can't be matched as the HISTIDS were unavailable).
 
-After merging, checking that you can replicate these descriptive statisics with your merged dataset is a helpful to check the merge was successful.
+After merging, checking that you can replicate these descriptive statisics with your merged dataset to ensure the merge was successful.
 
 Race: 
 
