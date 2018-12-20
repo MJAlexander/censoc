@@ -15,7 +15,15 @@ This vignette presents useful tools from the `censoc` R package and demonstrates
 
 For more information: [CenSoc project](https://censoc.demog.berkeley.edu/), [dataset details](https://censoc.demog.berkeley.edu/articles/match_document.html) and the [Bayesian truncated Gompertz model](https://censoc.demog.berkeley.edu/articles/censoc_chapter.pdf).
 
-##Short example code:
+##Example:
+
+Install CenSoc Packages: 
+```{r}
+# If you have not installed devtools, uncomment the line below
+# install.packages("devtools")
+devtools::install_github("MJAlexander/censoc")
+```
+
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(data.table)
@@ -73,7 +81,7 @@ ex_age <- 65# Age of life expectancy to be plotted
 plot_ex(ex_df, ex_age, group_title)
 ```
 
-###Important comments
+### Comments
 
 * Please refer to IPUMS documentation Census variables codes. 
 

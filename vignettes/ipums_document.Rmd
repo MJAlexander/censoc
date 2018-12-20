@@ -39,19 +39,16 @@ To restrict data extraction to the 1940 full count:
 This will take you back to the variable selection page. 
 
 ## Variables required for CenSoc merge
-There are several technical variables that are required for the CenSoc merge. These are: 
+There is only one technical variable required for the CenSoc merge. This is: 
 
-- `SERIAL40`: 1940 census serial number
-- `PERNUM`: person number in household
-- `STATEFIP`: US state code
+- `HISTID`: a consistent individual-level identifier.
 
-Together, these variables make up a unique identifier that allows correspondence across the two datasets. Additionally, the `SEX` variable is needed in order to restrict the sample to be males only.  
+
+This variables is a unique identifier that allows correspondence across the two datasets. Additionally, the `SEX` variable is needed in order to restrict the sample to be males only.  
 To obtain these variables:
 
-1. From the HOUSEHOLD drop down, select 'HISTORICAL TECHNICAL'. Then click on the cross next to `SERIAL40` to select it. 
-2. From the HOUSEHOLD drop down, select 'GEOGRAPHIC. Then click on the cross next to `STATEFIP` to select it. 
-3. From the PERSON drop down, select 'TECHNICAL'. Note that `PERNUM` should be `[preselected]`, but you can click on the cross next to it just to make sure. 
-4. From the PERSON drop down, select 'DEMOGRAPHIC'. Then click on the cross next to `SEX`. 
+1. From the PERSON drop down, select 'TECHNICAL'. Note that `HISTID` should be `[preselected]`, but you can click on the cross next to it just to make sure. 
+2. From the PERSON drop down, select 'DEMOGRAPHIC'. Then click on the cross next to `SEX`. 
 
 Additionally, you may want to select `AGE` from PERSONAL &rarr; DEMOGRAPHIC. This is not required, but this variable should be equal to the `census_age` variable in CenSoc. 
 
@@ -82,21 +79,29 @@ Given the size of the file, the processing may take a while. Once the file is re
 
 Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example `R` file can be found [here](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R).  
 
-The idea is to create a unqiue ID by concatenating `SERIAL40`, `PERNUM` and `STATEFIP`. The three codes should be concatenated with some sort of separator (e.g. and underscore). The two datasets are then merged based on this unique ID.[^1] This can be done using base `R`:
+The unique ID `HISTID` is available in the CenSoc and IPUMS census dataset and can be used to merge the two datasets. 
 
-The variable "HISTID" uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
+Base R (no packages required)
 
-A tidyverse join: 
+```{r, eval = FALSE}
+censoc <- read.csv('path/to/your/censoc')
+census <- read.csv('path/to/your/ipums')
+merged_df <- merge(censoc, census, by = "HISTID")
+```
+
+
+Merge using "tidyverse" packages (faster): 
 
 ```{r, eval = FALSE}
 library(tidyverse)
 censoc <- read_csv('path/to/your/censoc')
 census <- read_csv('path/to/your/ipums')
 merged_df <- censoc %>%
-  left_join(census, by = "HISTID")
+  inner_join(census, by = "HISTID")
 ```
 
-A data.table merge (faster): 
+Merge using data.table (fastest): 
+
 ```{r, eval = FALSE}
 library(data.table)
 censoc <- fread('path/to/your/censoc')
@@ -106,7 +111,8 @@ setkey(census, HISTID)
 merged_df <- censoc[census, nomatch=0]
 ```
 
-Using the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
+Merge us the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
+
 ```{r, eval = FALSE}
 library(ipumsr)
 library(tidyverse)
@@ -118,6 +124,3 @@ merged_df <- censoc %>%
   left_join(census, by = "HISTID")
 ```
 
-
-
-[^1]: Note: there is no way of matching individuals who lived in residences for 60 or more people across the CenSoc/IPUMS census datasets. The combination of SERIAL40, PERNUM and STATEFIP is not unique.

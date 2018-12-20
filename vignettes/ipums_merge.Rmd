@@ -34,7 +34,7 @@ setkey(census, HISTID)
 merged_df <- censoc[census, nomatch=0]
 ```
 
-Using the [IPUMSR Package] (https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
+Using the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
 ```{r, eval = F}
 library(ipumsr)
 library(tidyverse)
