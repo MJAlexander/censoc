@@ -18,7 +18,7 @@ For more information: [CenSoc project](https://censoc.demog.berkeley.edu/), [dat
 ##Example:
 
 Install CenSoc Packages: 
-```{r}
+```{r, eval = F}
 # If you have not installed devtools, uncomment the line below
 # install.packages("devtools")
 devtools::install_github("MJAlexander/censoc")
