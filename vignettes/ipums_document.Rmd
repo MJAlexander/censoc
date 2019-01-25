@@ -77,50 +77,5 @@ Given the size of the file, the processing may take a while. Once the file is re
 
 # Merging IPUMS with CenSoc
 
-Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. An example `R` file can be found [here](https://github.com/MJAlexander/censoc/blob/master/ipums_merge_example.R).  
-
-The unique ID `HISTID` is available in the CenSoc and IPUMS census dataset and can be used to merge the two datasets. 
-
-Base R (no packages required)
-
-```{r, eval = FALSE}
-censoc <- read.csv('path/to/your/censoc')
-census <- read.csv('path/to/your/ipums')
-merged_df <- merge(censoc, census, by = "HISTID")
-```
-
-
-Merge using "tidyverse" packages (faster): 
-
-```{r, eval = FALSE}
-library(tidyverse)
-censoc <- read_csv('path/to/your/censoc')
-census <- read_csv('path/to/your/ipums')
-merged_df <- censoc %>%
-  inner_join(census, by = "HISTID")
-```
-
-Merge using data.table (fastest): 
-
-```{r, eval = FALSE}
-library(data.table)
-censoc <- fread('path/to/your/censoc')
-census <- fread('path/to/your/ipums')
-setkey(censoc, HISTID)
-setkey(census, HISTID)
-merged_df <- censoc[census, nomatch=0]
-```
-
-Merge us the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html): 
-
-```{r, eval = FALSE}
-library(ipumsr)
-library(tidyverse)
-
-read_ipums_micro(data_file = "path/to/your/ipums",  ddi = "path/to/your/ipums/ddi")
-censoc <- read_csv('path/to/your/censoc')
-
-merged_df <- censoc %>%
-  left_join(census, by = "HISTID")
-```
+Once the IPUMS census dataset is obtained, it can easily be merged with the CenSoc dataset. The unique ID `HISTID` is available in the CenSoc and IPUMS census dataset and can be used to merge the two datasets. More complete instructions can be found [here](https://censoc.demog.berkeley.edu/articles/ipums_merge.html). 
 

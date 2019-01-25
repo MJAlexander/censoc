@@ -61,7 +61,7 @@
       <a href="../articles/ipums_document.html">Obtaining the full count 1940 census from IPUMS to use with CenSoc</a>
     </li>
     <li>
-      <a href="../articles/ipums_merge.html">Merging full count 1940 census from IPUMS with CenSoc Data</a>
+      <a href="../articles/ipums_merge.html">Merging IPUMS and Censoc</a>
     </li>
     <li>
       <a href="../articles/match_document.html">Documentation for CenSoc Dataset</a>
@@ -93,7 +93,7 @@
     <div class="page-header toc-ignore">
       <h1>Truncated Gompertz mortality estimation by cohort and birthplace</h1>
             
-            <h4 class="date">2018-11-14</h4>
+            <h4 class="date">2018-12-20</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/truncated_gompertz_mortality.Rmd"><code>vignettes/truncated_gompertz_mortality.Rmd</code></a></small>
       <div class="hidden name"><code>truncated_gompertz_mortality.Rmd</code></div>
@@ -105,9 +105,28 @@
 <p>As the observed deaths in the CenSoc dataset are truncated to be within a certain age range which varies across cohorts, any comparison across mortality cohorts will be misleading. The dataset must be adjusted for the truncation. Fortunately, a Bayesian truncated Gompertz model can be used for this dataset.</p>
 <p>This vignette presents useful tools from the <code>censoc</code> R package and demonstrates an application of the Bayesian truncated Gompertz model. For this case, the example will be an estimation of life expectancy at age 65 (i.e. the average years left to live at age 65) by cohort and place of birth, for cohorts 1895-1915 using the CenSoc dataset.</p>
 <p>For more information: <a href="https://censoc.demog.berkeley.edu/">CenSoc project</a>, <a href="https://censoc.demog.berkeley.edu/articles/match_document.html">dataset details</a> and the <a href="https://censoc.demog.berkeley.edu/articles/censoc_chapter.pdf">Bayesian truncated Gompertz model</a>.</p>
-<div id="short-example-code" class="section level2">
+<div id="example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#short-example-code" class="anchor"></a>Short example code:</h2>
+<a href="#example" class="anchor"></a>Example:</h2>
+<p>Install CenSoc Packages:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># If you have not installed devtools, uncomment the line below</span>
+<span class="co"># install.packages("devtools")</span>
+devtools::<span class="kw">install_github</span>(<span class="st">"MJAlexander/censoc"</span>)</code></pre></div>
+<pre><code>## Downloading GitHub repo MJAlexander/censoc@master
+## from URL https://api.github.com/repos/MJAlexander/censoc/zipball/master</code></pre>
+<pre><code>## Installing censoc</code></pre>
+<pre><code>## Installing data.table</code></pre>
+<pre><code>## '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+##   --quiet CMD INSTALL '/tmp/RtmpUfEYSK/devtools1c2f74e5eac5/data.table'  \
+##   --library='/hdir/0/caseybreen/R/x86_64-pc-linux-gnu-library/3.4'  \
+##   --install-tests</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+##   --quiet CMD INSTALL  \
+##   '/tmp/RtmpUfEYSK/devtools1c2f67ae00de/MJAlexander-censoc-0dc926c'  \
+##   --library='/hdir/0/caseybreen/R/x86_64-pc-linux-gnu-library/3.4'  \
+##   --install-tests</code></pre>
+<pre><code>## </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(data.table)
 <span class="kw">library</span>(rjags)
@@ -155,11 +174,11 @@ ex_df &lt;-<span class="st"> </span>res$ex_df <span class="co"># extract life ex
 ex_age &lt;-<span class="st"> </span><span class="dv">65</span><span class="co"># Age of life expectancy to be plotted </span>
 <span class="co">#Plot</span>
 <span class="kw"><a href="../reference/plot_ex.html">plot_ex</a></span>(ex_df, ex_age, group_title)</code></pre></div>
-<p><img src="truncated_gompertz_mortality_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="truncated_gompertz_mortality_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
-<div id="important-comments" class="section level3">
+<div id="comments" class="section level3">
 <h3 class="hasAnchor">
-<a href="#important-comments" class="anchor"></a>Important comments</h3>
+<a href="#comments" class="anchor"></a>Comments</h3>
 <ul>
 <li><p>Please refer to IPUMS documentation Census variables codes.</p></li>
 <li><p>As many categories of a variable can be included. However, the categories must be sequentially numbered for the model to run.</p></li>
@@ -167,7 +186,8 @@ ex_age &lt;-<span class="st"> </span><span class="dv">65</span><span class="co">
 <li><p>Computationally, the minimum age can be as low as 0. However, in terms of the Gompertz mortality model, we are interested in adults. So, <code>min_age</code> should be greater than <code>insert AGE</code>.</p></li>
 <li><p>The maximum age is not set by the user, it its fixed at 110. However, setting <code>ex_age</code> at 110 will yield a graph with no useful results.</p></li>
 <li><p>For the <code>truncated_gompertz_model</code> function to work, the <code>tab_df</code> must follow the ordering used above. In particular, the third column must be a number referring to the group level. The fifth column must be a label for each group.</p></li>
-<li><p>For the model to converge, the value of “Rhat” must be 1.1 or lower. If your model did not converge, try running it for more iterations. <strong>NOTE: Model run time can be quite long. In this case, for 4,000 iterations it could take 3 minutes using 3 place of birth categories. However, increasing the number of iterations or the categories, increases the run time..</strong></p></li>
+<li><p>For the model to converge, the value of “Rhat” must be 1.1 or lower. If your model did not converge, try running it for more iterations.</p></li>
+<li><p><strong>NOTE: Model run time can be quite long. In this case, for 4,000 iterations it could take 3 minutes using 3 place of birth categories. However, increasing the number of iterations or the categories, increases the run time.</strong></p></li>
 </ul>
 </div>
 </div>
@@ -178,7 +198,7 @@ ex_age &lt;-<span class="st"> </span><span class="dv">65</span><span class="co">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#short-example-code">Short example code:</a></li>
+<li><a href="#example">Example:</a></li>
       </ul>
 </div>
       </div>
