@@ -1,7 +1,6 @@
 ## Example file to merge censoc dataset with publicly available IPUMS full count 1940 census data
 ## Note: to obtain IPUMS file see documentation
 
-
 library(data.table)
 library(tidyverse)
 
@@ -9,20 +8,14 @@ library(tidyverse)
 censoc_path <- "path/to/your/censoc"
 census_path <- "path/to/your/census"
 
-# read in censoc data 
+# read in censoc data
 censoc <- fread(censoc_path)
-# create unique id
-censoc[,"unique_id":= paste(SERIAL40, PERNUM, STATEFIP, sep="_")]
-# remove all households with more than 60 people. These IDs are not unique. 
-censoc <- censoc[censoc$NUMPREC40<60,]
 
 # read in ipums data
 census <- fread(census_path)
-# create unique id
-census[,"unique_id":= paste(SERIAL40, PERNUM, STATEFIP, sep="_")]
 
-setkey(censoc, unique_id)
-setkey(census, unique_id)
+setkey(censoc, HISTID)
+setkey(census, HISTID)
 
 merged_df <- censoc[census, nomatch=0]
 
@@ -32,7 +25,7 @@ rm(census)
 # Example: calculate average age of death by race -------------------------
 
 # only keep neccesary columns
-merged_df <- merged_df[,c("unique_id", "STATEFIP",  
+merged_df <- merged_df[,c("unique_id", "STATEFIP",
                           "AGE", "byear", "dyear", "bmonth", "dmonth",
                           "RACE")]
 
@@ -51,7 +44,7 @@ merged_df <- merged_df %>% mutate(race_name = case_when(
 merged_df[, age_at_death := dyear - byear]
 
 # calculate average age at death by race
-merged_df %>% group_by(race_name) %>% 
+merged_df %>% group_by(race_name) %>%
   summarise(mean_age_at_death = mean(age_at_death))
 
 

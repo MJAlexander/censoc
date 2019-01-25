@@ -83,10 +83,6 @@ plot_ex(ex_df, ex_age, group_title)
 
 ### Comments
 
-* Please refer to IPUMS documentation Census variables codes. 
-
-* As many categories of a variable can be included. However, the categories must be sequentially numbered for the model to run. 
-
 * This example used the cohort born between 1895 and 1915. The cohort may be modified to include any years between 1865 to 1940.
 
 * Computationally, the minimum age can be as low as 0. However, in terms of the Gompertz mortality model, we are interested in adults. So, `min_age` should be greater than `insert AGE`. 

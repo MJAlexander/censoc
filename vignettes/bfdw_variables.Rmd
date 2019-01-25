@@ -1,5 +1,5 @@
 ---
-title: "Variables in CenSoc for BFDW"
+title: "Variables in CenSoc"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -8,11 +8,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Below is a list of variables contained in the CenSoc data set to be used at the Berkeley Formal Demography Workshop, 2018. 
+Below is a list of variables contained in the CenSoc data set. 
 
 # Date of birth and death
 
 - `HISTID` consistent individual-level identifier
+- `STATEFIP` reports the state in which a household was located
 - `census_age` refers to the individual's age at the time of the 1940 Census. 
 - `byear`: year of birth
 - `dyear`: year of death
@@ -20,6 +21,8 @@ Below is a list of variables contained in the CenSoc data set to be used at the 
 - `dmonth`: month of death
 
 # 1940 Census variables
+
+Below are examples of select variables available in the 1940 census available on the [IPUMS-USA](https://usa.ipums.org/usa/) website.
 
 - `SERIAL40`: Household serial number in 1940 Census
 - `NUMPREC40`: Number of person records in household

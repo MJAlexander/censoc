@@ -29,8 +29,7 @@ devtools::install_github("MJAlexander/censoc")
 
 # Usage 
 
-Todo. Goal is to have some mortality functions here as part of R package. 
-
+For vignette using the `censoc` package, please see [this document.](https://censoc.demog.berkeley.edu/articles/ipums_document.html)
 
 # Authors 
 
