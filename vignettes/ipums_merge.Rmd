@@ -44,17 +44,25 @@ setkey(census, HISTID)
 merged_df <- censoc[census, nomatch=0]
 ```
 
-Merge using the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html) (slower but includes value labels and more): 
+The full IPUMS 1940 Census might be too large for some computer's memory. The following code uses the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html) to read in the census file in "chunks", match each "chunk" the censoc file, and combine the results of each chunk (this approach includes value labels for IPUMS variables!): 
 
 ```{r, eval = FALSE}
 library(ipumsr)
 library(tidyverse)
 
-read_ipums_micro(data_file = "path/to/your/ipums",  ddi = "path/to/your/ipums/ddi")
-censoc <- read_csv('path/to/your/censoc')
+censoc <- read_csv("path/to/your/censoc")
 
-merged_df <- censoc %>%
-  left_join(census, by = "HISTID")
+cb_function <- function(x, pos) {
+  x %>% 
+    inner_join(censoc, by = "HISTID")
+}
+
+cb <- IpumsDataFrameCallback$new(cb_function)
+
+merged_df <- read_ipums_micro_chunked(
+  ddi = "/90days/casey/data/usa_00010.xml", data_file = "/90days/casey/data/1940_ipums_11_14_2018.csv", verbose = FALSE,
+  callback = cb, chunk_size = 5000000
+)
 ```
 
 
