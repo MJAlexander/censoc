@@ -52,7 +52,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/bfdw_variables.html">Variables in CenSoc for BFDW</a>
+      <a href="../articles/bfdw_variables.html">Variables in CenSoc</a>
     </li>
     <li>
       <a href="../articles/censoc_chapter.pdf">Deaths without denominators: using a matched dataset to study mortality patterns in the United States (PDF)</a>
@@ -93,7 +93,7 @@
     <div class="page-header toc-ignore">
       <h1>Merging IPUMS and Censoc</h1>
             
-            <h4 class="date">2018-12-20</h4>
+            <h4 class="date">2019-01-26</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/ipums_merge.Rmd"><code>vignettes/ipums_merge.Rmd</code></a></small>
       <div class="hidden name"><code>ipums_merge.Rmd</code></div>
@@ -124,15 +124,23 @@ census &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocum
 <span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/setkey">setkey</a></span>(censoc, HISTID)
 <span class="kw"><a href="http://www.rdocumentation.org/packages/data.table/topics/setkey">setkey</a></span>(census, HISTID)
 merged_df &lt;-<span class="st"> </span>censoc[census, nomatch=<span class="dv">0</span>]</code></pre></div>
-<p>Merge using the <a href="https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html">IPUMSR Package</a> (slower but includes value labels and more):</p>
+<p>The full IPUMS 1940 Census might be too large for some computer’s memory. The following code uses the <a href="https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html">IPUMSR Package</a> to read in the census file in “chunks”, match each “chunk” the censoc file, and combine the results of each chunk (this approach includes value labels for IPUMS variables!):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ipumsr)
 <span class="kw">library</span>(tidyverse)
 
-<span class="kw"><a href="http://www.rdocumentation.org/packages/ipumsr/topics/read_ipums_micro">read_ipums_micro</a></span>(<span class="dt">data_file =</span> <span class="st">"path/to/your/ipums"</span>,  <span class="dt">ddi =</span> <span class="st">"path/to/your/ipums/ddi"</span>)
-censoc &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">'path/to/your/censoc'</span>)
+censoc &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">"path/to/your/censoc"</span>)
 
-merged_df &lt;-<span class="st"> </span>censoc %&gt;%
-<span class="st">  </span><span class="kw">left_join</span>(census, <span class="dt">by =</span> <span class="st">"HISTID"</span>)</code></pre></div>
+cb_function &lt;-<span class="st"> </span>function(x, pos) {
+  x %&gt;%<span class="st"> </span>
+<span class="st">    </span><span class="kw">inner_join</span>(censoc, <span class="dt">by =</span> <span class="st">"HISTID"</span>)
+}
+
+cb &lt;-<span class="st"> </span>IpumsDataFrameCallback$<span class="kw">new</span>(cb_function)
+
+merged_df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ipumsr/topics/read_ipums_micro_chunked">read_ipums_micro_chunked</a></span>(
+  <span class="dt">ddi =</span> <span class="st">"/90days/casey/data/usa_00010.xml"</span>, <span class="dt">data_file =</span> <span class="st">"/90days/casey/data/1940_ipums_11_14_2018.csv"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+  <span class="dt">callback =</span> cb, <span class="dt">chunk_size =</span> <span class="dv">5000000</span>
+)</code></pre></div>
 <div id="characteristics-of-merged-dataset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#characteristics-of-merged-dataset" class="anchor"></a>Characteristics of Merged Dataset</h2>
