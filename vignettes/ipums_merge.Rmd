@@ -59,8 +59,10 @@ cb_function <- function(x, pos) {
 
 cb <- IpumsDataFrameCallback$new(cb_function)
 
+## This will take a while. For info on downloading IPUMS ddi, please see: 
+# https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html
 merged_df <- read_ipums_micro_chunked(
-  ddi = "/90days/casey/data/usa_00010.xml", data_file = "/90days/casey/data/1940_ipums_11_14_2018.csv", verbose = FALSE,
+  ddi = "/path/to/your/census/ddi/", data_file = "/path/to/your/census/data/", verbose = FALSE,
   callback = cb, chunk_size = 5000000
 )
 ```
@@ -68,7 +70,7 @@ merged_df <- read_ipums_micro_chunked(
 
 ## Characteristics of Merged Dataset
 
-The merged dataset should contain 7,563,309 records (1142 cases can't be matched as the HISTIDS were unavailable).
+The merged dataset should contain 7,563,270 records (39 cases can't be matched to IPUMS usingHISTIDS).
 
 Checking that you can replicate these descriptive statisics with your merged dataset is a helpful way to ensure the merge was successful.
 
@@ -83,14 +85,14 @@ merged_df %>%
 ```
 
 
-| race|       n|    freq
+| RACE|       n|    freq|
 |----:|-------:|-------:|
-|    1| 7103201| 93.9000|
-|    2|  435422|  5.7600|
-|    3|   12252|  0.1620|
-|    4|    4726|  0.0625|
-|    5|    5540|  0.0732|
-|    6|    2168|  0.0287|
+|    1| 7104150| 93.9000|
+|    2|  435239|  5.7500|
+|    3|   12268|  0.1620|
+|    4|    3873|  0.0512|
+|    5|    5566|  0.0736|
+|    6|    2174|  0.0287|
 
 #### Average age at death by race: 
 
@@ -117,10 +119,10 @@ merged_df %>% group_by(race_name) %>%
 
 |race_name                       | mean_age_at_death|
 |:-------------------------------|-----------------:|
-|American Indian/Alaskan native  |          71.41781|
-|Black                           |          73.48863|
-|Chinese                         |          76.75264|
-|Japanese                        |          76.95217|
-|Other Asian or Pacific Islander |          78.97832|
-|White                           |          76.08496|
+|American Indian/Alaskan native  |          71.39501|
+|Black                           |          73.48693|
+|Chinese                         |          77.36328|
+|Japanese                        |          76.93388|
+|Other Asian or Pacific Islander |          78.94296|
+|White                           |          76.08481|
 
