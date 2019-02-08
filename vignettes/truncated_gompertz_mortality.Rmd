@@ -33,7 +33,7 @@ library(censoc)
 ```
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-censoc_file_path <- "/data/josh/CenSoc/censoc_bfdw.csv"
+censoc_file_path <- "/path/to/your/censoc_file/"
 df <- read_csv(file = censoc_file_path, progress = FALSE)
 ```
 
