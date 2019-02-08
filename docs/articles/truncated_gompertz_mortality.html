@@ -52,7 +52,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/bfdw_variables.html">Variables in CenSoc for BFDW</a>
+      <a href="../articles/bfdw_variables.html">Variables in CenSoc</a>
     </li>
     <li>
       <a href="../articles/censoc_chapter.pdf">Deaths without denominators: using a matched dataset to study mortality patterns in the United States (PDF)</a>
@@ -93,7 +93,7 @@
     <div class="page-header toc-ignore">
       <h1>Truncated Gompertz mortality estimation by cohort and birthplace</h1>
             
-            <h4 class="date">2018-12-20</h4>
+            <h4 class="date">2019-01-26</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/truncated_gompertz_mortality.Rmd"><code>vignettes/truncated_gompertz_mortality.Rmd</code></a></small>
       <div class="hidden name"><code>truncated_gompertz_mortality.Rmd</code></div>
@@ -112,21 +112,6 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># If you have not installed devtools, uncomment the line below</span>
 <span class="co"># install.packages("devtools")</span>
 devtools::<span class="kw">install_github</span>(<span class="st">"MJAlexander/censoc"</span>)</code></pre></div>
-<pre><code>## Downloading GitHub repo MJAlexander/censoc@master
-## from URL https://api.github.com/repos/MJAlexander/censoc/zipball/master</code></pre>
-<pre><code>## Installing censoc</code></pre>
-<pre><code>## Installing data.table</code></pre>
-<pre><code>## '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-##   --quiet CMD INSTALL '/tmp/RtmpUfEYSK/devtools1c2f74e5eac5/data.table'  \
-##   --library='/hdir/0/caseybreen/R/x86_64-pc-linux-gnu-library/3.4'  \
-##   --install-tests</code></pre>
-<pre><code>## </code></pre>
-<pre><code>## '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
-##   --quiet CMD INSTALL  \
-##   '/tmp/RtmpUfEYSK/devtools1c2f67ae00de/MJAlexander-censoc-0dc926c'  \
-##   --library='/hdir/0/caseybreen/R/x86_64-pc-linux-gnu-library/3.4'  \
-##   --install-tests</code></pre>
-<pre><code>## </code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(data.table)
 <span class="kw">library</span>(rjags)
@@ -180,8 +165,6 @@ ex_age &lt;-<span class="st"> </span><span class="dv">65</span><span class="co">
 <h3 class="hasAnchor">
 <a href="#comments" class="anchor"></a>Comments</h3>
 <ul>
-<li><p>Please refer to IPUMS documentation Census variables codes.</p></li>
-<li><p>As many categories of a variable can be included. However, the categories must be sequentially numbered for the model to run.</p></li>
 <li><p>This example used the cohort born between 1895 and 1915. The cohort may be modified to include any years between 1865 to 1940.</p></li>
 <li><p>Computationally, the minimum age can be as low as 0. However, in terms of the Gompertz mortality model, we are interested in adults. So, <code>min_age</code> should be greater than <code>insert AGE</code>.</p></li>
 <li><p>The maximum age is not set by the user, it its fixed at 110. However, setting <code>ex_age</code> at 110 will yield a graph with no useful results.</p></li>
