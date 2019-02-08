@@ -10,9 +10,9 @@ vignette: >
 
 # Merge
 
-It is straightforward to match CENSOC data to IPUMS census data once both datasets have been [obtained](https://censoc.demog.berkeley.edu/articles/ipums_document.html).  
+It is straightforward to match CENSOC data to IPUMS census data once both datasets have been [obtained](https://censoc.demog.berkeley.edu/articles/ipums_document.html). Instructions in this Vignette pertain to the V2 Version of the CenSoc File. 
 
-The variable "HISTID" uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
+The variable "HISTID" uniquely identifies all records for both CenSoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
 
 Base R (no packages required):
 
@@ -70,7 +70,7 @@ merged_df <- read_ipums_micro_chunked(
 
 ## Characteristics of Merged Dataset
 
-The merged dataset should contain 7,563,270 records (39 cases can't be matched to IPUMS usingHISTIDS).
+The merged dataset should contain 7,563,270 records. For IPUMS FUll Count 1940 extracts made after January 31st, 2019, an additional 39 records in the CenSoc V2 can't be matched onto the IPUMS 1940 Full Count File. These 39 records are still included in CenSoc V2.
 
 Checking that you can replicate these descriptive statisics with your merged dataset is a helpful way to ensure the merge was successful.
 
