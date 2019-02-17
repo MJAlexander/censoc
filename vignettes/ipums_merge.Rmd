@@ -77,6 +77,8 @@ Checking that you can replicate these descriptive statisics with your merged dat
 #### Race: 
 
 ```{r, eval = F}
+library(tidyverse)
+
 merged_df %>%
                  group_by(RACE) %>%
                  tally() %>%
@@ -97,6 +99,8 @@ merged_df %>%
 #### Average age at death by race: 
 
 ```{r, eval = F}
+library(tidyverse)
+
 # code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section
 merged_df <- merged_df %>% mutate(race_name = case_when(
   RACE == 1 ~ "White",

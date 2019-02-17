@@ -154,7 +154,9 @@ merged_df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdo
 <div id="race" class="section level4">
 <h4 class="hasAnchor">
 <a href="#race" class="anchor"></a>Race:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+merged_df %&gt;%
 <span class="st">                 </span><span class="kw">group_by</span>(RACE) %&gt;%
 <span class="st">                 </span><span class="kw">tally</span>() %&gt;%
 <span class="st">                 </span><span class="kw">mutate</span>(<span class="dt">freq =</span> <span class="kw">signif</span>(n*<span class="dv">100</span> /<span class="st"> </span><span class="kw">sum</span>(n), <span class="dv">3</span>)) %&gt;%
@@ -202,7 +204,9 @@ merged_df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdo
 <div id="average-age-at-death-by-race" class="section level4">
 <h4 class="hasAnchor">
 <a href="#average-age-at-death-by-race" class="anchor"></a>Average age at death by race:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+<span class="co"># code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section</span>
 merged_df &lt;-<span class="st"> </span>merged_df %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">race_name =</span> <span class="kw">case_when</span>(
   RACE ==<span class="st"> </span><span class="dv">1</span> ~<span class="st"> "White"</span>,
   RACE ==<span class="st"> </span><span class="dv">2</span> ~<span class="st"> "Black"</span>,
