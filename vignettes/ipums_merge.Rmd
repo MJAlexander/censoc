@@ -1,5 +1,5 @@
 ---
-title: "Merging IPUMS and Censoc"
+title: "Merging IPUMS and CenSoc"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
