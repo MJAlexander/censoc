@@ -61,10 +61,13 @@
       <a href="../articles/ipums_document.html">Obtaining the full count 1940 census from IPUMS to use with CenSoc</a>
     </li>
     <li>
-      <a href="../articles/ipums_merge.html">Merging IPUMS and Censoc</a>
+      <a href="../articles/ipums_merge.html">Merging IPUMS and CenSoc</a>
     </li>
     <li>
       <a href="../articles/match_document.html">Documentation for CenSoc Dataset</a>
+    </li>
+    <li>
+      <a href="../articles/revisions.html">Revisions</a>
     </li>
     <li>
       <a href="../articles/truncated_gompertz_mortality.html">Truncated Gompertz mortality estimation by cohort and birthplace</a>
@@ -93,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1>Variables in CenSoc</h1>
             
-            <h4 class="date">2019-01-26</h4>
+            <h4 class="date">2019-02-26</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/bfdw_variables.Rmd"><code>vignettes/bfdw_variables.Rmd</code></a></small>
       <div class="hidden name"><code>bfdw_variables.Rmd</code></div>
@@ -103,9 +106,9 @@
     
     
 <p>Below is a list of variables contained in the CenSoc data set.</p>
-<div id="date-of-birth-and-death" class="section level1">
+<div id="censoc-variables" class="section level1">
 <h1 class="hasAnchor">
-<a href="#date-of-birth-and-death" class="anchor"></a>Date of birth and death</h1>
+<a href="#censoc-variables" class="anchor"></a>CenSoc Variables</h1>
 <ul>
 <li>
 <code>HISTID</code> consistent individual-level identifier</li>
@@ -123,9 +126,31 @@
 <code>dmonth</code>: month of death</li>
 </ul>
 </div>
+<div id="censoc-ss-5-variables" class="section level1">
+<h1 class="hasAnchor">
+<a href="#censoc-ss-5-variables" class="anchor"></a>CenSoc (SS-5) Variables</h1>
+<ul>
+<li>
+<code>HISTID</code> consistent individual-level identifier</li>
+<li>
+<code>census_age</code> refers to the individual’s age at the time of the 1940 Census.</li>
+<li>
+<code>byear</code>: year of birth</li>
+<li>
+<code>dyear</code>: year of death</li>
+<li>
+<code>bmonth</code>: month of birth</li>
+<li>
+<code>dmonth</code>: month of death</li>
+<li>
+<code>dstate</code> state of death (from death record)</li>
+<li>
+<code>socstate</code> state where social security number was issued</li>
+</ul>
+</div>
 <div id="census-variables" class="section level1">
 <h1 class="hasAnchor">
-<a href="#census-variables" class="anchor"></a>1940 Census variables</h1>
+<a href="#census-variables" class="anchor"></a>1940 Census Variables</h1>
 <p>Below are examples of select variables available in the 1940 census available on the <a href="https://usa.ipums.org/usa/">IPUMS-USA</a> website.</p>
 <ul>
 <li>
@@ -176,8 +201,9 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#date-of-birth-and-death">Date of birth and death</a></li>
-      <li><a href="#census-variables">1940 Census variables</a></li>
+<li><a href="#censoc-variables">CenSoc Variables</a></li>
+      <li><a href="#censoc-ss-5-variables">CenSoc (SS-5) Variables</a></li>
+      <li><a href="#census-variables">1940 Census Variables</a></li>
       </ul>
 </div>
       </div>
