@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Variables in CenSoc • censoc</title>
+<title>Revisions • censoc</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Variables in CenSoc">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Revisions">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -61,7 +61,7 @@
       <a href="../articles/ipums_document.html">Obtaining the full count 1940 census from IPUMS to use with CenSoc</a>
     </li>
     <li>
-      <a href="../articles/ipums_merge.html">Merging IPUMS and CenSoc</a>
+      <a href="../articles/ipums_merge.html">Merging IPUMS and Censoc</a>
     </li>
     <li>
       <a href="../articles/match_document.html">Documentation for CenSoc Dataset</a>
@@ -94,105 +94,31 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Variables in CenSoc</h1>
+      <h1>Revisions</h1>
             
-            <h4 class="date">2019-02-26</h4>
+            <h4 class="date">2019-02-08</h4>
       
-      <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/bfdw_variables.Rmd"><code>vignettes/bfdw_variables.Rmd</code></a></small>
-      <div class="hidden name"><code>bfdw_variables.Rmd</code></div>
+      <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/revisions.Rmd"><code>vignettes/revisions.Rmd</code></a></small>
+      <div class="hidden name"><code>revisions.Rmd</code></div>
 
     </div>
 
     
     
-<p>Below is a list of variables contained in the CenSoc data set.</p>
-<div id="censoc-variables" class="section level1">
-<h1 class="hasAnchor">
-<a href="#censoc-variables" class="anchor"></a>CenSoc Variables</h1>
+<div id="february-1-2019" class="section level2">
+<h2 class="hasAnchor">
+<a href="#february-1-2019" class="anchor"></a>February 1, 2019</h2>
+<div id="censoc-file" class="section level3">
+<h3 class="hasAnchor">
+<a href="#censoc-file" class="anchor"></a>Censoc File</h3>
 <ul>
-<li>
-<code>HISTID</code> consistent individual-level identifier</li>
-<li>
-<code>STATEFIP</code> reports the state in which a household was located</li>
-<li>
-<code>census_age</code> refers to the individual’s age at the time of the 1940 Census.</li>
-<li>
-<code>byear</code>: year of birth</li>
-<li>
-<code>dyear</code>: year of death</li>
-<li>
-<code>bmonth</code>: month of birth</li>
-<li>
-<code>dmonth</code>: month of death</li>
+<li>A revised V2 of the CenSoc file is available</li>
+<li>A new <code>HISTID</code> variable has been added to simplify merge with the IPUMS 1940 Census data</li>
+<li>CenSoc V2 can be merged one-to-one on <code>HISTID</code> with the public IPUMS 1940 Full Count Census File</li>
+<li>1,132 recrds were dropped from the original CenSoc V1 as they couldn’t be matched on the <code>HISTID</code> variable to the IPUMS 1940 Full Count Census data.</li>
+<li>For IPUMS extracts made after January 31st, 2019, an additional 39 records in the CenSoc V2 can’t be matched onto the IPUMS 1940 Full Count File. These 39 records are still included in CenSoc V2.</li>
 </ul>
 </div>
-<div id="censoc-ss-5-variables" class="section level1">
-<h1 class="hasAnchor">
-<a href="#censoc-ss-5-variables" class="anchor"></a>CenSoc (SS-5) Variables</h1>
-<ul>
-<li>
-<code>HISTID</code> consistent individual-level identifier</li>
-<li>
-<code>census_age</code> refers to the individual’s age at the time of the 1940 Census.</li>
-<li>
-<code>byear</code>: year of birth</li>
-<li>
-<code>dyear</code>: year of death</li>
-<li>
-<code>bmonth</code>: month of birth</li>
-<li>
-<code>dmonth</code>: month of death</li>
-<li>
-<code>dstate</code> state of death (from death record)</li>
-<li>
-<code>socstate</code> state where social security number was issued</li>
-</ul>
-</div>
-<div id="census-variables" class="section level1">
-<h1 class="hasAnchor">
-<a href="#census-variables" class="anchor"></a>1940 Census Variables</h1>
-<p>Below are examples of select variables available in the 1940 census available on the <a href="https://usa.ipums.org/usa/">IPUMS-USA</a> website.</p>
-<ul>
-<li>
-<code>SERIAL40</code>: Household serial number in 1940 Census</li>
-<li>
-<code>NUMPREC40</code>: Number of person records in household</li>
-<li>
-<code>PERNUM</code>: Person number within household</li>
-<li>
-<code>STATEFIP</code>: State of residence FIPS code</li>
-<li>
-<code>URBAN</code>: Lives in urban or rural area</li>
-<li>
-<code>OWNERSHP</code>: Owns or rents dwelling</li>
-<li>
-<code>RENT</code>: Monthly rent</li>
-<li>
-<code>RACE</code>: race</li>
-<li>
-<code>HISPAN</code>: Hispanic status</li>
-<li>
-<code>MARST</code>: marital status</li>
-<li>
-<code>EDUC</code>: Education</li>
-<li>
-<code>BPL</code>: Place of birth</li>
-<li>
-<code>MBPL</code>: Mother’s place of birth</li>
-<li>
-<code>FBPL</code>: Father’s place of birth</li>
-<li>
-<code>EMPSTAT</code>: Employment status</li>
-<li>
-<code>OCCSCORE</code>: Occupational income score</li>
-<li>
-<code>OCC</code>: Occupation</li>
-<li>
-<code>INCWAGE</code>: Income from wages</li>
-<li>
-<code>INCNONWG</code>: Has non-wage income greater than $50</li>
-</ul>
-<p>For full documentation about the census variables, refer to the IPUMS website: <a href="https://usa.ipums.org/usa-action/variables/search" class="uri">https://usa.ipums.org/usa-action/variables/search</a>.</p>
 </div>
   </div>
 
@@ -201,9 +127,7 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#censoc-variables">CenSoc Variables</a></li>
-      <li><a href="#censoc-ss-5-variables">CenSoc (SS-5) Variables</a></li>
-      <li><a href="#census-variables">1940 Census Variables</a></li>
+<li><a href="#february-1-2019">February 1, 2019</a></li>
       </ul>
 </div>
       </div>

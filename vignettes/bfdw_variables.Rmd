@@ -10,7 +10,7 @@ vignette: >
 
 Below is a list of variables contained in the CenSoc data set. 
 
-# Date of birth and death
+# CenSoc Variables
 
 - `HISTID` consistent individual-level identifier
 - `STATEFIP` reports the state in which a household was located
@@ -20,7 +20,18 @@ Below is a list of variables contained in the CenSoc data set.
 - `bmonth`: month of birth
 - `dmonth`: month of death
 
-# 1940 Census variables
+# CenSoc (SS-5) Variables
+
+- `HISTID` consistent individual-level identifier
+- `census_age` refers to the individual's age at the time of the 1940 Census. 
+- `byear`: year of birth
+- `dyear`: year of death
+- `bmonth`: month of birth
+- `dmonth`: month of death
+- `dstate` state of death (from death record)
+- `socstate` state where social security number was issued
+
+# 1940 Census Variables
 
 Below are examples of select variables available in the 1940 census available on the [IPUMS-USA](https://usa.ipums.org/usa/) website.
 

@@ -7,5 +7,6 @@ articles:
   ipums_document: ipums_document.html
   ipums_merge: ipums_merge.html
   match_document: match_document.html
+  revisions: revisions.html
   truncated_gompertz_mortality: truncated_gompertz_mortality.html
 

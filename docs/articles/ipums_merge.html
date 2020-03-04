@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Merging IPUMS and Censoc • censoc</title>
+<title>Merging IPUMS and CenSoc • censoc</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Merging IPUMS and Censoc">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Merging IPUMS and CenSoc">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -61,10 +61,13 @@
       <a href="../articles/ipums_document.html">Obtaining the full count 1940 census from IPUMS to use with CenSoc</a>
     </li>
     <li>
-      <a href="../articles/ipums_merge.html">Merging IPUMS and Censoc</a>
+      <a href="../articles/ipums_merge.html">Merging IPUMS and CenSoc</a>
     </li>
     <li>
       <a href="../articles/match_document.html">Documentation for CenSoc Dataset</a>
+    </li>
+    <li>
+      <a href="../articles/revisions.html">Revisions</a>
     </li>
     <li>
       <a href="../articles/truncated_gompertz_mortality.html">Truncated Gompertz mortality estimation by cohort and birthplace</a>
@@ -91,9 +94,9 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Merging IPUMS and Censoc</h1>
+      <h1>Merging IPUMS and CenSoc</h1>
             
-            <h4 class="date">2019-01-26</h4>
+            <h4 class="date">2019-02-17</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/MJAlexander/censoc/blob/master/vignettes/ipums_merge.Rmd"><code>vignettes/ipums_merge.Rmd</code></a></small>
       <div class="hidden name"><code>ipums_merge.Rmd</code></div>
@@ -105,8 +108,8 @@
 <div id="merge" class="section level1">
 <h1 class="hasAnchor">
 <a href="#merge" class="anchor"></a>Merge</h1>
-<p>It is straightforward to match CENSOC data to IPUMS census data once both datasets have been <a href="https://censoc.demog.berkeley.edu/articles/ipums_document.html">obtained</a>.</p>
-<p>The variable “HISTID” uniquely identifies all records for both Censoc and the full count IPUMS census datasets and can be used to match records between the two datasets.</p>
+<p>It is straightforward to match CENSOC data to IPUMS census data once both datasets have been <a href="https://censoc.demog.berkeley.edu/articles/ipums_document.html">obtained</a>. Instructions in this Vignette pertain to the V2 Version of the CenSoc File.</p>
+<p>The variable “HISTID” uniquely identifies all records for both CenSoc and the full count IPUMS census datasets and can be used to match records between the two datasets.</p>
 <p>Base R (no packages required):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">censoc &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'path/to/your/censoc'</span>)
 census &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">'path/to/your/ipums'</span>)
@@ -137,58 +140,62 @@ cb_function &lt;-<span class="st"> </span>function(x, pos) {
 
 cb &lt;-<span class="st"> </span>IpumsDataFrameCallback$<span class="kw">new</span>(cb_function)
 
+## This will take a while. For info on downloading IPUMS ddi, please see: 
+<span class="co"># https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html</span>
 merged_df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ipumsr/topics/read_ipums_micro_chunked">read_ipums_micro_chunked</a></span>(
-  <span class="dt">ddi =</span> <span class="st">"/90days/casey/data/usa_00010.xml"</span>, <span class="dt">data_file =</span> <span class="st">"/90days/casey/data/1940_ipums_11_14_2018.csv"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+  <span class="dt">ddi =</span> <span class="st">"/path/to/your/census/ddi/"</span>, <span class="dt">data_file =</span> <span class="st">"/path/to/your/census/data/"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>,
   <span class="dt">callback =</span> cb, <span class="dt">chunk_size =</span> <span class="dv">5000000</span>
 )</code></pre></div>
 <div id="characteristics-of-merged-dataset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#characteristics-of-merged-dataset" class="anchor"></a>Characteristics of Merged Dataset</h2>
-<p>The merged dataset should contain 7,563,309 records (1142 cases can’t be matched as the HISTIDS were unavailable).</p>
+<p>The merged dataset should contain 7,563,270 records. For IPUMS Full Count 1940 extracts made after January 31st, 2019, an additional 39 records in the CenSoc V2 can’t be matched onto the IPUMS 1940 Full Count File. These 39 records are still included in the CenSoc V2 file.</p>
 <p>Checking that you can replicate these descriptive statisics with your merged dataset is a helpful way to ensure the merge was successful.</p>
 <div id="race" class="section level4">
 <h4 class="hasAnchor">
 <a href="#race" class="anchor"></a>Race:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">merged_df %&gt;%
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+merged_df %&gt;%
 <span class="st">                 </span><span class="kw">group_by</span>(RACE) %&gt;%
 <span class="st">                 </span><span class="kw">tally</span>() %&gt;%
 <span class="st">                 </span><span class="kw">mutate</span>(<span class="dt">freq =</span> <span class="kw">signif</span>(n*<span class="dv">100</span> /<span class="st"> </span><span class="kw">sum</span>(n), <span class="dv">3</span>)) %&gt;%
 <span class="st">                 </span><span class="kw">select</span>(RACE, n, freq)</code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th align="right">race</th>
+<th align="right">RACE</th>
 <th align="right">n</th>
 <th align="right">freq</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">7103201</td>
+<td align="right">7104150</td>
 <td align="right">93.9000</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">435422</td>
-<td align="right">5.7600</td>
+<td align="right">435239</td>
+<td align="right">5.7500</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">12252</td>
+<td align="right">12268</td>
 <td align="right">0.1620</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">4726</td>
-<td align="right">0.0625</td>
+<td align="right">3873</td>
+<td align="right">0.0512</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">5540</td>
-<td align="right">0.0732</td>
+<td align="right">5566</td>
+<td align="right">0.0736</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">2168</td>
+<td align="right">2174</td>
 <td align="right">0.0287</td>
 </tr>
 </tbody>
@@ -197,7 +204,9 @@ merged_df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdo
 <div id="average-age-at-death-by-race" class="section level4">
 <h4 class="hasAnchor">
 <a href="#average-age-at-death-by-race" class="anchor"></a>Average age at death by race:</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+
+<span class="co"># code the race variable to have meaningful names, see: https://usa.ipums.org/usa-action/variables/RACE#codes_section</span>
 merged_df &lt;-<span class="st"> </span>merged_df %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">race_name =</span> <span class="kw">case_when</span>(
   RACE ==<span class="st"> </span><span class="dv">1</span> ~<span class="st"> "White"</span>,
   RACE ==<span class="st"> </span><span class="dv">2</span> ~<span class="st"> "Black"</span>,
@@ -223,27 +232,27 @@ merged_df %&gt;%<span class="st"> </span><span class="kw">group_by</span>(race_n
 <tbody>
 <tr class="odd">
 <td align="left">American Indian/Alaskan native</td>
-<td align="right">71.41781</td>
+<td align="right">71.39501</td>
 </tr>
 <tr class="even">
 <td align="left">Black</td>
-<td align="right">73.48863</td>
+<td align="right">73.48693</td>
 </tr>
 <tr class="odd">
 <td align="left">Chinese</td>
-<td align="right">76.75264</td>
+<td align="right">77.36328</td>
 </tr>
 <tr class="even">
 <td align="left">Japanese</td>
-<td align="right">76.95217</td>
+<td align="right">76.93388</td>
 </tr>
 <tr class="odd">
 <td align="left">Other Asian or Pacific Islander</td>
-<td align="right">78.97832</td>
+<td align="right">78.94296</td>
 </tr>
 <tr class="even">
 <td align="left">White</td>
-<td align="right">76.08496</td>
+<td align="right">76.08481</td>
 </tr>
 </tbody>
 </table>
