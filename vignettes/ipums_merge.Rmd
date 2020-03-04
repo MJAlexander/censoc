@@ -10,21 +10,21 @@ vignette: >
 
 # Merge
 
-It is straightforward to match CENSOC data to IPUMS census data once both datasets have been [obtained](https://censoc.demog.berkeley.edu/articles/ipums_document.html). Instructions in this Vignette pertain to the V2 Version of the CenSoc File. 
+It is straightforward to match CENSOC data to IPUMS census data once both datasets have been [obtained](https://censoc.demog.berkeley.edu/articles/ipums_document.html). The CenSoc file can be downloaded here: 
 
 The variable "HISTID" uniquely identifies all records for both CenSoc and the full count IPUMS census datasets and can be used to match records between the two datasets. 
 
-Base R (no packages required):
-
+Merge using data.table (fastest): 
 ```{r, eval = FALSE}
-censoc <- read.csv('path/to/your/censoc')
-census <- read.csv('path/to/your/ipums')
-merged_df <- merge(censoc, census, by = "HISTID")
+library(data.table)
+censoc <- fread('path/to/your/censoc')
+census <- fread('path/to/your/ipums')
+setkey(censoc, HISTID)
+setkey(census, HISTID)
+merged_df <- censoc[census, nomatch=0]
 ```
 
-
 Merge using "tidyverse" packages (faster): 
-
 ```{r, eval = FALSE}
 library(tidyverse)
 censoc <- read_csv('path/to/your/censoc')
@@ -33,15 +33,11 @@ merged_df <- censoc %>%
   inner_join(census, by = "HISTID")
 ```
 
-Merge using data.table (fastest): 
-
+Base R (no packages required):
 ```{r, eval = FALSE}
-library(data.table)
-censoc <- fread('path/to/your/censoc')
-census <- fread('path/to/your/ipums')
-setkey(censoc, HISTID)
-setkey(census, HISTID)
-merged_df <- censoc[census, nomatch=0]
+censoc <- read.csv('path/to/your/censoc')
+census <- read.csv('path/to/your/ipums')
+merged_df <- merge(censoc, census, by = "HISTID")
 ```
 
 The full IPUMS 1940 Census might be too large for some computer's memory. The following code uses the [IPUMSR Package](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html) to read in the census file in "chunks", match each "chunk" the censoc file, and combine the results of each chunk (this approach includes value labels for IPUMS variables!): 

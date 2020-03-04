@@ -41,16 +41,16 @@ This will take you back to the variable selection page.
 ## Variables required for CenSoc merge
 There is only one technical variable required for the CenSoc merge. This is: 
 
-- `HISTID`: a consistent individual-level identifier.
+- `HISTID`: a consistent individual-level identifier. 
 
 
-This variables is a unique identifier that allows correspondence across the two datasets. Additionally, the `SEX` variable is needed in order to restrict the sample to be males only.  
+This variable is a unique identifier that allows correspondence across the two datasets. Additionally, the `SEX` variable is needed in order to restrict the sample to be males only.  
 To obtain these variables:
 
-1. From the PERSON drop down, select 'TECHNICAL'. Note that `HISTID` should be `[preselected]`, but you can click on the cross next to it just to make sure. 
+1. From the PERSON drop down, select 'HISTORICAL TECHNICAL'. Note that `HISTID` should be `[preselected]`, but you can click on the cross next to it just to make sure. 
 2. From the PERSON drop down, select 'DEMOGRAPHIC'. Then click on the cross next to `SEX`. 
 
-Additionally, you may want to select `AGE` from PERSONAL &rarr; DEMOGRAPHIC. This is not required, but this variable should be equal to the `census_age` variable in CenSoc. 
+Additionally, you may want to select `AGE` from PERSON &rarr; DEMOGRAPHIC. This is not required, but this variable should be equal to the `census_age` variable in CenSoc. 
 
 ## Other variables of interest
 
@@ -62,10 +62,10 @@ __NOTE:__ the size of full count census data files is quite large, so you may wa
 The CenSoc dataset only contains males, and given the large file size of the full count census, it is wise to restrict the data to only include males before you download it. To do this:
 
 1. Click 'VIEW CART'
-2. Check that all the variables you want are selected. Then click 'CREATE DATA EXTRACT'
+2. Check that all the variables of interest are selected. Then click 'CREATE DATA EXTRACT'
 3. Under OPTIONS, click the 'SELECT CASES' button
 4. Check the box next to SEX
-5. Chcek the box next to '1 Males' and click SUBMIT
+5. Check the box next to '1 Males' and click SUBMIT
 
 # Downloading the IPUMS file
 
@@ -73,7 +73,7 @@ To work with IPUMS data in `R`, it is usually easiest to download the data as a 
 
 Once you are happy with your dataset, click the 'SUBMIT EXTRACT' button. Because it is full count data, you will need agree to special usage terms. Click Ok, and the dataset will begin to be extracted. 
 
-Given the size of the file, the processing may take a while. Once the file is ready, you will receive an email from IPUMS, and you can follow the links to download the resulting dataset. 
+Given the size of the file, the processing may take several hours. Once the file is ready, you will receive an email from IPUMS, and you can follow the links to download the resulting dataset. As all IPUMS datasets come compressed, the data needs to be uncompressed before it can be used. For more information on IPUMS extracts, please see [IPUMS-USA](https://usa.ipums.org/usa/data.shtml/). 
 
 # Merging IPUMS with CenSoc
 
